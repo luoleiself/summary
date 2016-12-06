@@ -1,1 +1,1 @@
-https://github.com/luoleiself/summary/wiki
+Wiki https://github.com/luoleiself/summary/wiki
