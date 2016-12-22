@@ -1,4 +1,15 @@
 http://webpack.github.io/docs/
+webpack描述:
+	1.支持commonJS和AMD模块
+	2.支持很多模块加载器的调用，可以使模块加载器灵活定制
+	3.可以通过配置打包成多个文件，有效的利用浏览器的缓存功能提升性能
+	4.使用模块加载器，可以支持sass，less等处理器进行打包且支持静态资源样式及图片进行打包
+console:
+	$ webpack --display-error-details		//显示错误详细信息
+  $ webpack         // 最基本的启动webpack的方法
+  $	webpack -w      // 提供watch方法；实时进行打包更新
+  $ webpack -p      // 对打包后的文件进行压缩
+  $ webpack -d      // 提供source map，方便调式代码
 webpack参数:
 	1.entry: 字符串|数组|对象 // string | object | array
 		1.entry: "./app/entry",
@@ -18,7 +29,7 @@ webpack参数:
 	  	path.resolve(__dirname, "dist"), // string
 	  	// the target directory for all output files
 	  	// must be an absolute path (use the Node.js path module)
-	  3.publicPath: 指定了一个在浏览器中被引用的URL地址
+	  3.publicPath: 指定了一个在浏览器中被引用的URL地址, 网站运行时的访问路径
 	  	string|""|url// the url to the output directory resolved relative to the HTML page
 	  4.library:编译后将bundle打包成lib
 	  	string// the name of the exported library
@@ -98,7 +109,7 @@ webpack参数:
 			    wrappedContextRecursive: true,
 			    wrappedContextCritical: false,
 			    // specifies default behavior for dynamic requests
-	4.resolve:对象
+	4.resolve:对象,定义了解析模块路径时的配置
 		1.modules: ["node_modules",path.resolve(__dirname, "app")]
 			//解析目录名的一个数组到当前目录以及先前的目录，并且是查找模块
 		2.extensions: [".js", ".json", ".jsx", ".css"],//解析模块的拓展名的数组
@@ -203,6 +214,85 @@ webpack参数:
 	  	//需要是 绝对路径，如果recordsInputPath,recordsOutputPath都为undefined，recordsInputPath将被使用
 	  	//在多个编译请求做热替换的时候是需要这个配置的
 	  	// TODO
+
+gulp and webpack:
+//first use mode
+var gulp = require("gulp");
+var webpack = require("webpack");
+gulp.task("default",function(){
+	gulp.src("src/entry.js") //指定入口文件
+			.pipe(webpack())
+			.pipe(gulp.dest("dist/"));
+})
+//seconds uses mode
+var gulp = require("gulp");
+var webpack = require("webpack");
+gulp.task("default",function(){
+	gulp.src("src/entry.js")
+			.pipe(webpack({
+				watch:true,
+				module:{
+					loaders:[
+						{test:/\.css$/,loader:"style!css"}
+					]
+				}
+			}))
+			.pipe(gulp.dest("dist/"))
+})
+//third uses mode
+var gulp = require("gulp");
+var webpack = require("webpack");
+gulp.task("default",function(){
+	gulp.src("src/entry.js")
+			.pipe(webpack(require("./webpack.config.js")))
+			.pipe(gulp.dest("dist/"))
+})
+//fourth uses mode
+var gulp = require("gulp");
+var webpack = require("webpack");
+var gulpWebpack = require("gulp-webpack");
+gulp.task("default",function(){
+	gulp.src("src/entry.js")
+			.pipe(gulpWebpack({},webpack))
+			.pipe(gulp.dest("dist/"))
+})
+//fifth uses mode
+var gulp = require("gulp");
+var webpack = require("gulp-webpack");
+gulp.task("default",function(){
+	gulp.src("src/entry.js")
+			.pipe(webpack({
+				/*config*/
+			},null,function(err,stats){
+				/*use stats to do more things if needed*/
+			}))
+})
+//multiple entry Point
+var gulp = require('gulp');
+var webpack = require('gulp-webpack');
+gulp.task('default', function() {
+  gulp.src('src/entry.js')
+    	.pipe(webpack({
+	      entry: {
+	        app: 'src/app.js',
+	        test: 'test/test.js',
+	      },
+	      output: {
+	        filename: '[name].js',
+	      },
+	    }))
+	    .pipe(gulp.dest('dist/'));
+});
+//renaming vinyl-named
+var gulp = require('gulp');
+var webpack = require('gulp-webpack');
+var named = require('vinyl-named');
+gulp.task('default', function() {
+  return gulp.src(['src/app.js', 'test/test.js'])
+    .pipe(named())
+    .pipe(webpack())
+    .pipe(gulp.dest('dist/'));
+});
 	  	
 案例:
 module.exports = {
