@@ -87,7 +87,9 @@
       13、scripts:查看当前正在运行的文件及所有被加载的模块的文件名称(不包含nodjs内置的模块)
       14、version:显示当前nodejs所用的v8的引擎的版本号
     2、node-inspector:
-  10、NodeJs追加的类、函数和对象:
+  10、模块:
+    1、操作文件系统:File System(fs模块)
+  11、NodeJs追加的类、函数和对象:
     1、Buffer类:为二进制数据的存储提供一个缓冲区
       1、var buf = new Buffer(size);//指定缓冲区的大小(以字节为单位)
       2、var buf = new Buffer([value,[offset],[end]]);//使用数组初始化缓冲区
@@ -100,6 +102,18 @@
         1、buf.stoString([encoding],[start],[end]);
         2、buf.write(str,[offset],[length],[encoding]);
         3、//使用NodeJs模块:stringDecoder对象
+      7、Buffer与Number的转换
+        1、buf.readUInt8()/buf.writeUInt8();
+      8、Buffer与Json的转换
+        1、JSON.stringify();
+        2、JSON.parse();
+      9、复制缓存数据
+        1、buf.copy(targetBuffer,[targetStart],[sourceStart],[sourceEnd]);
+      10、类方法:
+        1、Buffer.isBuffer(obj);//判断一个对象是不是Buffer对象
+        2、Buffer.byteLength(string,[encoding]);//计算一个指定字符串的字节数
+        3、Buffer.concat(list,[totallength]);//将几个Buffer对象结合创建一个新的Buffer对象
+        4、Buffer.isEncoding(str);//检测一个字符串是否为一个有效编码格式的字符串
     2、setTimeout(),setInterval(),clearInterval(),clearTimeout(),timer.unref(),timer.ref(),
     3、require函数:用于加载模块
       1、require():方法,加载指定模块文件
