@@ -68,6 +68,65 @@
     2、node-inspector:
   10、模块:
     1、操作文件系统:File System(fs模块)
+      1、同步:fs.readFileSync();
+          同步方法立即返回操作结果,在使用同步方法执行的操作结束之前,不能执行后续代码.
+          var fs = require("fs");
+          var data = fs.readFileSync("./index.html","utf8");
+          console.log(data);
+      2、异步:fs.readFile();
+          异步方法将操作结果作为回调函数的参数返回,在方法调用之后,可立即执行后续代码
+          var fs = require("fs");
+          fs.readFile("./index.html","utf8",function(err,data){
+            //操作结果作为回调函数的第二个参数返回
+            console.log(data);
+          })
+      3、方法:
+        fs.readFile(filename,[options],callback);
+        fs.readFileSync(filename,[options]);
+        e.g:fs.readFile("./test.txt","utf8",function(err,data){})
+          option值为对象;
+          1、flag:对文件的操作权限
+            r:默认值,读取文件,如果文件不存在则抛出异常
+            r+:读取并写入文件,如果文件不存在则抛出异常
+            rs:以同步方式读取文件并通知操作系统忽略本地文件系统缓存,不建议使用
+            w:写入文件,如果文件不存在则创建文件,如果文件已存在则清空该文件内容
+            wx:作用和w类似,使用排他方式写入文件
+            w+:读取并写入文件,如果文件不存在则创建文件,如果文件已存在则清空该文件内容
+            wx+:作用和w+类似,使用排他方式打开文件
+            a:追加写入文件,如果该文件不存在则创建该文件
+            ax:作用和a类似,使用排他方式写入文件
+            a+:读取并追加写入文件,如果该文件不存在则创建该文件
+            ax+:作用和a+类似,使用排他方式打开文件
+          2、encoding:指定编码格式来读取该文件,
+            读取文件时,不指定编码格式,该回调函数的第二个参数存储的实际是原始二进制内容的缓存区对象
+            utf8,ascii,base64
+        fs.writeFile(filename,data,[options],callback);
+        fs.writeFileSync(filename,data,[options]);
+        e.g:fs.writeFile("./test.txt","这是写入的内容\n","utf8",function(err){})
+          1、filename:指定需要被写入文件的完整路径及文件名
+          2、data:指定需要写入的内容
+          3、options:
+            1、flag:默认值为w,使用方法和readFile的options的参数一致
+            2、mode:指定当文件打开时对文件的读写权限,默认值为0666(可读写)
+              第一个数字必须为0,
+              第二个数字规定文件或者目录所有者的权限,
+              第三个数字规定文件或者目录所有者所属用户组的权限
+              第四个数字规定其他人的权限
+              1:执行权限
+              2:写权限
+              4:读权限
+              如果需要设置读写复合权限,可以对以上三个数字进行加运算:2+4=6;
+        fs.appendFile(filename,data,[options],callback);
+        fs.appendFileSync(filename,data,[options]);
+        e.g:fs.appendFile("./test.txt","这是追加的内容\n","utf8",function(err){
+
+        })
+          1、options:
+            1、flag:默认值为a
+        fs.open(filename,flags,[mode],callback);
+        fs.open(filename,flags,[mode]);
+        e.g:fs.open("./test.txt","utf8",function(err,fd){})
+          1、filename|flags|mode:使用和readFile中的参数使用方式一致
   11、NodeJs追加的类、函数和对象:
     1、Buffer类:为二进制数据的存储提供一个缓冲区
       1、var buf = new Buffer(size);//指定缓冲区的大小(以字节为单位)
@@ -78,7 +137,7 @@
       5、字符串长度和缓存区的长度不一样;
         1、slice();//字符串截取,缓存区截取后,缓存区将会改变
       6、Buffer与String的转换
-        1、buf.stoString([encoding],[start],[end]);
+        1、buf.toString([encoding],[start],[end]);
         2、buf.write(str,[offset],[length],[encoding]);
         3、//使用NodeJs模块:stringDecoder对象
       7、Buffer与Number的转换
