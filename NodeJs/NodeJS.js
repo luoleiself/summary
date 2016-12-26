@@ -236,14 +236,48 @@
       11、使用open、openSync方法打开文件的修改文件访问及修改时间
         fs.futimes(fd,atime,mtime,callback);
         fs.futimesSync(fd,atime,mtime);
-        e.g:fs.ftimes(fd,atime,mtime,function(err){}) 
+        e.g:fs.futimes(fd,atime,mtime,function(err){}) 
       12、修改文件或目录的读取权限
         fs.chmod(path,mode,callback);
         fs.chmodSync(path,mode);
-        e.g:fs.chmod(path,mode,function(err){}); 
+        e.g:fs.chmod(path,mode,function(err){});
       13、使用open、openSync方法打开文件的修改权限
         fs.fchmod(fd,mode,callback);
-        fs.fchmodSync(fd,mode);  
+        fs.fchmodSync(fd,mode);
+        e.g:fs.fchmod(fd,mode,function(err){})
+      14、对文件或目录执行的其他操作
+        1、移动文件或目录:
+          fs.rename(oldepath,newpath,function(err){});
+          fs.renameSync(oldpath,newpath);  
+        2、创建或删除文件的硬连接
+          fs.link(srcpath,dstpath,function(err){})
+          fs.linkSync(srcpath,dstpath);
+            1、srcpath:指定需要被创建硬连接的文件的完整路径及文件名
+            2、dstpath:指定被创建硬链接的完整路径及文件名,该连接文件与源文件必须位于同一卷中
+          fs.unlink(path,function(err){})
+          fs.unlinkSync(path);
+        3、创建和查看符号链接:符号链接是一种特殊的文件,
+          fs.symlink(srcpath,dstpath,[type],function(err){})
+          fs.symlinkSync(srcpath,dstpath,[type])
+          1、读取符号链接包含的另一个文件或目录的信息
+            fs.readlink(path,function(err,linkString){}) 
+        4、截断文件:
+          fs.truncate(filename,len,function(){})
+          fs.truncateSync(filename,len)
+            1、len:指定被截断后的文件的尺寸(以字节为单位)
+          4.1、使用open、openSync方法打开文件的截断文件
+            fs.ftruncate(fd,len,function(err){})
+            fs.ftruncateSync(fd,len)
+        5、删除空目录:
+          fs.rmdir(path,function(err){})
+          fs.rmdirSync(path)
+        6、监视文件或目录
+          fs.watchFile(filename,[options],listener)
+            1、listener:当监视文件发生变化后的回调函数
+            function(curr,prev){}
+            1、curr:为一个fs.Stats对象,代表修改之后的当前文件
+            2、prev:为一个fs.stats对象,代表修改之前的当前文件
+          fs.unwatchFile(filename,[listener])
   11、NodeJs追加的类、函数和对象:
     1、Buffer类:为二进制数据的存储提供一个缓冲区
       1、var buf = new Buffer(size);//指定缓冲区的大小(以字节为单位)
