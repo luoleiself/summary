@@ -19,3 +19,9 @@
     npm version    //查看模块版本
     npm view       //查看模块的注册信息
     npm publish     //发布模块
+### fs模块:
+    1、方法一
+      fs.readFile(filename,[options],callback);
+      fs.readFileSync(filename,[options]);
+      e.g:fs.readFile("./test.txt","utf8",function(err,data){})
+    2、方法二
