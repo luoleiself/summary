@@ -66,123 +66,124 @@
       13、scripts:查看当前正在运行的文件及所有被加载的模块的文件名称(不包含nodjs内置的模块)
       14、version:显示当前nodejs所用的v8的引擎的版本号
     2、node-inspector:
-  10、模块:
-    1、操作文件系统:File System(fs模块)
-      1、同步:fs.readFileSync();
-          同步方法立即返回操作结果,在使用同步方法执行的操作结束之前,不能执行后续代码.
-          var fs = require("fs");
-          var data = fs.readFileSync("./index.html","utf8");
+  10、第六章:操作文件系统
+    1、同步:fs.readFileSync();
+        同步方法立即返回操作结果,在使用同步方法执行的操作结束之前,不能执行后续代码.
+        var fs = require("fs");
+        var data = fs.readFileSync("./index.html","utf8");
+        console.log(data);
+    2、异步:fs.readFile();
+        异步方法将操作结果作为回调函数的参数返回,在方法调用之后,可立即执行后续代码
+        var fs = require("fs");
+        fs.readFile("./index.html","utf8",function(err,data){
+          //操作结果作为回调函数的第二个参数返回
           console.log(data);
-      2、异步:fs.readFile();
-          异步方法将操作结果作为回调函数的参数返回,在方法调用之后,可立即执行后续代码
-          var fs = require("fs");
-          fs.readFile("./index.html","utf8",function(err,data){
-            //操作结果作为回调函数的第二个参数返回
-            console.log(data);
+        })
+    3、对文件读写操作方法:
+      1、方法一:读取文件内容
+        fs.readFile(filename,[options],callback);
+        fs.readFileSync(filename,[options]);
+        e.g:fs.readFile("./test.txt","utf8",function(err,data){})
+          option值为对象;
+          1、flag:对文件的操作权限
+            r:默认值,读取文件,如果文件不存在则抛出异常
+            r+:读取并写入文件,如果文件不存在则抛出异常
+            rs:以同步方式读取文件并通知操作系统忽略本地文件系统缓存,不建议使用
+            w:写入文件,如果文件不存在则创建文件,如果文件已存在则清空该文件内容
+            wx:作用和w类似,使用排他方式写入文件
+            w+:读取并写入文件,如果文件不存在则创建文件,如果文件已存在则清空该文件内容
+            wx+:作用和w+类似,使用排他方式打开文件
+            a:追加写入文件,如果该文件不存在则创建该文件
+            ax:作用和a类似,使用排他方式写入文件
+            a+:读取并追加写入文件,如果该文件不存在则创建该文件
+            ax+:作用和a+类似,使用排他方式打开文件
+          2、encoding:指定编码格式来读取该文件,
+            读取文件时,不指定编码格式,该回调函数的第二个参数存储的实际是原始二进制内容的缓存区对象
+            utf8,ascii,base64
+      2、方法二:向文件写入内容
+        fs.writeFile(filename,data,[options],callback);
+        fs.writeFileSync(filename,data,[options]);
+        e.g:fs.writeFile("./test.txt","这是写入的内容\n","utf8",function(err){})
+          1、filename:指定需要被写入文件的完整路径及文件名
+          2、data:指定需要写入的内容
+          3、options:
+            1、flag:默认值为w,使用方法和readFile的options的参数一致
+            2、mode:指定当文件打开时对文件的读写权限,默认值为0666(可读写)
+              第一个数字必须为0,
+              第二个数字规定文件或者目录所有者的权限,
+              第三个数字规定文件或者目录所有者所属用户组的权限
+              第四个数字规定其他人的权限
+              1:执行权限
+              2:写权限
+              4:读权限
+              如果需要设置读写复合权限,可以对以上三个数字进行加运算:2+4=6;
+      3、方法三:向文件尾部追加内容
+        fs.appendFile(filename,data,[options],callback);
+        fs.appendFileSync(filename,data,[options]);
+        e.g:fs.appendFile("./test.txt","这是追加的内容\n","utf8",function(err){})
+          1、options:
+            1、flag:默认值为a
+      4、方法四:打开文件
+        fs.open(filename,flags,[mode],callback);
+        fs.open(filename,flags,[mode]);
+        e.g:fs.open("./test.txt","utf8",function(err,fd){})
+          1、filename|flags|mode:使用和readFile中的参数使用方式一致
+          2、回调函数的第二个参数代表打开文件时返回的文件描述符
+      5、方法五:读取文件指定内容
+        fs.read(fd,buffer,offset,length,position,callback);
+        fs.read(fd,buffer,offset,length,position);
+        e.g:fs.read(fd,buf,0,9,3,function(err,byteRead,buffer){})
+          1、fd:必须是open/openSync方法中的回调函数中返回的文件描述符
+          2、buffer:是一个Buffer对象,指定将文件数据读取到指定的缓存区对象中
+          3、offset:指定向缓存区写入数据时开始写入的位置(以字节为单位)
+          4、legnth:指定从文件读取的字节数
+          5、position:指定读取文件时的开始位置(以字节为单位),如果值为null,则从当前文件被读取处开始读取
+          6、err
+          7、bytesRead:实际读取的字节数
+          8、buffer:被读取的缓存区对象
+        var fs = require("fs");
+        fs.open("./test.txt","r",function(err,fd){
+          fs.read(fd,new Buffer(255),0,6,12,function(err,bytesRead,buffer){
+            console.log(buffer.slice(0,bytesRead).toString());
           })
-      3、对文件读写操作方法:
-        1、方法一:读取文件内容
-          fs.readFile(filename,[options],callback);
-          fs.readFileSync(filename,[options]);
-          e.g:fs.readFile("./test.txt","utf8",function(err,data){})
-            option值为对象;
-            1、flag:对文件的操作权限
-              r:默认值,读取文件,如果文件不存在则抛出异常
-              r+:读取并写入文件,如果文件不存在则抛出异常
-              rs:以同步方式读取文件并通知操作系统忽略本地文件系统缓存,不建议使用
-              w:写入文件,如果文件不存在则创建文件,如果文件已存在则清空该文件内容
-              wx:作用和w类似,使用排他方式写入文件
-              w+:读取并写入文件,如果文件不存在则创建文件,如果文件已存在则清空该文件内容
-              wx+:作用和w+类似,使用排他方式打开文件
-              a:追加写入文件,如果该文件不存在则创建该文件
-              ax:作用和a类似,使用排他方式写入文件
-              a+:读取并追加写入文件,如果该文件不存在则创建该文件
-              ax+:作用和a+类似,使用排他方式打开文件
-            2、encoding:指定编码格式来读取该文件,
-              读取文件时,不指定编码格式,该回调函数的第二个参数存储的实际是原始二进制内容的缓存区对象
-              utf8,ascii,base64
-        2、方法二:向文件写入内容
-          fs.writeFile(filename,data,[options],callback);
-          fs.writeFileSync(filename,data,[options]);
-          e.g:fs.writeFile("./test.txt","这是写入的内容\n","utf8",function(err){})
-            1、filename:指定需要被写入文件的完整路径及文件名
-            2、data:指定需要写入的内容
-            3、options:
-              1、flag:默认值为w,使用方法和readFile的options的参数一致
-              2、mode:指定当文件打开时对文件的读写权限,默认值为0666(可读写)
-                第一个数字必须为0,
-                第二个数字规定文件或者目录所有者的权限,
-                第三个数字规定文件或者目录所有者所属用户组的权限
-                第四个数字规定其他人的权限
-                1:执行权限
-                2:写权限
-                4:读权限
-                如果需要设置读写复合权限,可以对以上三个数字进行加运算:2+4=6;
-        3、方法三:向文件尾部追加内容
-          fs.appendFile(filename,data,[options],callback);
-          fs.appendFileSync(filename,data,[options]);
-          e.g:fs.appendFile("./test.txt","这是追加的内容\n","utf8",function(err){})
-            1、options:
-              1、flag:默认值为a
-        4、方法四:打开文件
-          fs.open(filename,flags,[mode],callback);
-          fs.open(filename,flags,[mode]);
-          e.g:fs.open("./test.txt","utf8",function(err,fd){})
-            1、filename|flags|mode:使用和readFile中的参数使用方式一致
-            2、回调函数的第二个参数代表打开文件时返回的文件描述符
-        5、方法五:读取文件指定内容
-          fs.read(fd,buffer,offset,length,position,callback);
-          fs.read(fd,buffer,offset,length,position);
-          e.g:fs.read(fd,buf,0,9,3,function(err,byteRead,buffer){})
-            1、fd:必须是open/openSync方法中的回调函数中返回的文件描述符
-            2、buffer:是一个Buffer对象,指定将文件数据读取到指定的缓存区对象中
-            3、offset:指定向缓存区写入数据时开始写入的位置(以字节为单位)
-            4、legnth:指定从文件读取的字节数
-            5、position:指定读取文件时的开始位置(以字节为单位),如果值为null,则从当前文件被读取处开始读取
-            6、err
-            7、bytesRead:实际读取的字节数
-            8、buffer:被读取的缓存区对象
-          var fs = require("fs");
-          fs.open("./test.txt","r",function(err,fd){
-            fs.read(fd,new Buffer(255),0,6,12,function(err,bytesRead,buffer){
-              console.log(buffer.slice(0,bytesRead).toString());
-            })
+        })
+      6、方法六:向文件内写入指定内容
+        fs.write(fd,buffer,offset,length,position,callback);
+        fs.write(fd,buffer,offset,length,position);
+        e.g:fs.write(fd,buf,0,9,3,function(err,written,buffer){})
+          1、fd:必须是open/openSync方法中的回调函数中返回的文件描述符
+          2、buffer:指定从哪个缓存区中读取数据
+          3、offset:指定从缓存区中读取数据时的开始位置(以字节为单位)
+          4、length:指定从缓存区中读取的字节数
+          5、position:指定写入文件时的开始位置(以字节为单位)
+          6、err
+          7、written:被写入的字节数
+          8、buffer:被读取的缓存区对象
+        fs.open("./message.txt","w",function(err,fd){
+          fs.write(fd,new Buffer("呵呵哈哈嘻嘻"),3,9,12,function(err,written,buffer){
+            console.log(written);
+            console.log(buffer);
           })
-        6、方法六:向文件内写入指定内容
-          fs.write(fd,buffer,offset,length,position,callback);
-          fs.write(fd,buffer,offset,length,position);
-          e.g:fs.write(fd,buf,0,9,3,function(err,written,buffer){})
-            1、fd:必须是open/openSync方法中的回调函数中返回的文件描述符
-            2、buffer:指定从哪个缓存区中读取数据
-            3、offset:指定从缓存区中读取数据时的开始位置(以字节为单位)
-            4、length:指定从缓存区中读取的字节数
-            5、position:指定写入文件时的开始位置(以字节为单位)
-            6、err
-            7、written:被写入的字节数
-            8、buffer:被读取的缓存区对象
-          fs.open("./message.txt","w",function(err,fd){
-            fs.write(fd,new Buffer("呵呵哈哈嘻嘻"),3,9,12,function(err,written,buffer){
-              console.log(written);
-              console.log(buffer);
-            })
-          })
-        7、方法七:关闭文件
-          fs.close(fd,[callback])
-          fs.closeSync(fd);
-          e.g:fs.close(fd,function(err){})
-        8、方法八:对文件进行同步操作,将缓存区的剩下的所有数据全部写入到文件中
-          fs.fsync(fd,[callback]);
-          fs.fsyncSync(fd);
-      4、创建和读写目录方法:
+        })
+      7、方法七:关闭文件
+        fs.close(fd,[callback])
+        fs.closeSync(fd);
+        e.g:fs.close(fd,function(err){})
+      8、方法八:对文件进行同步操作,将缓存区的剩下的所有数据全部写入到文件中
+        fs.fsync(fd,[callback]);
+        fs.fsyncSync(fd);
+    4、创建和读写目录方法:
+      1、创建目录:
         fs.mkdir(path,[mode],callback);
         fs.mkdirSync(path,[mode]);
         e.g:fs.mkdir(path,[mode],function(err){})
           1、path:指定需要被创建的目录的完整路径及文件名
-      5、读取目录方法:
+      2、读取目录方法:
         fs.readdir(path,callback);
         fs.readdirSync(path);
         e.g:fs.readdir(path,function(err,files){})
-      6、查看文件/目录信息
+    5、查看、修改文件/目录信息
+      1、查看文件或目录的信息
         fs.stat(path,callback);
         fs.statSync(path);
         fs.lstat(path,callback);
@@ -208,77 +209,138 @@
             16、atime:该属性为文件的访问时间
             17、mtime:该属性为文件的修改时间
             18、ctime:该属性为文件的创建时间
-      7、使用open、openSync方法打开文件的查看文件信息方法
-        fs.fstat(fd,callback);
-        fs.fstatSync(fd);
-        e.g:fs.open("./test.txt","r",function(err,fd){
-          fs.fstat(fd,function(err,stats){
-            console.log(stats);
-          });
-        })
-          1、fd:必须是打开文件返回的文件描述符
-      8、检查文件或者目录是否存在
+        1.1、使用open、openSync方法打开文件的查看文件信息方法
+          fs.fstat(fd,callback);
+          fs.fstatSync(fd);
+          e.g:fs.open("./test.txt","r",function(err,fd){
+            fs.fstat(fd,function(err,stats){
+              console.log(stats);
+            });
+          })
+            1、fd:必须是打开文件返回的文件描述符
+      2、检查文件或者目录是否存在
         fs.exists(path,callback);
         fs.existsSync(path);
         e.g:fs.exists(path,function(exists){})
-      9、获取文件的绝对路径
+      3、获取文件的绝对路径
         fs.realpath(path,[cache],callback);
         fs.realpathSync(ptah,[cache]);
         e.g:fs.realpath(path,{"/etc":"/private/etc"},function(err,resolvePath){})
           1、cahce:对象,存放一些预定义的路径
           2、resolvePath:获取文件或目录的绝对路径
-      10、修改文件访问时间及修改时间
+      4、修改文件访问时间及修改时间
         fs.utimes(path,atime,mtime,callback);
         fs.utimesSync(path,atime,mtime);
         e.g:fs.utimes(path,atime,mtime,function(err){})
           1、atime:修改后的访问时间
           2、mtime:修改后的修改时间
-      11、使用open、openSync方法打开文件的修改文件访问及修改时间
-        fs.futimes(fd,atime,mtime,callback);
-        fs.futimesSync(fd,atime,mtime);
-        e.g:fs.futimes(fd,atime,mtime,function(err){}) 
-      12、修改文件或目录的读取权限
+        4.1、使用open、openSync方法打开文件的修改文件访问及修改时间
+          fs.futimes(fd,atime,mtime,callback);
+          fs.futimesSync(fd,atime,mtime);
+          e.g:fs.futimes(fd,atime,mtime,function(err){}) 
+      5、修改文件或目录的读取权限
         fs.chmod(path,mode,callback);
         fs.chmodSync(path,mode);
         e.g:fs.chmod(path,mode,function(err){});
-      13、使用open、openSync方法打开文件的修改权限
-        fs.fchmod(fd,mode,callback);
-        fs.fchmodSync(fd,mode);
-        e.g:fs.fchmod(fd,mode,function(err){})
-      14、对文件或目录执行的其他操作
-        1、移动文件或目录:
-          fs.rename(oldepath,newpath,function(err){});
-          fs.renameSync(oldpath,newpath);  
-        2、创建或删除文件的硬连接
-          fs.link(srcpath,dstpath,function(err){})
-          fs.linkSync(srcpath,dstpath);
-            1、srcpath:指定需要被创建硬连接的文件的完整路径及文件名
-            2、dstpath:指定被创建硬链接的完整路径及文件名,该连接文件与源文件必须位于同一卷中
-          fs.unlink(path,function(err){})
-          fs.unlinkSync(path);
-        3、创建和查看符号链接:符号链接是一种特殊的文件,
-          fs.symlink(srcpath,dstpath,[type],function(err){})
-          fs.symlinkSync(srcpath,dstpath,[type])
-          1、读取符号链接包含的另一个文件或目录的信息
-            fs.readlink(path,function(err,linkString){}) 
-        4、截断文件:
-          fs.truncate(filename,len,function(){})
-          fs.truncateSync(filename,len)
-            1、len:指定被截断后的文件的尺寸(以字节为单位)
-          4.1、使用open、openSync方法打开文件的截断文件
-            fs.ftruncate(fd,len,function(err){})
-            fs.ftruncateSync(fd,len)
-        5、删除空目录:
-          fs.rmdir(path,function(err){})
-          fs.rmdirSync(path)
-        6、监视文件或目录
-          fs.watchFile(filename,[options],listener)
-            1、listener:当监视文件发生变化后的回调函数
+        5.1、使用open、openSync方法打开文件的修改权限
+          fs.fchmod(fd,mode,callback);
+          fs.fchmodSync(fd,mode);
+          e.g:fs.fchmod(fd,mode,function(err){})
+    6、对文件或目录执行的其他操作
+      1、移动文件或目录:
+        fs.rename(oldepath,newpath,function(err){});
+        fs.renameSync(oldpath,newpath);  
+      2、创建或删除文件的硬连接:操作系统中的文件的一个或多个文件名,
+          类似于文件副本,操作任意一个文件,其他文件都会修改
+        fs.link(srcpath,dstpath,function(err){})
+        fs.linkSync(srcpath,dstpath);
+          1、srcpath:指定需要被创建硬连接的文件的完整路径及文件名
+          2、dstpath:指定被创建硬链接的完整路径及文件名(程序运行前不存在),该连接文件与源文件必须位于同一卷中,
+        fs.unlink(path,function(err){});删除硬链接同时会删除该文件
+        fs.unlinkSync(path);
+      3、创建和查看符号链接:符号链接是一种特殊的文件,这个文件中仅包含了另一个文件或目录的路径及文件名或目录名
+        fs.symlink(srcpath,dstpath,[type],function(err){})
+        fs.symlinkSync(srcpath,dstpath,[type])
+        1、type:指定为文件创建符号链接还是为目录创建符号链接,默认值:file,[dir,junction]
+        2、读取符号链接包含的另一个文件或目录的信息
+          fs.readlink(path,function(err,linkString){}) 
+      4、截断文件:
+        fs.truncate(filename,len,function(){})
+        fs.truncateSync(filename,len)
+          1、len:指定被截断后的文件的尺寸(以字节为单位)
+        4.1、使用open、openSync方法打开文件的截断文件
+          fs.ftruncate(fd,len,function(err){})
+          fs.ftruncateSync(fd,len)
+      5、删除空目录:
+        fs.rmdir(path,function(err){})
+        fs.rmdirSync(path)
+      6、监视文件或目录
+        fs.watchFile(filename,[options],listener)
+        fs.unwatchFile(filename,[listener])
+          1、options:
+            1、persistent:指定当指定了被监视的文件发生变化后是否停止当前正在运行的应用程序,默认值为true
+            2、interval:指定每隔多少毫秒监视一次文件是否发生改变以及发生了什么改变
+          2、listener:当监视文件发生变化后的回调函数
             function(curr,prev){}
             1、curr:为一个fs.Stats对象,代表修改之后的当前文件
             2、prev:为一个fs.stats对象,代表修改之前的当前文件
-          fs.unwatchFile(filename,[listener])
-  11、NodeJs追加的类、函数和对象:
+        var watcher = fs.watch(filename,[options],[listener]);
+          1、对文件或者目录进行监视
+          2、watcher.close();
+    7、使用文件流:
+      1、流是一组有序的、有起点的和终点的字节数据的传输手段
+      2、概念:read/readSync、write/writeSync:在读写的过程中允许nodejs执行其他处理
+        1、将需要读写的数据写到一个内存缓冲区
+        2、待缓冲区写满后再将缓冲区中的内容写入到文件中，
+        3、重复执行以上步骤
+      3、读取数据的对象
+          1、fs.ReadStream、http.IncomingMessage、net.Socket、
+              child.stdout、child.stderr、process.stdin
+          2、Gzip、Deflate、DeflateRaw
+        3.1、读取数据的对象触发事件
+            readable、data、end、error、close
+        3.2、读取数据的对象的方法
+            read、setEncoding、pause、resume、pipe、unpipe、unshift
+      4、写入数据的对象
+          1、fs.WriteStream、http.ClientRequest、http.ServerResponse、net.Socket、
+              child.stdin、process.stdout、process.stderr、
+          2、Gunzip、Inflate、InflateRaw
+        4.1、写入数据的对象的事件
+            drain、finish、pipe、unpipe、error
+        4.2、写入数据的对象的方法
+            write、end
+      5、使用ReadStream对象读取文件
+        fs.createReadStream(path,[options]);创建一个将文件内容读取为流数据的ReadSteam对象
+          1、options:
+            flags:默认值为r
+            encoding:utf8/ascii/base64,默认值为null
+            autoClose:指定是否关闭在读取文件时操作系统内部使用的文件描述符,默认值为true
+            start:使用整数值指定文件的开始读取位置(以字节为单位)
+            end:使用整数值指定文件的结束读取位置(以字节为单位)
+          var file = fs.createReadStream(path,{encoding:"utf8",start:6,end:15});
+      6、使用WriteStream对象写入文件
+        fs.createWriteStream(path,[options]);创建一个将流数据写入到文件的WriteStream对象
+          1、options:
+            flags:默认值为w
+            encoding:utf8/ascii/base64,默认值为null
+            start:指定文件的开始写入位置(以字节为单位)
+          var wf = fs.createWriteStream(path,{encoding:"utf8",start:0});
+          wf.write(chunk,[encoding],[callback]);
+            1、chunk:Buffer对象或字符串,指定需要写入的数据
+          wf.end([chunk],[encoding],[callback]);
+            1、当没有数据被写入到流中时可调用该方法关闭文件，同时迫使操作系统将所有缓存区的数据立刻写入文件中
+      7、对路径的操作
+        1、normalize();将非标准路径字符串转换成标准路径字符串//path.normalize(p);
+        2、join();将多个参数值字符串结合为一个路径字符串//path.join([path1],[path2],[...]);path.join(_dirname,"/ab/c/d");
+        3、resolve();以应用程序根目录为起点,根据所有的参数值字符串解析出一个绝对路径//path.resolve(path,[path1],[path2])
+        4、relative(from,to);获取两个路径之间的相对关系//path.relative("./././","././././")
+        5、dirname(path);获取一个路径中的目录名//path.dirname("d:/nodejs/test/test.txt");d:/nodejs/test/
+        6、basename(path,[ext]);获取一个路径中的文件名,ext去除返回的文件名的扩展名//path.basename("d:/nodejs/test/test.txt");test.txt
+        7、extname(path);获取一个路径中的扩展名,如果没有指定则返回空字符串//path.extname("d:/nodejs/test/test.txt");".txt"
+        8、path.sep:属性值为操作系统指定的文件分隔符
+        9、path.delimiter:属性值为操作系统指定的路径分隔符
+  11、第七章:基于TCP与UDP的数据通信
+  12、NodeJs追加的类、函数和对象:
     1、Buffer类:为二进制数据的存储提供一个缓冲区
       1、var buf = new Buffer(size);//指定缓冲区的大小(以字节为单位)
       2、var buf = new Buffer([value,[offset],[end]]);//使用数组初始化缓冲区
