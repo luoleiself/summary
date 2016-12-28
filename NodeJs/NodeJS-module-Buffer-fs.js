@@ -364,7 +364,8 @@
         2、Buffer.byteLength(string,[encoding]);//计算一个指定字符串的字节数
         3、Buffer.concat(list,[totallength]);//将几个Buffer对象结合创建一个新的Buffer对象
         4、Buffer.isEncoding(str);//检测一个字符串是否为一个有效编码格式的字符串
-    2、setTimeout(),setInterval(),clearInterval(),clearTimeout(),timer.unref(),timer.ref(),
+    2、setTimeout(),setInterval(),clearInterval(),clearTimeout(),
+        timer.unref(),timer.ref()//取消/恢复定时器中的回调函数的触发
     3、require函数:用于加载模块
       1、require():方法,加载指定模块文件
       2、require.resolve():方法,返回查询的模块文件的带有完整路径文件的文件名,查询时不会加载该模块
