@@ -78,104 +78,104 @@ Sass基础篇:
       2、该值至少可能会被更新一次；
       3、该值所有的表现都与变量有关（非巧合）。
   8、嵌套
-		1、选择器嵌套
-			header nav a {color: #e43937;}
-		2、属性嵌套: 属性前缀相同，后缀不一样，
-			.box {
-				border: {
-					top: 1px solid #ddd; 
-					bottom: 1px solid #ddd;
-				}
-			}
-		3、伪类嵌套: 需要借助"&"符号一起配合使用。
-			.clearfix {
-				&:before, &:after {
-					content: "";
-					display: table;
-				}
-				&:after {
-					clear: both;
-					overflow: hidden;
-				}
-			}
-		4、嵌套注意问题: 尽量避免使用过长的嵌套，层级越深，可读性越差;
-	9、混合宏: 代码中有少量的样式复用可使用变量方式，有大段的样式的复用可使用混合宏
-		1、声明混合宏: 使用关键字 @mixin;
-			@mixin 混合宏名称{}
-		2、带参数的混合宏: 
-			@mixin 混合宏名称(参数名称: 参数值){}
-		3、复杂的混合宏: 判断参数列表的个数如果大于等于1;
-			@mixin 混合宏名称(参数列表...){
-				@if length($shadow) >= 1{
-					...
-				}@else{
-					...
-				}
-			}
-		4、混合宏的的调用: 使用关键字 @include;
-			div {@include 混合宏名称;}
-			div {@include 混合宏名称(参数列表);}
-	10、扩展/继承
-		1、@extend 选择器名称; 编译之后形成组合选择器;
-			.btn {border: 1px solid #ddd;color: red;@extend .clearfix;}
+    1、选择器嵌套
+      header nav a {color: #e43937;}
+    2、属性嵌套: 属性前缀相同，后缀不一样，
+      .box {
+        border: {
+          top: 1px solid #ddd; 
+          bottom: 1px solid #ddd;
+        }
+      }
+    3、伪类嵌套: 需要借助"&"符号一起配合使用。
+      .clearfix {
+        &:before, &:after {
+          content: "";
+          display: table;
+        }
+        &:after {
+          clear: both;
+          overflow: hidden;
+        }
+      }
+    4、嵌套注意问题: 尽量避免使用过长的嵌套，层级越深，可读性越差;
+  9、混合宏: 代码中有少量的样式复用可使用变量方式，有大段的样式的复用可使用混合宏
+    1、声明混合宏: 使用关键字 @mixin;
+      @mixin 混合宏名称{}
+    2、带参数的混合宏: 
+      @mixin 混合宏名称(参数名称: 参数值){}
+    3、复杂的混合宏: 判断参数列表的个数如果大于等于1;
+      @mixin 混合宏名称(参数列表...){
+        @if length($shadow) >= 1{
+          ...
+        }@else{
+          ...
+        }
+      }
+    4、混合宏的的调用: 使用关键字 @include;
+      div {@include 混合宏名称;}
+      div {@include 混合宏名称(参数列表);}
+  10、扩展/继承
+    1、@extend 选择器名称; 编译之后形成组合选择器;
+      .btn {border: 1px solid #ddd;color: red;@extend .clearfix;}
   11、占位符
-		1、%placeholder: 如果声明不被@extend调用则不会被编译成任何代码,编译后的代码会把相同的代码合并在一起。
-			%mt5 {margin-top: 5px;}
-	12、混合宏、继承、占位符的优缺点: 
-		1、混合宏可以传递参数，但是编译之后不会把相同的代码合并，造成代码冗余。
-			如果代码块中涉及到变量，建议使用混合宏来创建相同的代码块。
-		2、继承编译之后会将相同的代码块进行合并，但是不能传递参数。
-			如果代码块中不需要传递任何参数，而且一个基类已在文件中存在，那么建议使用继承方式。
-		3、占位符编译之后和继承基本上相同，只是不会生成占位符的选择器，
-			1、和继承的区别: 
-				1、占位符不调用的时候不会在CSS文件中产生任何代码。
-				2、继承首先要有一个基类存在，基类的样式都将出现在编译出来的CSS代码中。
-		4、总结:  
-											混合宏					      继承					      占位符
-			声明方式				@mixin				       .base					   %placeholder
-			调用方式			 @include				       @extend				      @extend
+    1、%placeholder: 如果声明不被@extend调用则不会被编译成任何代码,编译后的代码会把相同的代码合并在一起。
+      %mt5 {margin-top: 5px;}
+  12、混合宏、继承、占位符的优缺点: 
+    1、混合宏可以传递参数，但是编译之后不会把相同的代码合并，造成代码冗余。
+      如果代码块中涉及到变量，建议使用混合宏来创建相同的代码块。
+    2、继承编译之后会将相同的代码块进行合并，但是不能传递参数。
+      如果代码块中不需要传递任何参数，而且一个基类已在文件中存在，那么建议使用继承方式。
+    3、占位符编译之后和继承基本上相同，只是不会生成占位符的选择器，
+      1、和继承的区别: 
+        1、占位符不调用的时候不会在CSS文件中产生任何代码。
+        2、继承首先要有一个基类存在，基类的样式都将出现在编译出来的CSS代码中。
+    4、总结:  
+                      混合宏               继承                占位符
+      声明方式        @mixin               .base             %placeholder
+      调用方式       @include              @extend              @extend
   13、插值#{}: 如果变量需要镶嵌在字符串之中，就必须需要写在#{}之中。
-		@mixin generate-sizes($class, $small, $medium, $big) {
-			.#{$class}-small { font-size: $small; }
-			.#{$class}-medium { font-size: $medium; }
-			.#{$class}-big { font-size: $big; }
-		}
-		@include generate-sizes("header-text", 12px, 20px, 40px);
+    @mixin generate-sizes($class, $small, $medium, $big) {
+      .#{$class}-small { font-size: $small; }
+      .#{$class}-medium { font-size: $medium; }
+      .#{$class}-big { font-size: $big; }
+    }
+    @include generate-sizes("header-text", 12px, 20px, 40px);
   14、注释
-		1、CSS注释: /*注释内容*/;会被编译出来。
-		2、JS注释: //;不会被编译出来。
+    1、CSS注释: /*注释内容*/;会被编译出来。
+    2、JS注释: //;不会被编译出来。
   15、数据类型
-		1、数字: 如，1、 2、 13、 10px;
-		2、字符串: 有引号字符串或无引号字符串，如，"foo"、 'bar'、 baz;
-		3、颜色: 如，blue、 #04a3f9、 rgba(255,0,0,0.5);
-		4、布尔型: 如，true、 false;
-		5、空值: 如，null;
-		6、值列表: 用空格或者逗号分开，如，1.5em 1em 0 2em 、 Helvetica, Arial, sans-serif;
+    1、数字: 如，1、 2、 13、 10px;
+    2、字符串: 有引号字符串或无引号字符串，如，"foo"、 'bar'、 baz;
+    3、颜色: 如，blue、 #04a3f9、 rgba(255,0,0,0.5);
+    4、布尔型: 如，true、 false;
+    5、空值: 如，null;
+    6、值列表: 用空格或者逗号分开，如，1.5em 1em 0 2em 、 Helvetica, Arial, sans-serif;
   16、字符串
-		1、有引号字符串(quoted strings);如 "Lucida Grande" 、'http://sass-lang.com';
-		2、无引号字符串 (unquoted strings)，如 sans-serifbold。
-		3、特例: 使用 #{ }插值语句 (interpolation) 时，有引号字符串将被编译为无引号字符串，这样方便了在混合指令 (mixin) 中引用选择器名。
-		4、当 deprecated = property syntax 时 （暂时不理解是怎样的情况），所有的字符串都将被编译为无引号字符串，不论是否使用了引号。
-	17、值列表
-		1、nth函数（nth function） 可以直接访问值列表中的某一项；
-		2、join函数（join function） 可以将多个值列表连结在一起；
-		3、append函数（append function） 可以在值列表中添加值； 
-		4、@each规则（@each rule） 则能够给值列表中的每个项目添加样式。
+    1、有引号字符串(quoted strings);如 "Lucida Grande" 、'http://sass-lang.com';
+    2、无引号字符串 (unquoted strings)，如 sans-serifbold。
+    3、特例: 使用 #{ }插值语句 (interpolation) 时，有引号字符串将被编译为无引号字符串，这样方便了在混合指令 (mixin) 中引用选择器名。
+    4、当 deprecated = property syntax 时 （暂时不理解是怎样的情况），所有的字符串都将被编译为无引号字符串，不论是否使用了引号。
+  17、值列表
+    1、nth函数（nth function） 可以直接访问值列表中的某一项；
+    2、join函数（join function） 可以将多个值列表连结在一起；
+    3、append函数（append function） 可以在值列表中添加值； 
+    4、@each规则（@each rule） 则能够给值列表中的每个项目添加样式。
 五、Sass的基本特性-运算
-	18、加减乘除: 不同类型的单位运算时会编译错误;
-		1、加减法运算时碰到不同类型的单位时，编译会报错。
-		2、乘法运算时一个单位同时声明两个值时会有问题，进行乘法运算时，两个值单位相同时，只需要为一个数值提供单位即可
-		3、除法运算时，如果两个值带有相同的单位值时，除法运算之后会得到一个不带单位的数值。
-			'/'符号被当作除法运算符时有以下几种情况:
-				1、如果数值或它的任意部分是存储在一个变量中或是函数的返回值。
-				2、如果数值被圆括号包围。
-				3、如果数值是另一个数学表达式的一部分。
-			div {font: 8px/2px;} /*纯 CSS，不是除法运算*/
-	19、变量计算:
-	20、数字运算
-	21、颜色运算:
+  18、加减乘除: 不同类型的单位运算时会编译错误;
+    1、加减法运算时碰到不同类型的单位时，编译会报错。
+    2、乘法运算时一个单位同时声明两个值时会有问题，进行乘法运算时，两个值单位相同时，只需要为一个数值提供单位即可
+    3、除法运算时，如果两个值带有相同的单位值时，除法运算之后会得到一个不带单位的数值。
+      '/'符号被当作除法运算符时有以下几种情况:
+        1、如果数值或它的任意部分是存储在一个变量中或是函数的返回值。
+        2、如果数值被圆括号包围。
+        3、如果数值是另一个数学表达式的一部分。
+      div {font: 8px/2px;} /*纯 CSS，不是除法运算*/
+  19、变量计算:
+  20、数字运算
+  21、颜色运算:
     1、所有算数运算都支持颜色值，并且是分段运算的。也就是说，红、绿和蓝各颜色分段单独进行运算。
-	22、字符运算: 
+  22、字符运算: 
     1、可以通过加法符号“+”来对字符串进行连接。
     2、有符号字符串和无符号字符串之间的'+'运算结果以'+'左侧的字符串类型为准。
 Sass进阶篇:
@@ -203,23 +203,23 @@ Sass进阶篇:
         $types: 4;
         $type-width: 20px;
         @while $types > 0 {
-            .while-#{$types} {
-                width: $type-width + $types;
-            }
-            $types: $types - 1;
+          .while-#{$types} {
+            width: $type-width + $types;
+          }
+          $types: $types - 1;
         }
   4、@each: 循环就是去遍历一个列表，然后从列表中取出对应的值。
         @each 循环指令的形式: @each $var in <list>
         $list: adam john wynn mason kuroir;//$list 就是一个列表
         @mixin author-images {
-            @each $author in $list {
-                .photo-#{$author} {
-                    background: url("/images/avatars/#{$author}.png") no-repeat;
-                }
+          @each $author in $list {
+            .photo-#{$author} {
+              background: url("/images/avatars/#{$author}.png") no-repeat;
             }
+          }
         }
         .author-bio {
-            @include author-images;
+          @include author-images;
         }
 二、Sass的函数功能-字符串和数字函数
   1、字符串函数: 用来出黎字符串的函数，
@@ -273,74 +273,74 @@ Sass进阶篇:
       index(1px solid red,solid);/*2*/
       index(1px solid red,dotted) /*false,列表中没有找到 dotted*/
   4、Introspection函数
-		1、type-of($value): 返回一个值的类型;
-			返回值类型: 1、number 为数值型。
-									2、string 为字符串型。
-									3、bool 为布尔型。
-									4、color 为颜色型。
-			type-of(100px);/*number*/
-			type-of(blue);/*color*/
-		2、unit($number): 返回一个值的单位,如果碰到复杂的计算时,只允许乘、除运算;
-			1、但加、减碰到不同单位时，unit() 函数将会报错，除 px 与 cm、mm 运算之外；
-				unit("100px");/*px*/
-				unit(100);/*" "*/
-				unit(10px * 3em);/*px*em*/
-		3、unitless($number): 判断一个值是否带有单位,不带单位返回true,带单位的返回false;
-				unitless(100);/*true*/ 
-				unitless(1 / 2 + 2);/*true*/
-				unitless(100%);/*false*/
-				unitless(100em);/*false*/
-		4、comparable($number-1, $number-2): 判断两个值是否可以做加、减和合并,可以返回true,否则返回false;
-				comparable(2px,1%);/*false*/
-				comparable(2px,1em);/*false*/
-				comparable(2rem,1rem);/*false*/
-				comparable(2px,1mm);/*true*/
-	5、Miscellaneous函数: 三元条件函数,当条件为真时返回第一个值,否则返回第二个值;
-			if($condition,$if-true,$if-false);
-			if(true,1px,2px);
-	6、Map: 数组/数据地图/JSON数据;
-		1、用个 $ 加上命名空间来声明 map;
-			$map: (
-				key1: value1,
-				key2: (
-					key-1: value-1,
-					key-2: value-2,
-				),
-				key3: value3
-			);
-		2、Maps函数: 
-			1、map-get($map,$key): 根据给定的 key 值，返回 map 中相关的值,如果$key不存在,则返回null值,null值不会被编译。
-				$social-colors: (dribble: #ea4c89,facebook: #3b5998,github: #171515,google: #db4437,twitter: #55acee);
-				.btn-dribble{color: map-get($social-colors,facebook);}
-				/*.btn-dribble{color: #3b5998;}*/
-			2、map-merge($map1,$map2): 将两个 map 合并成一个新的 map。
-				$color: (text: #f36,link: #f63,border: #ddd,backround: #fff);
-				$typo:(font-size: 12px,line-height: 1.6);
-				$newmap: map-merge($color,$typo);
-				/*$newmap:(text: #f36,link: #f63,border: #ddd,background: #fff,font-size: 12px,line-height: 1.6);*/
-			3、map-remove($map,$key): 从 map 中删除一个 key，返回一个新 map。
-				$map:map-remove($social-colors,dribble);
-				/*$map:(facebook: #3b5998,github: #171515,google: #db4437,twitter: #55acee);*/
-			4、map-keys($map): 返回 map 中所有的 key。
-				map-keys($social-colors);
-				/*"dribble","facebook","github","google","twitter"*/
-			5、map-values($map): 返回 map 中所有的 value。
-				map-values($social-colors);
-				/*#ea4c89,#3b5998,#171515,#db4437,#55acee*/
-			6、map-has-key($map,$key): 根据给定的 key 值判断 map 是否有对应的 value 值，如果有返回 true，否则返回 false。
-				@if map-has-key($social-colors,facebook){
-					.btn-facebook {
-						color: map-get($social-colors,facebook);
-					}
-				} @else {
-					@warn "No color found for faceboo in $social-colors map. Property ommitted."
-				}
-				/*.btn-facebook {color: #3b5998;}*/
-			7、keywords($args): 返回一个函数的参数，这个参数可以动态的设置 key 和 value,动态创建map的函数,参数也是成对出现。
-				@mixin map($args...){@debug keywords($args);}
-				@include map($dribble: #ea4c89,$facebook: #3b5998,$github: #171515,$google: #db4437,$twitter: #55acee);
-				/*DEBUG: (dribble: #ea4c89, facebook: #3b5998, github: #171515, google: #db4437, twitter: #55acee)*/
-	7、颜色函数
+    1、type-of($value): 返回一个值的类型;
+      返回值类型: 1、number 为数值型。
+                  2、string 为字符串型。
+                  3、bool 为布尔型。
+                  4、color 为颜色型。
+      type-of(100px);/*number*/
+      type-of(blue);/*color*/
+    2、unit($number): 返回一个值的单位,如果碰到复杂的计算时,只允许乘、除运算;
+      1、但加、减碰到不同单位时，unit() 函数将会报错，除 px 与 cm、mm 运算之外；
+        unit("100px");/*px*/
+        unit(100);/*" "*/
+        unit(10px * 3em);/*px*em*/
+    3、unitless($number): 判断一个值是否带有单位,不带单位返回true,带单位的返回false;
+        unitless(100);/*true*/ 
+        unitless(1 / 2 + 2);/*true*/
+        unitless(100%);/*false*/
+        unitless(100em);/*false*/
+    4、comparable($number-1, $number-2): 判断两个值是否可以做加、减和合并,可以返回true,否则返回false;
+        comparable(2px,1%);/*false*/
+        comparable(2px,1em);/*false*/
+        comparable(2rem,1rem);/*false*/
+        comparable(2px,1mm);/*true*/
+  5、Miscellaneous函数: 三元条件函数,当条件为真时返回第一个值,否则返回第二个值;
+      if($condition,$if-true,$if-false);
+      if(true,1px,2px);
+  6、Map: 数组/数据地图/JSON数据;
+    1、用个 $ 加上命名空间来声明 map;
+      $map: (
+        key1: value1,
+        key2: (
+          key-1: value-1,
+          key-2: value-2,
+        ),
+        key3: value3
+      );
+    2、Maps函数: 
+      1、map-get($map,$key): 根据给定的 key 值，返回 map 中相关的值,如果$key不存在,则返回null值,null值不会被编译。
+        $social-colors: (dribble: #ea4c89,facebook: #3b5998,github: #171515,google: #db4437,twitter: #55acee);
+        .btn-dribble{color: map-get($social-colors,facebook);}
+        /*.btn-dribble{color: #3b5998;}*/
+      2、map-merge($map1,$map2): 将两个 map 合并成一个新的 map。
+        $color: (text: #f36,link: #f63,border: #ddd,backround: #fff);
+        $typo:(font-size: 12px,line-height: 1.6);
+        $newmap: map-merge($color,$typo);
+        /*$newmap:(text: #f36,link: #f63,border: #ddd,background: #fff,font-size: 12px,line-height: 1.6);*/
+      3、map-remove($map,$key): 从 map 中删除一个 key，返回一个新 map。
+        $map:map-remove($social-colors,dribble);
+        /*$map:(facebook: #3b5998,github: #171515,google: #db4437,twitter: #55acee);*/
+      4、map-keys($map): 返回 map 中所有的 key。
+        map-keys($social-colors);
+        /*"dribble","facebook","github","google","twitter"*/
+      5、map-values($map): 返回 map 中所有的 value。
+        map-values($social-colors);
+        /*#ea4c89,#3b5998,#171515,#db4437,#55acee*/
+      6、map-has-key($map,$key): 根据给定的 key 值判断 map 是否有对应的 value 值，如果有返回 true，否则返回 false。
+        @if map-has-key($social-colors,facebook){
+          .btn-facebook {
+            color: map-get($social-colors,facebook);
+          }
+        } @else {
+          @warn "No color found for faceboo in $social-colors map. Property ommitted."
+        }
+        /*.btn-facebook {color: #3b5998;}*/
+      7、keywords($args): 返回一个函数的参数，这个参数可以动态的设置 key 和 value,动态创建map的函数,参数也是成对出现。
+        @mixin map($args...){@debug keywords($args);}
+        @include map($dribble: #ea4c89,$facebook: #3b5998,$github: #171515,$google: #db4437,$twitter: #55acee);
+        /*DEBUG: (dribble: #ea4c89, facebook: #3b5998, github: #171515, google: #db4437, twitter: #55acee)*/
+  7、颜色函数
     1、RGB颜色函数:颜色只是颜色中的一种表达式;
       sass -i /*开启Sass函数计算*/
       1、rgb($red,$green,$blue)：根据红、绿、蓝三个值创建一个颜色；
@@ -411,13 +411,4 @@ Sass进阶篇:
     /*Line 1 DEBUG: 22em*/
   6、@warn: 调试命令。
   7、@error: 调试命令。
-
-
-
-
-
-
-
-
-
 
