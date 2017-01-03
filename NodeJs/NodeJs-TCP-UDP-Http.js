@@ -322,3 +322,35 @@
       2、error:当请求过程中发生错误时触发
       3、socket:当为该连接分配端口时触发,function(socket){}
       4、timeout:当请求超时触发,
+      5、end:当请求结束时触发,function(){}
+  6、HTTPS服务器与客户端
+    1、创建私钥和公钥
+      $ openssl genrsa -out privatekey.pem 1024 //创建私钥
+      $ openssl req -new -key privatekey.pem -out certrequest.csr //创建签名证书请求文件
+      $ openssl x509 -req -in certrequest.csr -signkey privatekey.pem -out certificate.pem //获取证书
+      $ openssl pkcs12 -export -in certificate.pem -inkey privatekey.pem -out certificate.pfx //创建pfx文件
+    2、方法:
+      1、var server = https.createServer(options,[function(request,response){}]);
+        1、pfx:String/Buffer,指定从pfx文件读取出私钥、公钥及证书
+        2、key:String/Buffer,指定从后缀名为pem的私钥文件中读取出来的私钥
+        3、passphrase:String,用于为私钥文件或pfx文件指定密码
+        4、cert:String/Buffer,指定从后缀名为pem的文件中读取出来的公钥
+        5、ca:StringArray/BufferArray,指定一组证书
+        6、crl:String/StringArray,指定证书吊销列表
+        7、ciphers:String,指定使用或取消使用的密码
+        8、handshakeTimeout:客户端和服务器之间的握手时间,默认120秒
+        9、honorCipherOrder:default:false,设置为true,服务器将密码列表发送给客户端,由客户端选择密码
+        10、requestCert:default:false,设置为true,服务器在连接时要求客户端提供证书
+        11、rejectUnauthorized:default:false,设置为true,服务器拒绝任何不能提供服务器要求的证书的客户端
+        12、NPNProtocols:Array/Buffer,服务器端所需要使用的NPN协议
+        13、sessionInContext:String,指定服务器端的session的标识符
+      2、server.listen(port,[host],[backlog],[callback]);
+      3、server.close();关闭服务器
+    3、事件:
+      1、request:当接收到客户端的请求时触发,function(request,response){}
+      2、listening:当服务器开始监听指定端口地址时触发,function(){}
+      3、close:当服务器关闭时触发,function(){}
+13、进程与子进程
+  1、进程
+    1、属性:
+      
