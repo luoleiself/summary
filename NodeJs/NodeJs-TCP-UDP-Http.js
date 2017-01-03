@@ -353,4 +353,68 @@
 13、进程与子进程
   1、进程
     1、属性:
-      
+      1、execPath:运行应用程序的可执行文件的绝对路径,String
+      2、version:值为NodeJs的版本号,String
+      3、versions:值为Nodejs及其依赖的版本号,Object
+      4、platform:值为当前运行NodeJs的平台,String
+      5、stdin:Object,值为一个可用于读入标准输入流的对象,默认情况下,为暂停状态,process.stdin.resume(),
+      6、stdout:Object,值为一个可用于写入标准输出流的对象,
+      7、stderr:Object,值为一个可用于写入标准错误输出流的对象,
+        stdout对象和stderr对象的写数据操作是一个阻塞性操作,当使用其他读入数据流的对象的pipe方法,
+          并且将该对象作为目标对象的时候,该对象的写数据才是非阻塞型操作
+      8、argv:Array,包含了运行NodeJs应用程序时的所有命令参数,第一个为node,第二个为脚本文件名
+      9、env:Object,包含了运行NodeJs应用程序时的操作系统环境信息,
+      10、config:Object,包含了用于编译当前Node应用程序的可执行文件的配置选项的javascript描述
+      11、pid:Number,运行当前NodeJs应用程序的进程的PID,
+      12、title:String,运行当前NodeJs应用程序的命令行窗口的标题,
+      13、arch:String,运行NodeJs应用程序的处理器架构,'x64',
+      process.stdin.resume();
+      process.stdin.on("data",function(data){
+        process.stdout.write("进程接收到数据:"+data);
+      });
+    2、方法:
+      1、process.memoryUsage();Object,获取NodeJs应用程序的进程的内存使用量
+        { rss: 21995520, heapTotal: 11571200, heapUsed: 5671704 }
+        1、rss:Number,值为NodeJs应用程序的进程的内存消耗量,单位为字节
+        2、heapTotal:Number,值为V8所分配的内存量,单位为字节
+        3、heapUsed:Number,值为V8内存的消耗量,单位为字节
+      2、process.nextTick(callback);将一个函数推迟到下一个同步方法执行完毕后者异步方法的回调函数开始执行时调用,可以实现递归遍历
+        function foo(){
+          console.log("foo");
+        }
+        process.nextTick(foo);// == setTimeout(foo,0);
+        console.log("bar");
+        //实现递归遍历
+        process.nextTick(function foo(){
+          /*....*/
+          process.nextTick(foo);
+        })
+        1、process.maxTickDepth:默认值为1000,超过应用程序则提示采用setImmediate方法
+      3、process.abort();向NodeJs应用程序的进程发出SIGABRT信号,使进程异常终止,同时产生一个核心文件
+      4、process.chdir();用于修改NodeJs应用程序中使用的当前工作目录,
+        process.chdir(directory);如果指定路径不存在,则抛出异常
+      5、process.cwd();返回当前工作目录
+        console.log("当前工作目录:"+process.cwd());
+        process.chdir("../");
+        console.log("当前工作目录:"+process.cwd());
+      6、process.exit([code]);退出Nodejs应用程序的进程,默认值为0
+      7、process.getgid();返回NodeJs应用程序的进程的组ID,该方法在winOS中无效
+      8、process.setgid(id);设置NodeJs应用程序的进程的组ID,该方法在winOS中无效
+      9、process.getuid();返回NodeJs应用程序的进程的用户ID,该方法在winOS中无效
+      10、process.setuid(id);设置NodeJs应用程序的进程的用户ID,该方法在winOS中无效
+      11、process.getgroups();返回运行NodeJs应用程序的进程的所有附属组ID构成的数组,在winOS中无效
+      12、process.setgroups();设置运行NodeJs应用程序的进程的所有附属组ID,在winOS中无效
+      13、process.initgroups(user,extra_group);使用一个指定用户的所有归属组来初始化/etc/group组列表,在winOS中无效
+      14、process.kill(pid,[signal]);向一个进程发送信号,不使用signal参数时表示中止该进程
+      15、process.unmask([mask]);读取或修改运行NodeJs应用程序的进程的文件权限掩码,子进程继承父进程的文件权限掩码
+      16、process.uptime();Number,返回NodeJs应用程序的当前运行时间,单位为秒
+      17、process.hrtime();Array,用于测试一个代码段的运行时间,第一个值为妙,第二个值为纳秒
+    3、事件:
+      1、exit:当运行NodeJs应用程序的进程退出时触发,function(){}
+      2、uncaughtException:当运行NodeJs应用程序中抛出一个未被捕捉的异常时触发,function(err){}
+      3、各种信号事件
+  2、创建多进程应用程序
+
+
+
+
