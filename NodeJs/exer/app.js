@@ -1,0 +1,103 @@
+var net = require("net");
+var fsw = require("fs").createWriteStream("./test.txt");
+//使用pause、resume
+var server = net.createServer();
+server.on("connection",function(socket){
+	socket.pipe(fsw,{end:false});
+	setTimeout(function(){
+		fsw.end("Bye-Bye");
+		socket.unpipe(fsw);
+	},5000)
+}).listen("3000","localhost");
+/*
+//pipe方法实践
+var server = net.createServer();
+server.on("connection",function(socket){
+	console.log("链接正常...");
+	socket.setEncoding("utf8");
+	socket.on("data",function(data){
+		console.log(data.toString());
+		socket.pipe(fsw);
+	});
+	socket.on("end",function(){
+		console.log("链接关闭...");
+	})
+}).listen("3000","localhost");
+*/
+/*
+//创建socket对象实现流数据传输
+var server = net.createServer(function(socket){
+	socket.setEncoding("utf8");
+	socket.on("data",function(data){
+		console.log(data);
+		console.log(socket.bytesRead);
+	});
+	socket.on("end",function(err){
+		console.log("链接关闭...");
+	})
+}).listen(3000,"localhost");	
+*/
+/*
+//创建TCP服务器与客户端的链接
+var server = net.createServer();
+server.on("connection",function(socket){
+	console.log("客户端与服务器链接已建立...");
+	server.close(function(){
+		console.log("客户端与服务器断开链接...");
+	})
+})
+server.listen(3000,"localhost",function(){
+	console.log("服务器开始监听...");
+	console.log(server.address());
+})
+server.on("error",function(err){
+	console.log(err);
+})
+*/
+/*
+//创建硬链接、符号链接
+fs.link("./message.txt","./test.txt",function(err){
+	if(err){
+		console.log("硬链接创建失败");
+	}else{
+		console.log("硬链接创建成功");
+	}
+})
+fs.unlink("./test.txt",function(err){
+	if(err){
+		console.log("删除失败");
+	}else{
+		console.log("删除成功");
+	}
+})
+fs.symlink("./symlink.txt","./symlinkExer.txt","file",function(err){
+	if(err){
+		console.log("创建符号链接失败");
+	}else{
+		console.log("创建符号链接成功");
+	}
+	fs.readlink("./symlinkExer.txt",function(err){
+		if(err){
+			console.log("读取失败");
+		}else{
+			console.log("读取成功");
+		}
+	})
+})
+var file = fs.createReadStream("./message.txt",{encoding:"utf8",start:6,end:15});
+file.on("open",function(err,fd){
+	console.log(fd);
+})
+file.on("data",function(err,data){
+	console.log(data);
+})
+file.on("end",function(err,data){
+	console.log("文件读取完毕");
+})
+file.on("close",function(err){
+	console.log("文件被关闭");
+})
+file.on("error",function(err){
+	console.log(err);
+})
+*/
