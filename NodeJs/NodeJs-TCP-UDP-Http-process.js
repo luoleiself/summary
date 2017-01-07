@@ -414,7 +414,36 @@
       2、uncaughtException:当运行NodeJs应用程序中抛出一个未被捕捉的异常时触发,function(err){}
       3、各种信号事件
   2、创建多进程应用程序
-
+    1、child_process模块:在多个子进程之间可以共享内存空间,可以通过子进程之间的互相通信实现信息的交换
+      1、方法:child_process.spawn(command,[args],[options]);//该方法返回一个隐士创建的代表子进程的ChildProcess对象
+        1、command:String,指定需要运行的命令.
+        2、args:Array,运行该命令时需要指定的参数,默认为一个空数组
+        3、options:Object,开启子进程时使用的选项
+          1、cwd:String,指定子进程的当前工作目录,可以使用相对路径或者绝对路径指定该目录
+          2、stdio:String/Array(3),设置子进程的标准输入/输出,该三个元素分别指定子进程的标准输入文件描述符、标准输出文件描述符、标准错误输出文件描述符
+            1、pipe:用于在子进程和父进程之间创建一个管道,
+              父进程可以通过ChildProcess对象的stdio[0]访问子进程的标准输入,
+                stdiop[1]访问子进程的标准输出,stdio[2]访问子进程的标准错误输出
+            2、ipc:用于在父进程和子进程之间创建一个专用于传递消息或文件描述符的IPC通道,
+                一个子进程最多拥有一个IPC通道文件描述符,设置此值同时使该子进程的send方法可用,
+                在该文件描述符中写入JSON格式的消息,将会触发该子进程对象的message事件
+            3、ignore:用于指定不用为子进程设置文件描述符,如果文件描述符被忽略,NodeJs会把子进程的文件描述符定义为/dev/null(重定向到空设备文件)
+            4、Stream对象:用于指定子进程于父进程共享一个终端设备、文件、端口或管道,数据流的底层文件描述符将会在子进程中被复制
+            5、正整数值:用于指定父进程中被打开的文件描述符,该文件描述符在子进程中被共享
+            6、null/undefined:使用默认值
+          3、customFds:Array,指定子进程的标准输入/输出指定文件描述符,该属性不推荐使用
+          4、env:Object,用于以"键/值"方式指定子进程的环境变量,不指定时子进程无可用环境变量
+          5、detached:Boolean,default:false,指定该进程为进程组的领头进程,当父进程不存在时,该进程仍然可以存在
+          6、uid:Number,用于设置子进程的用户id,非winOS有效
+          7、gid:Number,设置子进程的组id,非winOS有效
+        var spawn = require("child_process").spawn;
+        spawn('prg',[],{stdio:['pipe','pipe',process.stderr]});//父进程与子进程之间只共享标准错误输出
+          1、stdio属性值:
+            1、ignore:其作用等同于将stdio的属性值设置为'["ignore","ignore","ignore"]'
+            2、pipe:其作用等同于将stdio的属性值设置为'["pipe","pipe","pipe"]'
+            3、inherit:其作用等同于将stdio的属性值设置为'["process.stdio","process.stdout","process.stderr"]'或者'[0,1,2]'
+            var chdPro = require("child_process").spawn("prg",[],{stdio:"inherit"});
+            //父进程与子进程之间共享标准输入输出
 
 
 
