@@ -1,0 +1,19 @@
+/*
+//使用spawn方法开启子进程
+process.stdout.write("子进程当前工作目录为:"+process.cwd());
+process.argv.forEach(function(val,index,array){
+	process.stdout.write("\r\n"+index+':'+val);
+})
+*/
+//使用fork方法开启子进程
+process.stdout.write("子进程当前工作目录为:"+process.cwd());
+process.argv.forEach(function(val,index,array){
+	process.stdout.write("\r\n"+index+':'+val);
+})
+/*
+//使用fork方法开启子进程
+process.on("message",function(message,setHandle){
+	console.log("子进程接收到的消息:%j",message);
+	process.send({age:"Hello haha World"});
+})
+*/

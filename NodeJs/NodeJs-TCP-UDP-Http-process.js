@@ -413,9 +413,9 @@
       1、exit:当运行NodeJs应用程序的进程退出时触发,function(){}
       2、uncaughtException:当运行NodeJs应用程序中抛出一个未被捕捉的异常时触发,function(err){}
       3、各种信号事件
-  2、创建多进程应用程序
-    1、child_process模块:在多个子进程之间可以共享内存空间,可以通过子进程之间的互相通信实现信息的交换
-      1、方法:
+  2、创建多进程应用程序:child_process模块:在多个子进程之间可以共享内存空间,可以通过子进程之间的互相通信实现信息的交换
+    1、使用spawn开启子进程
+      1、方法
         1、child_process.spawn(command,[args],[options]);//该方法返回一个隐士创建的代表子进程的ChildProcess对象
           1、command:String,指定需要运行的命令.
           2、args:Array,运行该命令时需要指定的参数,默认为一个空数组
@@ -455,4 +455,32 @@
           1、回调函数的参数的用法和close事件的一致,
           2、和close事件的区别:当子进程退出时,子进程的输入/输出可能并未终止,当exit事件触发时,不一定触发close事件
         3、error:当发生错误时触发,function(err){}
+    var sp1 = cp.spawn('node',['test1.js','one','two','three','four'],{cwd:'./test',stdio:['ipc','pipe','ignore']});
+    var sp2 = cp.spawn('node',['test2.js'],{stdio:'pipe',cwd:'./test'});
+    sp1.stdout.on('data',function(data){
+      console.log('子进程标准输出:'+data);
+      sp2.stdin.write(data);
+      sp1.kill();
+    });
+    2、使用fork开启子进程:开启一个专用于运行NodeJs中某个模块文件的子进程
+      1、方法:
+        1、child_process.fork(modulePath,[args],[options]);//该方法返回一个隐士创建的代表子进程的ChildProcess对象
+          1、modulePath:String,指定需要运行NodeJs模块文件路径及文件名
+          2、args:Array,运行该模块文件时需要使用的参数,默认为一个空数组
+          3、options:Object,开启子进程时使用的选项
+            1、cwd:String,指定子进程的当前工作目录,可以使用相对路径或者绝对路径来指定该目录
+            2、env:Object,用于以"键/值"方式指定子进程的环境变量,不指定时子进程无可用环境变量
+            3、encoding:String,指定标准输出及标准错误输出数据的编码格式,default:'utf8'
+            4、silent:Boolean,default:false,为true时,子进程对象与父进程对象不共享标准输入/输出
+        2、process.exit();当子进程的输入/输出操作全部执行完毕后,不会自动退出,需要使用该方法显式退出
+        3、ChilProcess.send(message,[sendHandle]);//在父进程中向子进程发送消息
+        4、process.send(message,[sendHandle]);//在父进程中向主进程发送消息
+          1、message:String,指定需要发送的消息
+          2、sendHandle:Function/Socket Object/Server Object,
+      2、事件
+        1、message:当子进程接收到消息时触发,function(message,setHandle){};
+          1、message:接收到的消息
+          2、setHandle:当回调函数的第二个参数指定为一个对象时,该参数代表接收到的对象
+        2、error:当消息发送失败时触发,function(err){}
+
 
