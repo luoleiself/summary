@@ -1,3 +1,4 @@
+//使用domain模块捕获异常,隐式绑定
 var domain = require("domain");
 var fs = require("fs");
 var d = domain.create();
@@ -5,6 +6,7 @@ d.name = "dl";
 d.on("error",function(err){
 	console.log("%s捕获到异常!",d.name,err)
 });
+//隐式绑定
 d.run(function(){
 	process.nextTick(function(){
 		setTimeout(function(){

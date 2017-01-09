@@ -11,7 +11,12 @@
       }
     2、方法:
       1、var domain = domain.create();返回一个Domain对象,该对象为继承EventEmitter类的实例对象
-      2、domain.run(fn);指定该对象需要监听的代码,如果发生异常时,即捕获触发error事件
+      2、domain.run(fn);指定该对象需要监听的代码,如果发生异常时,即捕获触发error事件,
+      3、domain.add(emitter);值为一个需要被绑定的继承了EventEmitter类的实例对象,如果该实例对象发生异常则被捕获
+        1、隐式绑定:run方法将所有的继承了EventEmitter类的实例对象隐式的绑定到domain对象上,
+          如果任何对象发生异常都会被捕获
+        2、显式绑定:add方法将指定的继承了EventEmitter类的实例对象显式的绑定到domain对象上,
+      4、domain.remove(emitter);取消指定对象的绑定,
     3、事件:
       1、error:当该对象捕获到异常时触发,function(err){}
     4、属性:
