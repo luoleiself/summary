@@ -73,8 +73,8 @@
     * git show HEAD^ #前一版本所有修改的文件
     * git show HEAD~4 #前4版本的修改文件
 ### git reset
-    * git reset –hard HEAD^ #还原到前一版本
-    * git reset –soft HEAD~3
+    * git reset -–hard HEAD^ #还原到前一版本
+    * git reset -–hard HEAD~3
 ### git grep
     * git grep "hello" v1 #查找tag:v1中是否由“hello"字符串
     * git grep "hello"
