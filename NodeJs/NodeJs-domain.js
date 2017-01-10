@@ -17,7 +17,13 @@
           如果任何对象发生异常都会被捕获
         2、显式绑定:add方法将指定的继承了EventEmitter类的实例对象显式的绑定到domain对象上,
       4、domain.remove(emitter);取消指定对象的绑定,
+      5、domain.bind(callback);将一个回调函数与该Domain对象绑定,并返回一个函数将替换原回调函数被调用,如果发生异常必须使用throw方法抛出异常
+      6、domain.intercept(callback);拦截一个回调函数中触发的异常,
+      7、domain.exit();在run方法内弹出该domain对象,
+      8、domain.enter();在run方法内将Domian对象推入Domain堆栈中并设置为当前使用的Domian对象
+      9、domian.dispose();将该Domain对象销毁,同时与该对象绑定的回调函数取消,发生异常时不再捕获
     3、事件:
       1、error:当该对象捕获到异常时触发,function(err){}
     4、属性:
       1、domain.name;设置或获取该domain对象的名称
+      2、domain._stack;查看domain堆栈中的内容
