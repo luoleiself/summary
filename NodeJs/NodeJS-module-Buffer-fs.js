@@ -84,6 +84,7 @@
         fs.readFile(filename,[options],callback);
         fs.readFileSync(filename,[options]);
         e.g:fs.readFile("./test.txt","utf8",function(err,data){})
+        fs.ReadStream(filename);
           option值为对象;
           1、flag:对文件的操作权限
             r:默认值,读取文件,如果文件不存在则抛出异常
@@ -104,6 +105,7 @@
         fs.writeFile(filename,data,[options],callback);
         fs.writeFileSync(filename,data,[options]);
         e.g:fs.writeFile("./test.txt","这是写入的内容\n","utf8",function(err){})
+        fs.WriteStream(filename);
           1、filename:指定需要被写入文件的完整路径及文件名
           2、data:指定需要写入的内容
           3、options:
@@ -289,14 +291,14 @@
           2、watcher.close();
     7、使用文件流:
       1、流是一组有序的、有起点的和终点的字节数据的传输手段
-      2、概念:read/readSync、write/writeSync:在读写的过程中允许nodejs执行其他处理
+      2、概念:read/readSync、write/writeSync:在文件读写的过程中不允许Nodejs执行其他任何处理
         1、将需要读写的数据写到一个内存缓冲区
         2、待缓冲区写满后再将缓冲区中的内容写入到文件中，
         3、重复执行以上步骤
       3、读取数据的对象
           1、fs.ReadStream、http.IncomingMessage、net.Socket、
               child.stdout、child.stderr、process.stdin
-          2、Gzip、Deflate、DeflateRaw
+          2、Gzip、Deflate、DeflateRaw;用于实现数据压缩,
         3.1、读取数据的对象触发事件
             readable、data、end、error、close
         3.2、读取数据的对象的方法
