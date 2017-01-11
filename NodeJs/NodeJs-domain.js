@@ -173,3 +173,31 @@
         console.log(verify.verify(publickey,sig,"hex"));
       5、为私钥创建一个公钥:openssl req -key key.pem -new -x.509 -out cert.pem
   2、压缩与解压缩:zlib模块
+    1、创建对数据进行压缩及解压缩处理的对象的方法;以下方法创建的对象均可用于读取数据流/写入数据流
+      1、zlib.createGzip([options]);创建并返回一个Gzip对象,使用Gzip算法对数据进行压缩处理
+      2、zlib.createDeflate([options]);创建并返回一个Deflate对象,使用Deflate算法对数据进行压缩处理
+      3、zlib.createDeflateRaw([options]);创建并返回一个DeflateRaw对象,使用Deflate算法对数据进行压缩,在压缩数据中不添加zlib头,
+      4、zlib.createGunzip([options]);创建并返回一个Gunzip对象,使用Gzip算法对压缩的的数据进行解压缩
+      5、zlib.createInflate([options]);创建并返回一个Inflate对象,使用Deflate算法对压缩的数据进行解压缩
+      6、zlib.createInflateRaw([options]);创建并返回一个Inflate对象,使用DeflateRaw对象对压缩的数据进行解压缩处理
+      7、zlib.createUnzip([options]);创建并返回一个Unzip对象,根据压缩数据的zlib头来判断采用哪种算法进行解压缩处理
+        1、options;Object,指定压缩或解压缩数据时的选项,
+          1、flush;String,用于设定或读取压缩方法及状态,
+            1、zlib.Z_NO_FLUSH;default,该模式运行在数据输出之前,预先决定每次压缩多少数据,以实现最大化压缩
+            2、zlib.Z_SYNC_FLUSH;指定将压缩数据分为若干个压缩块,每次将一个压缩块的数据写入输出缓存区,
+              在数据块后写入一个10位长度的空白数据块,使用某些压缩算法时,该模式可能会降低数据的压缩程度,
+            3、zlib.Z_PARTIAL_FLUSH;指定压缩数据时每次都将输出缓存区所能容纳的数据写入输出缓存区,不限制输出数据的字节数
+            4、zlib.Z_FULL_FLUSH;与Z_SYNC_FLUSH相同,但在数据块写完之后复位压缩状态,
+              因此当压缩的数据流被管道输出时,解压缩该数据的另一端可以在前次数据被破坏时要求重新压缩
+            5、zlib.Z_FINISH,输出缓存区中的剩余数据将全部输出
+          2、chunkSize;Number,指定数据分块时每个块的大小,单位字节,default:16*1024;
+          3、windowBits;Number,属性值为以2为底求出的压缩窗口的对数,用于设定压缩窗口的大小,值为8 ~ 15之间,
+            default:15;属性值越大,压缩效果越好,同时内存消耗越多,当使用Deflate算法压缩数据不使用zlib头时,该值为-15 ~ -8之间
+          4、level;Number,指定压缩级别,值为-1或0 ~ 9,
+            值为-1时,使用默认压缩比,该值自动在压缩速度和压缩比之间妥协(相当于6);
+            值为0时,不执行压缩,
+            值为1时,压缩速度最快,压缩程度最低,
+            值为9时,压缩速度最慢,压缩程度最高,
+          5、memLevel;Number,default:8;指定进行压缩时为压缩程序分配多少内存,值为1 ~ 9,
+            值为1时,消耗最少的内存,压缩程度被降低,
+            值为9时,消耗最多的内存,压缩效果最好,
