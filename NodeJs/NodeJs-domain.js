@@ -207,6 +207,26 @@
             3、zlib.Z_FILTERED;用于在数据压缩时对数据进行过滤,
             4、zlib.Z_RLE;指定在压缩时采用游程编码(Run-Length Encoding);行程长度编码
             5、zlib.Z_FIXED;指定在压缩数据时禁止使用霍夫曼编码,
+          var zlib = require("zlib");
+          var http = require("http");
+          var fs = require("fs");
+          http.createServer(function(request,response){
+            var raw = fs.createReadStream("test.txt");
+            var acceptEncoding = request.headers["accept-encoding"];
+            if(!acceptEncoding){
+              acceptEncoding = "";
+            }
+            if(acceptEncoding.match(/\bdeflate\b/)){
+              response.writeHead(200,{"content-encoding":"deflate"});
+              raw.pipe(zlib.createDeflate()).pipe(response);
+            }else if(acceptEncoding.match(/\bgzip\b/)){
+              response.writeHead(200,{"content-encoding":"gzip"});
+              raw.pipe(zlib.createGzip()).pipe(response);
+            }else{
+              response.writeHead(200,{});
+              raw.pipe(response);
+            }
+          }).listen("8888","localhost");
     2、方法:
       1、zlip.gzip(buf,callback);使用Gzip算法压缩buf字符串或者buf缓存区中的数据
       2、zlip.deflate(buf,callback);使用Deflate算法压缩buf字符串或者buf缓存区中的数据
@@ -215,3 +235,17 @@
       5、zlip.inflate(buf,callback);使用Inflate算法解压buf缓存区中的数据
       6、zlip.inflateRaw(buf,callback);使用Inflate算法解压buf缓存区中的数据,在压缩数据中不使用zlib头
       7、zlip.unzip(buf,callback);根据压缩数据的zlib头来判断采用哪种算法进行解压缩处理
+      var zlib = require("zlib");
+      var fs = require("fs");
+      var out = fs.createWriteStream("commpress.log");
+      var input = "fdjkahklfhdaslhfkdlas";
+      zlib.gzip(input,function(err,buffer){
+        if(!err){
+          zlib.unzip(buffer,function(err,buffer){
+            if(!err){
+              console.log(buffer.toString());
+              out.write(buffer);
+            }
+          })
+        }
+      })
