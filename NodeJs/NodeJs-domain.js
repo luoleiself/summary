@@ -201,3 +201,17 @@
           5、memLevel;Number,default:8;指定进行压缩时为压缩程序分配多少内存,值为1 ~ 9,
             值为1时,消耗最少的内存,压缩程度被降低,
             值为9时,消耗最多的内存,压缩效果最好,
+          6、strategy;调整压缩算法,
+            1、zlib.Z_DEFAULT_STRATEGY;default,用于进行标准压缩
+            2、zlib.Z_HUFFMAN_ONLY;指定在压缩数据时使用霍夫曼编码(一种用于无损数据压缩的熵编码)
+            3、zlib.Z_FILTERED;用于在数据压缩时对数据进行过滤,
+            4、zlib.Z_RLE;指定在压缩时采用游程编码(Run-Length Encoding);行程长度编码
+            5、zlib.Z_FIXED;指定在压缩数据时禁止使用霍夫曼编码,
+    2、方法:
+      1、zlip.gzip(buf,callback);使用Gzip算法压缩buf字符串或者buf缓存区中的数据
+      2、zlip.deflate(buf,callback);使用Deflate算法压缩buf字符串或者buf缓存区中的数据
+      3、zlip.deflateRaw(buf,callback);使用Deflate算法压缩buf字符串或者buf缓存区中的数据,在压缩数据中不添加zlib头
+      4、zlip.gunzip(buf,callback);使用Gunzip算法解压buf缓存区中的数据
+      5、zlip.inflate(buf,callback);使用Inflate算法解压buf缓存区中的数据
+      6、zlip.inflateRaw(buf,callback);使用Inflate算法解压buf缓存区中的数据,在压缩数据中不使用zlib头
+      7、zlip.unzip(buf,callback);根据压缩数据的zlib头来判断采用哪种算法进行解压缩处理
