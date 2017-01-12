@@ -486,3 +486,4 @@
         9、ignoreUndefined;default:false;如果表达式的执行结果为undefined,则REPL环境不再显示该结果,
         var repl = require("repl");
         repl.start({useGlobal:false,ignoreUndefined:true});
+        
