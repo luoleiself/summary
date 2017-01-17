@@ -23,14 +23,28 @@
 			8、--install;指定作为一个windows服务安装
 			mongod --dbpath "yourDBPath"	
 		3、mongodb的概念;
-			SQL概念				MongoDB概念       		解释
-			database				database					数据库
-			table						collection				数据表/集合
-			row							document					数据记录行/文档
-			column					field							数据字段/域
-			index						index							索引
-			table joins												表连接,MongoDB不支持
-			primary key     primary key 			主键,MongoDB自动将_id字段设为主键
+			1、与SQL的关系
+				SQL概念				MongoDB概念       		解释
+				database				database					数据库
+				table						collection				数据表/集合
+				row							document					数据记录行/文档
+				column					field							数据字段/域
+				index						index							索引
+				table joins												表连接,MongoDB不支持
+				primary key     primary key 			主键,MongoDB自动将_id字段设为主键
+			2、数据库:
+				1、show dbs;显示全部数据库;
+				2、db;显示当前数据库对象或集合
+				3、use database;切换数据库对象或集合
+				4、命名规范:
+					1、不能为空字符串
+					2、不能包含空格、点、$、/、\0
+					3、全部小写
+					4、最多64字节
+				5、特殊的数据库:
+					1、admin:权限数据库,一些特定的服务器命令需要在此运行,例关闭数据库或者服务器
+					2、local:这个数据库永远不会被复制,可以用来存储限于本地单台服务器的任意集合
+					3、config:当Mongo用于分片设置时,config数据库在内部使用,用于保存分片的信息
 		4、支持数据类型:
 			1、Array;数组;cardsInHand:[9,4,3];
 			2、Boolean;布尔值,true/false;
