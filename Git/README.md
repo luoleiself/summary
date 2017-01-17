@@ -2,7 +2,7 @@
     * git config --global alias.co checkout  #配置快捷键
     * git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 ### git add
-    * git add .   #将文件先暂存到staging area, stages new and modified, without deleted 
+    * git add .   #将文件先暂存到staging area,stages new and modified,without deleted 
     * git add -A/--all  #states all
     * git add -u #states modified and deleted, without new
     * git add -i #进入互动模式
@@ -35,7 +35,7 @@
     * git checkout -b new-branch origin #由origin建立分支
     * git checkout filename #还原状态到repository状态
     * git checkout HEAD . #将所有文件都checkout出来
-    * git checkout xxxx . #xxxx是commit的编号的前四位，将xxxx编号的版本checkout出来
+    * git checkout xxxx . #xxxx是commit的编号的前四位,将xxxx编号的版本checkout出来
     * git checkout – * #恢复上一次commit的状态
 ### git diff
     * git diff master #与master对比看哪些文件不同
@@ -107,21 +107,9 @@
     * git push --all origin #推送本地的所有分支到远程仓库
 ### git pull
     * git pull <远程主机名> <远程分支名>:<本地分支名>
-
-
-
-
-
-
-
-
-     
-
-
-
-
-
-
-
+    * git pull = git fetch + git merge
+    * git pull --rebase == git fetch + git rebase
+    * git add --all 
+    * git rebase --continue
 
 
