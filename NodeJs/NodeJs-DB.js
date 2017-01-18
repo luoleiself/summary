@@ -33,18 +33,26 @@
 				table joins												表连接,MongoDB不支持
 				primary key     primary key 			主键,MongoDB自动将_id字段设为主键
 			2、数据库:
-				1、show dbs;显示全部数据库;
-				2、db;显示当前数据库对象或集合
-				3、use database;切换数据库对象或集合
-				4、命名规范:
+				1、命名规范:
 					1、不能为空字符串
 					2、不能包含空格、点、$、/、\0
 					3、全部小写
 					4、最多64字节
-				5、特殊的数据库:
+				2、特殊的数据库:
 					1、admin:权限数据库,一些特定的服务器命令需要在此运行,例关闭数据库或者服务器
 					2、local:这个数据库永远不会被复制,可以用来存储限于本地单台服务器的任意集合
 					3、config:当Mongo用于分片设置时,config数据库在内部使用,用于保存分片的信息
+					4、test:默认数据库,
+			3、文档:是一个键值对(key-value)(BSON),MongoDB的文档不需要设置相同的字段,并且相同的字段不需要相同的数据类型
+				1、{"name":"hehe","address":{"province":"henan","city":"xinyang"}}
+			4、集合:MongoDB文档组,类似于RDBMS的table,集合存于数据库中,没有固定结构,
+				1、命名规范:
+					1、集合名不能是空字符串,
+					2、集合名不能含有空字符\0,此字符表示集合名的结尾
+					3、集合名不能以system.开头,为系统保留字
+					4、集合名不能出现保留字
+				2、capped collections:固定大小的collections
+					1、db.createCollection("name",{capped:true,size:1000000});//创建一个固定大小的集合
 		4、支持数据类型:
 			1、Array;数组;cardsInHand:[9,4,3];
 			2、Boolean;布尔值,true/false;
@@ -57,54 +65,111 @@
 			9、Null;null值;bestFriend = null;
 			10、ObjectID;用于索引对象的一个12字节的代码;表现形式为一个24位的十六进制字符串;myRecordId:new BSON.ObjectId();
 			11、String;字符串;fullName:"hehe";
+			12、Double;双精度浮点值
+			13、Min/Max keys;将一个值与BSON元素的最低值和最高值相对比
+			14、Timestamp;时间戳,记录文档修改或添加的具体时间
+			15、Symbol;符号,数据类型类似于字符串,一般采用特殊符号类型的语言
+			16、Binary Data;二进制数据
+			17、Regular Expression;正则表达式类型
 		5、基本操作:
-			1、Insert:插入
-				1、单条插入:MongoDB控制台是一个JavaScript Shell环境,支持所有的js语法,可以直接使用js语法插入
-					var  signle = {"name":"hehe","age":26,"gender":"male","address":{"province":"henan","city":"xinyang"},"favouriate":["football","apple"]}
-					var  signle = {"name":"xixi","age":20,"gender":"female","address":{"province":"hebei","city":"anyang"},"favouriate":["basketball","apple"]}
-					db.user.insert(signle);
-				2、批量插入:实现原理采用for循环插入
-			2、Find:查询
-				1、>,>=,<,<=,!=,=;"$gt","$gte","$lt","$lte","$ne","没有特殊关键字";
-					db.user.find({"age":{"$gt":22}});//查询年龄大于22的记录,find age > 22
-					db.user.find({"age":{"$lte":22}});//查询年龄小于等于22的记录,find age <= 22
-					dd.user.find({"age":{"$ne":22}});//查询年龄不等于22的记录,find age != 22
-					dd.user.find({"age":22});//查询年龄等于22的记录,find age == 22
-				2、And,OR,In,NotIn,;"无关键字","$or","$in","$nin";
-					//查询名字是xixi,城市是anyang的记录,find name == 'xixi' && city == 'anyang'
-					db.user.find({"name":"xixi","address.city":"anyang"});
-					//查询省份是henan或者hebei的记录,find province == 'henan' || province == 'hebei'
- 					db.user.find({"$or":[{"address.province":"henan"},{"address.province":"hebei"}]});
- 					//查询省份包含henan或者hebei的记录,find province in ['henan','hebei']
- 					db.user.find({"address.province":{"$in":["henan","hebei"]}});
- 					//查询省份不包含henan或者hebei的记录,find province not in ['henan','hebei']
- 					db.user.find({"address.province":{"$nin":['henan','hebei']}});
- 				3、正则表达式:
- 					//查询名字以j开头以e结尾的记录,find name startwidth 'h' and  endwidth 'e'
- 					db.user.find({"name":/^h/,"name":/e$/});
- 					//查询name以e结尾或者省份包含henan或者heebei的记录,
- 					//find  name endwidth 'e' || address.province in ['henan','heeber']
- 					db.user.find({"$or":[{"name":/e$/},{"address.province":{"$in":["henan","heebei"]}}]});
- 				4、$where:
- 					//查询这个记录的age < 25的记录,find age < 25
- 					db.user.find({$where:function(){return this.age < 25}});
- 			3、update:更新
- 				1、整体更新://此方法将指定条件的记录的字段名和值替换为当前给定的字段名和值
- 					db.user.update({"name":"hehe"},{"name":"xilanhua"});//result: {"_id":ObjectId(),"name":"xilanhua"}
- 				2、局部更新:只更新某个键的值,如果有多个符合条件的文档只会修改匹配到的第一个文档
- 					1、$inc修改器:(increase);每次修改会在原有的基础上自增$inc指定的值,如果文档中没有key这个值,则会自动创建key
- 						//修改name为xixi的文档的age在原有的基础上增加30,_id在前的文档被修改,
- 						db.user.update({"name":"xixi"},{"$inc":{"age":30}});//输出结果为age:age+30
- 					2、$set:设置符合条件的文档指定的字段的值为当前给定的值,
- 						//修改name为xixi的文档的age的值为1200,_id在前的文档被修改,
- 						db.user.update({"name":"xixi"},{"$set":{"age":1200}});//输出结果为age:1200
- 				3、upsert操作:如果update操作未查到,则在数据库中增加一条记录,需要将第三个参数设置为true
- 					//update未查到指定记录则在数据库中增加一个指定的文档
- 					db.user.update({"name":"heihei"},{"age":22,"sex":"female","tel":12345678,"hobbit":"hehe"},true);
-				4、批量修改:如果update匹配到多个文档,默认只修改第一个文档,第四个参数设置为true,
-					//此方法如果未匹配到则增加一条记录,如果匹配到多条则批量修改,
-					db.user.update({"name":"xixi"},{"age":30,"phone":9527},true,true);
-			4、remove操作:
+			1、数据库操作:
+				1、show dbs;显示全部数据库;新创建的数据库不会显示,需要先插入一条记录
+				2、show collections;显示当前数据中所有的集合,
+				3、db;显示当前数据库
+				4、use DATABASE_NAME;如果数据不存在则创建数据库,否则切换到指定数据库
+				5、db.dropDatabase();删除当前数据库,返回一个 Object
+				6、db.COLLECTION_NAME.drop();删除集合,返回 Boolean,true删除成功,集合为空时无法执行删除操作,先插入文档然后再删除
+				8、db.COLLECTION_NAME.save(document);向集合中插入文档,如果指定了_id字段,则替换集合中指定的文档
+				13、pretty();以格式化的方式显示所有文档,
+				14、limit(NUMBER);返回匹配到的结果的指定的个数,NUMBER:正整数
+ 				15、skip(NUMBER);跳过的记录条数,NUMBER:正整数,default:0,
+ 				16、sort({"key":[1,-1]});对查询到的结果按照指定字段进行排序,1为升序,-1为降序,默认按照升序排序
+ 				17、ensureIndex({"key":[1,-1]});将给定的字段进行升序/降序创建索引,
+ 			2、集合的操作
+				1、Insert:插入
+					0、db.COLLECTION_NAME.insert(document);向集合中插入文档,返回一个 Object,如果该集合不存在,则自动创建该集合并插入文档
+					1、单条插入:MongoDB控制台是一个JavaScript Shell环境,支持所有的js语法,可以直接使用js语法插入
+						var  signle = {"name":"hehe","age":26,"gender":"male","address":{"province":"henan","city":"xinyang"},"favouriate":["football","apple"]}
+						var  signle = {"name":"xixi","age":20,"gender":"female","address":{"province":"hebei","city":"anyang"},"favouriate":["basketball","apple"]}
+						db.user.insert(signle);
+					2、批量插入:实现原理采用for循环插入
+				2、Find:查询
+					0、db.COLLECTION_NAME.find().pretty();以格式化的方式显示所有文档,
+							1、pretty();使用格式化的方式显示所有文档
+						db.COLLECTION_NAME.findOne();
+						db.COLLECTION_NAME.find(<query>,<projection>);
+							1、query;指定查询条件,
+							2、projection;显示查询结果的指定字段,1为显示,0为不显示,
+						db.user.find({},{"name":1,"address":1,"favouriate":1});//只显示user集合中的三列文档
+					1、>,>=,<,<=,!=,=;"$gt","$gte","$lt","$lte","$ne","没有特殊关键字";
+						db.user.find({"age":{"$gt":22}});//查询年龄大于22的记录,find age > 22
+						db.user.find({"age":{"$lte":22}});//查询年龄小于等于22的记录,find age <= 22
+						dd.user.find({"age":{"$ne":22}});//查询年龄不等于22的记录,find age != 22
+						dd.user.find({"age":22});//查询年龄等于22的记录,find age == 22
+					2、And,OR,In,NotIn,;"无关键字","$or","$in","$nin";
+						//查询名字是xixi,城市是anyang的记录,find name == 'xixi' && city == 'anyang'
+						db.user.find({"name":"xixi","address.city":"anyang"});
+						//查询省份是henan或者hebei的记录,find province == 'henan' || province == 'hebei'
+	 					db.user.find({"$or":[{"address.province":"henan"},{"address.province":"hebei"}]});
+	 					//查询省份包含henan或者hebei的记录,find province in ['henan','hebei']
+	 					db.user.find({"address.province":{"$in":["henan","hebei"]}});
+	 					//查询省份不包含henan或者hebei的记录,find province not in ['henan','hebei']
+	 					db.user.find({"address.province":{"$nin":['henan','hebei']}});
+	 				3、正则表达式:
+	 					//查询名字以j开头以e结尾的记录,find name startwidth 'h' and  endwidth 'e'
+	 					db.user.find({"name":/^h/,"name":/e$/});
+	 					//查询name以e结尾或者省份包含henan或者heebei的记录,
+	 					//find  name endwidth 'e' || address.province in ['henan','heeber']
+	 					db.user.find({"$or":[{"name":/e$/},{"address.province":{"$in":["henan","heebei"]}}]});
+	 				4、$where:
+	 					//查询这个记录的age < 25的记录,find age < 25
+	 					db.user.find({$where:function(){return this.age < 25}});
+	 				5、$type:检索集合中匹配的数据类型,
+	 					1、Double:1,String:2,Object:3,Array:4,Binary Data:5,ObjectId:7,Boolean:8,Date:9,Null:10,Regexp:11,JavaScript:13,
+	 					2、Symbol:14,javaScript(width scope):15,32-bit integer:16,Timestamp:17,64-bit integer:18,min key:255,max key:127,
+	 					db.user.find({"name":{"$type":2}});//查询name类型为String的文档,
+	 			3、update:更新
+	 				0、db.COLLECTION_NAME.update(<query>,<update>,{upsert:<boolean>,multi:<boolean>,writeConcern:<document>});更新集合中的指定文档
+	 					1、query:查询条件
+	 					2、update:update的对象和一些更新的操作符,
+	 					3、upsert:如果未匹配到对象,是否插入一条新文档,default:false,不插入
+	 					4、multi:如果匹配到多条文档,是否全部更新,default:false,只更新第一条
+	 					5、writeConcern:可选,抛出异常的级别
+	 				1、整体更新://此方法将指定条件的记录的字段名和值替换为当前给定的字段名和值
+	 					db.user.update({"name":"hehe"},{"name":"xilanhua"});//result: {"_id":ObjectId(),"name":"xilanhua"}
+	 				2、局部更新:只更新某个键的值,如果有多个符合条件的文档只会修改匹配到的第一个文档
+	 					1、$inc修改器:(increase);每次修改会在原有的基础上自增$inc指定的值,如果文档中没有key这个值,则会自动创建key
+	 						//修改name为xixi的文档的age在原有的基础上增加30,_id在前的文档被修改,
+	 						db.user.update({"name":"xixi"},{"$inc":{"age":30}});//输出结果为age:age+30
+	 					2、$set:设置符合条件的文档指定的字段的值为当前给定的值,
+	 						//修改name为xixi的文档的age的值为1200,_id在前的文档被修改,
+	 						db.user.update({"name":"xixi"},{"$set":{"age":1200}});//输出结果为age:1200
+	 				3、upsert操作:如果update操作未查到,则在数据库中增加一条记录,需要将第三个参数设置为true
+	 					//update未查到指定记录则在数据库中增加一个指定的文档
+	 					db.user.update({"name":"heihei"},{"age":22,"sex":"female","tel":12345678,"hobbit":"hehe"},true);
+					4、批量修改:如果update匹配到多个文档,默认只修改第一个文档,第四个参数设置为true,
+						//此方法如果未匹配到则增加一条记录,如果匹配到多条则批量修改,
+						db.user.update({"name":"xixi"},{"age":30,"phone":9527},true,true);
+				4、remove操作:删除指定的文档
+					0、db.COLLECTION_NAME.remove([<query>],[{justOne:<boolean>,writeConcern:<document>}]);
+						db.COLLECTION_NAME.remove({});删除集合中的所有文档
+						1、query:删除文档的条件,
+						2、justOne:如果设为true或者1,则只删除一条文档,
+						3、writeConcern:抛出异常的级别,
+			3、索引:
+				db.COLLECTION_NAME.ensureIndex({"key":[1,-1]});将给定的字段按照升序/降序方式创建索引,可以创建多个索引
+				1、可接收的参数:
+					1、background:Boolean,default:false,指定索引以后台方式创建,建立索引时会阻塞其他数据库操作,可以指定此方式
+					2、unique:Boolean,default:false,指定索引是否唯一
+					3、name:String,索引名称,如果未指定,MongoDB通过连接索引的字段名和排序方式生成一个索引
+					4、dropDups:Boolean,default:false,建立唯一索引是否删除重复记录,
+					5、sparse:Boolean,default:false,对文档不存在的字段数据不启用索引,
+					6、expireAfterSeconds:Integer,设定集合的生存时间,单位为秒;
+					7、v:index version;索引的版本号,默认版本号取决于MongoDB创建索引时运行版本
+					8、weights:document,索引权重值,范围1 ~ 99999之间,表示该索引相对于其他索引字段的得分权重
+					9、default_language:String,default:English,对于文本索引,决定了停用词及词干和词器的规则的列表,
+					10、language_override:String,default:language,对于文本索引,指定了包含在文档中的字段名,语言覆盖默认的language,
+				db.user.ensureIndex({"name":1,"age":-1},{background:true});在后台创建user集合的索引字段,
 		6、高级操作:
 			1、聚合:
 				1、count
