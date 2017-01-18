@@ -79,12 +79,16 @@
 				4、use DATABASE_NAME;如果数据不存在则创建数据库,否则切换到指定数据库
 				5、db.dropDatabase();删除当前数据库,返回一个 Object
 				6、db.COLLECTION_NAME.drop();删除集合,返回 Boolean,true删除成功,集合为空时无法执行删除操作,先插入文档然后再删除
-				8、db.COLLECTION_NAME.save(document);向集合中插入文档,如果指定了_id字段,则替换集合中指定的文档
-				13、pretty();以格式化的方式显示所有文档,
-				14、limit(NUMBER);返回匹配到的结果的指定的个数,NUMBER:正整数
- 				15、skip(NUMBER);跳过的记录条数,NUMBER:正整数,default:0,
- 				16、sort({"key":[1,-1]});对查询到的结果按照指定字段进行排序,1为升序,-1为降序,默认按照升序排序
- 				17、ensureIndex({"key":[1,-1]});将给定的字段进行升序/降序创建索引,
+				7、db.COLLECTION_NAME.save(document);向集合中插入文档,如果指定了_id字段,则替换集合中指定的文档
+				8、pretty();以格式化的方式显示所有文档,
+				9、limit(NUMBER);返回匹配到的结果的指定的个数,NUMBER:正整数
+ 				10、skip(NUMBER);跳过的记录条数,NUMBER:正整数,default:0,
+ 				11、sort({"key":[1,-1]});对查询到的结果按照指定字段进行排序,1为升序,-1为降序,默认按照升序排序
+ 				12、db.COLLECTION_NAME.ensureIndex({"key":[1,-1]});将给定的字段进行升序/降序创建索引,
+ 				13、explain();显示该文档的详细信息
+ 				14、db.COLLECTION_NAME.getIndexes();获取指定集合的所有索引,返回一个 Object,
+ 				15、db.COLLECTION_NAME.dropIndex({"key":[1,-1]});删除指定索引,返回一个 Object,{"nIndexesWas" : 2, "ok" : 1 }
+ 				16、db.isMaster();副本集服务器上判断当前服务器是否是主节点;
  			2、集合的操作
 				1、Insert:插入
 					0、db.COLLECTION_NAME.insert(document);向集合中插入文档,返回一个 Object,如果该集合不存在,则自动创建该集合并插入文档
@@ -156,7 +160,7 @@
 						1、query:删除文档的条件,
 						2、justOne:如果设为true或者1,则只删除一条文档,
 						3、writeConcern:抛出异常的级别,
-			3、索引:
+			3、索引:是特殊的数据结构,存储在一个易于遍历读取的数据集合中,是对数据库表中一列或多列的值进行排序的一种结构
 				db.COLLECTION_NAME.ensureIndex({"key":[1,-1]});将给定的字段按照升序/降序方式创建索引,可以创建多个索引
 				1、可接收的参数:
 					1、background:Boolean,default:false,指定索引以后台方式创建,建立索引时会阻塞其他数据库操作,可以指定此方式
@@ -170,11 +174,105 @@
 					9、default_language:String,default:English,对于文本索引,决定了停用词及词干和词器的规则的列表,
 					10、language_override:String,default:language,对于文本索引,指定了包含在文档中的字段名,语言覆盖默认的language,
 				db.user.ensureIndex({"name":1,"age":-1},{background:true});在后台创建user集合的索引字段,
+				2、单索引:(Signle Field Index);MongoDB默认创建的_id索引
+				3、复合索引:(Compound Index);针对多个字段联合创建索引,
+					//首先按照第一索引字段进行排序,当第一个索引字段相同时按照第二个索引字段进行排序
+					db.COLLECTION_NAME.ensureIndex({"key":[1,-1],"key":[1,-1]});
+				4、多key索引:(Multikey Index);索引的字段为一个数组时,多key索引会为数组中的每一个建立一条索引
+			4、主从复制:
+				1、第一步:我们把mongodb文件夹放在D盘和E盘，模拟放在多服务器上
+				2、第二步:启动D盘上的mongodb，把该数据库指定为主数据库,端口还是默认的27017
+					>mongodb --dbpath='XXX' --master //创建MongoDB数据库主服务器
+				3、第三步:同样的方式启动E盘上的mongodb，指定该数据库为从属数据库
+					//创建MongoDB数据库从服务器并连接主服务器
+					>mongod --dbpath=xxxx --port=8888 --slave --source=127.0.0.1:27017 
+			5、副本集:主从集群数据库,
+				1、第一步:既然我们要建立集群，就得取个集群名字，这里就取我们的公司名shopex, --replSet表示让服务器知道shopex下还有其他数据库，
+						这里就把D盘里面的mongodb程序打开，端口为2222。指定端口为3333是shopex集群下的另一个数据库服务器
+					>mongod --dbpath  D:\mongodb\data\db --port 2222 --replSet shopex/127.0.0.1:3333
+				2、第二步:既然上面说3333是另一个数据库服务器,不要急,现在就来开,这里把E盘的mongodb程序打开
+					>mongod --dbpath  E:\mongodb\data\db --port 3333 --replSet shopex/127.0.0.1:2222
+				3、第三步:ok，看看上面的日志红色区域，似乎我们还没有做完，是的，log信息告诉我们要初始化一下“副本集“，既然日志这么说，那我也就
+						这么做，随便连接一下哪个服务器都行，不过一定要进入admin集合
+					>mongo 127.0.0.1:2222/admin
+					>db.runCommand({"replSetInitiate":{"_id":"colony","members":[{"_id":1,"host":"127.0.0.1:2222"},{"_id":2,"host":"127.0.0.1:3333"}]}})
+				4、第四步:开启成功后，我们要看看谁才能成为主数据库服务器，可以看到端口为2222的已经成为主数据库服务器
+				5、第五步:我们知道sql server里面有一个叫做仲裁服务器，那么mongodb中也是有的，跟sql server一样，仲裁只参与投票选举，这里我们
+						把F盘的mongodb作为仲裁服务器，然后指定shopex集群中的任一个服务器端口，这里就指定2222
+					>mongod --dbpath  F:\mongodb\data\db --port 4444 --replSet shopex/127.0.0.1:2222
+				6、服务器已经开启后,可以在admin集合中使用rs.addArb()追加新添加的服务器即可,
+				7、使用rs.status()来查看下集群中的服务器状态，图中我们可以清楚的看到谁是主，还是从，还是仲裁
+				8、需要配置集群数据库的查询功能
+			6、分片技术:
 		6、高级操作:
-			1、聚合:
-				1、count
-				2、distinct
-				3、group
-				4、markreduce
-			2、游标:
+			1、http:\/\/www.runoob.com/mongodb/mongodb-aggregate.html
+				1、聚合:db.COLLECTION_NAME.aggregate(AGGREGATE_OPERATION);
+					1、$sum:计算总和;
+						db.mycol.aggregate([{$group:{_id:"$by_user", num_tutorial:{$sum : "$likes"}}}])
+					2、$avg:计算平均值;
+						db.mycol.aggregate([{$group:{_id:"$by_user", num_tutorial:{$avg : "$likes"}}}])
+					3、$min:获取集合中所有文档对应值的最小值;
+						db.mycol.aggregate([{$group:{_id:"$by_user", num_tutorial:{$min : "$likes"}}}])
+					4、$max:获取集合中所有文档对应值的最大值;
+						db.mycol.aggregate([{$group:{_id:"$by_user", num_tutorial:{$max : "$likes"}}}])
+					5、$push:在结果文档中插入值到一个数组中;
+						db.mycol.aggregate([{$group:{_id:"$by_user", url:{$push: "$url"}}}])
+					6、$addToSet:在结果文档中插入值到一个数组中,但不创建副本;	
+						db.mycol.aggregate([{$group:{_id:"$by_user", url:{$addToSet : "$url"}}}])
+					7、$first:根据资源文档的排序获取第一个文档数据;	
+						db.mycol.aggregate([{$group:{_id:"$by_user", first_url:{$first : "$url"}}}])
+					8、$last:根据资源文档的排序获取最后一个文档数据;
+						db.mycol.aggregate([{$group:{_id:"$by_user", last_url:{$last : "$url"}}}])
+				2、管道操作:
+					1、$project:修改输入文档的结构;
+						db.user.aggregate({$project:{title:1,author:1}});//输出结果只有_id,title,author三个字段,
+					2、$match:用于过滤数据,只输出符合条件的文档;
+						//$match用于获取分数大于70小于或等于90记录,然后将符合条件的记录送到下一阶段$group管道操作符进行处理
+						db.atticals.aggregate([
+							{$match:{score:{$gt:70,$lte:90}}},
+							{$group:{ _id:null,count:{$sum:1}}}
+						])
+					3、$limit:用来限制MongoDB聚合管道返回的文档数;
+						db.articals.aggregate({$limit:5});//经过管道处理后,返回前5个文档,
+					4、$skip:在聚合管道中跳过指定的文档,返回剩余的文档;
+						db.articals.aggregate({$skip:5});//经过管道处理后,过滤掉前5个文档,
+					5、$unwind:将文档的某个数组类型字段拆分为多条,每条包含数组中的一个值;
+					6、$group:将集合中的文档分组,可用于统计结果;
+					7、$sort:将输入文档排序输出;
+					8、$geoNear:输出接近某一地理位置的有序文档;
+			2、http:\/\/www.cnblogs.com/huangxincheng/archive/2012/02/21/2361205.html
+				1、db.COLLECTION_NAME.count():统计符合条件的文档的个数,返回 Number
+					db.user.count({"address.province":"henan"});//统计省份是henan的文档,1
+				2、db.COLLECTION_NAME.distinct();统计指定字段的不重复的值,返回一个 Array
+					db.user.distinct("name");返回name不重复的值组成的数组
+				3、db.COLLECTION_NAME.group();将文档进行分组输出;
+					1、key:指定分组的id,
+					2、initial:每组分享一个初始化函数,为每一个分组创建一个存储值的容器,
+					3、$reduce:Function,第一个参数为当前的文档对象,第二个参数为上一次function累计操作的对象,
+						调用次数根据initial初始化的容器的长度有关
+					4、condition:可选,过滤条件,
+					5、finalize:Function,可选,每一组文档执行完毕后都会触发该函数,
+					db.person.insert({"name":"jack","age":20});
+					db.person.insert({"name":"jackson","age":22});
+					db.person.insert({"name":"joe","age":26});
+					db.person.insert({"name":"mary","age":20});
+					db.person.insert({"name":"alice","age":22});
+					db.person.insert({"name":"maria","age":25});
+					db.person.group({
+						"key":{"age":true},
+						"initial":{"person":[]},
+						"reduce":function(doc,out){out.person.push(doc.name);},
+						"finalize":function(out){out.count = out.person.length;},
+						"condition":{"age":{"$gt":20}}
+					})
+				4、mapReduce:是一种编程模式,用在分布计算中,其中包含了一个map函数和一个reduce函数;
+					1、map:映射函数,里面会调用emit(key,value),集合会按照你指定的key进行映射分组
+					2、reduce:简化函数,会对map分组的数据进行简化,
+					3、mapReduce:最后执行的函数;
+						1、result:存放的集合名;
+						2、input:传入文档的个数;
+						3、emit:此函数被调用的次数;
+						4、reduce:此函数被调用的次数;
+						5、output:最后返回文档的个数;
+			3、游标:
 	2、MySql数据库:
