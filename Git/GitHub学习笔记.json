@@ -104,7 +104,7 @@ git协议：
 		1、创建SSH Key，在用户主目录下，查看是否有.ssh目录，
 			如果有，在看看这个目录下有没有id_rsa和id_rsa.pub这两个文件，如果有，则直接下一步，没有则需要创建ssh key.
 			1、id_rsa是私钥不能泄漏出去，id_rsa.pub是公钥可以共同使用。
-			2、ssh-keygen -t rsa -c "youremail@example.com"
+			2、ssh-keygen -t rsa -C "youremail@example.com"
 		2、登陆github，打开“Account settings”,“SSH Keys”页面；
 			1、点击"Add SSH Key",添加任意Title,在Key文本框中粘贴id_rsa.pub文件的内容。
 				mac:复制 ssh key到粘贴板上
