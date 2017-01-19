@@ -89,6 +89,10 @@
  				14、db.COLLECTION_NAME.getIndexes();获取指定集合的所有索引,返回一个 Object,
  				15、db.COLLECTION_NAME.dropIndex({"key":[1,-1]});删除指定索引,返回一个 Object,{"nIndexesWas" : 2, "ok" : 1 }
  				16、db.isMaster();副本集服务器上判断当前服务器是否是主节点;
+ 				17、mongostat;MongoDB不支持自带的状态监测工具,在命令状态下回间隔固定时间获取MongoDB的运行状态
+ 					D:\mongodb\bin>mongostat
+ 				18、mongotop;MongoDB的内置工具,该工具提供一个方法来跟踪MongoDB的实例,统计时间消费,默认时间为1秒
+ 					D:\mongodb\bin>mongotop 10 //每10秒统计一次
  			2、集合的操作
 				1、Insert:插入
 					0、db.COLLECTION_NAME.insert(document);向集合中插入文档,返回一个 Object,如果该集合不存在,则自动创建该集合并插入文档
@@ -189,21 +193,47 @@
 			5、副本集:主从集群数据库,
 				1、第一步:既然我们要建立集群，就得取个集群名字，这里就取我们的公司名shopex, --replSet表示让服务器知道shopex下还有其他数据库，
 						这里就把D盘里面的mongodb程序打开，端口为2222。指定端口为3333是shopex集群下的另一个数据库服务器
-					>mongod --dbpath  D:\mongodb\data\db --port 2222 --replSet shopex/127.0.0.1:3333
+					>mongod --dbpath  D:\mongodb\data\db --port 2222 --replSet colony/127.0.0.1:3333
 				2、第二步:既然上面说3333是另一个数据库服务器,不要急,现在就来开,这里把E盘的mongodb程序打开
-					>mongod --dbpath  E:\mongodb\data\db --port 3333 --replSet shopex/127.0.0.1:2222
+					>mongod --dbpath  E:\mongodb\data\db --port 3333 --replSet colony/127.0.0.1:2222
 				3、第三步:ok，看看上面的日志红色区域，似乎我们还没有做完，是的，log信息告诉我们要初始化一下“副本集“，既然日志这么说，那我也就
 						这么做，随便连接一下哪个服务器都行，不过一定要进入admin集合
 					>mongo 127.0.0.1:2222/admin
-					>db.runCommand({"replSetInitiate":{"_id":"colony","members":[{"_id":1,"host":"127.0.0.1:2222"},{"_id":2,"host":"127.0.0.1:3333"}]}})
+					>var confi = {"replSetInitiate":{"_id":"colony","members":[{"_id":1,"host":"127.0.0.1:2222"},{"_id":2,"host":"127.0.0.1:3333"}]}};
+					>db.runCommand(confi);
 				4、第四步:开启成功后，我们要看看谁才能成为主数据库服务器，可以看到端口为2222的已经成为主数据库服务器
 				5、第五步:我们知道sql server里面有一个叫做仲裁服务器，那么mongodb中也是有的，跟sql server一样，仲裁只参与投票选举，这里我们
 						把F盘的mongodb作为仲裁服务器，然后指定shopex集群中的任一个服务器端口，这里就指定2222
-					>mongod --dbpath  F:\mongodb\data\db --port 4444 --replSet shopex/127.0.0.1:2222
-				6、服务器已经开启后,可以在admin集合中使用rs.addArb()追加新添加的服务器即可,
+					>mongod --dbpath  F:\mongodb\data\db --port 4444 --replSet colony/127.0.0.1:2222
+				6、服务器已经开启后,可以在admin集合中使用rs.addArb("hostname:port")追加新添加的服务器即可,
 				7、使用rs.status()来查看下集群中的服务器状态，图中我们可以清楚的看到谁是主，还是从，还是仲裁
-				8、需要配置集群数据库的查询功能
-			6、分片技术:
+				8、需要配置集群数据库的查询功能:rs.slaveOk()
+			6、分片技术:将集合进行拆分成,拆分后的数据均摊到几个片上
+				1、概念:
+					1、mongos:片键,mongos是一个路由服务器,它会根据管理员设置的片键将数据分摊到自己管理的mongod集群,
+						数据和片的对应关系以及相应的配置信息保存在config服务器上
+					2、mongod:一个普通的数据库实例,如果不分片的话会直接连上mongod
+				2、操作:
+					1、首先我们准备4个mongodb程序，我这里是均摊在C，D，E，F盘上，当然你也可以做多个文件夹的形式
+					2、开启config服务器:C:\mongodb\bin>mongod --dbpath C:\mongodb\bin --port 2222
+					3、开启mongos服务器:D:\mongodb\bin>mongos --port 3333 --configdb 127.0.0.1:2222
+					4、启动mongod服务器:对分片来说,也就是要添加片了,这里开启E，F盘的mongodb,端口为:4444，5555
+						E:\mongodb\bin>mongod --dbpath E:\mongodb\bin --prot 4444
+						F:\mongodb\bin>mongod --dbpath F:\mongodb\bin --prot 5555
+					5、服务配置:addshard();
+			7、数据备份和恢复:
+				1、copy:将服务器暂时关闭才能进行操作,然后重启服务器
+				2、mongodump,mongorestore:
+					1、mongodump -h dbhost -d dbname -o dbdirectory
+					2、mongorestore -h hostname -d dbname -drop dbbackup
+						-h:服务器地址
+						-d:需要备份的数据库实例
+						-o:备份的数据库的存放位置
+						-drop:恢复时,先删除当前数据,再进行恢复,恢复完成后删除备份数据
+					>mongodump --port 2222 -d test -o D:\mongodb\backup
+					>mongorestore --port 2222 -d test -drop D:\mongodb\backup\test
+				3、加锁:db.runCommand({"fsync":1,"lock":1});
+				4、解锁:db.$cmd.unlock.findOne()
 		6、高级操作:
 			1、http:\/\/www.runoob.com/mongodb/mongodb-aggregate.html
 				1、聚合:db.COLLECTION_NAME.aggregate(AGGREGATE_OPERATION);
