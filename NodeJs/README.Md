@@ -19,6 +19,8 @@
     npm version    //查看模块版本
     npm view       //查看模块的注册信息
     npm publish     //发布模块
+    npm config set prefix "globalDirPath"
+    npm config set cache "cacheDirPath"
 ### 硬链接:
     操作系统中的文件的一个或多个文件名,类似于创建文件副本,操作任意一个文件,其他文件都会修改
     fs.link(srcpath,dstpath,function(err){})
