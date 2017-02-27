@@ -10,6 +10,7 @@ http://webpack.github.io/docs/
     $ webpack -w      // 提供watch方法；实时进行打包更新
     $ webpack -p      // 对打包后的文件进行压缩
     $ webpack -d      // 提供source map，方便调式代码
+    $ webpack hello.js hello.bundle.js --module-bind css="style-loader!css-loader!" --watch --progress --display-modules
 三、webpack参数:
   1、entry: 字符串|数组|对象 // string | object | array
     1、entry: "./app/entry",
