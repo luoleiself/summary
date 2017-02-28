@@ -5,6 +5,7 @@ http://webpack.github.io/docs/
   3、可以通过配置打包成多个文件，有效的利用浏览器的缓存功能提升性能
   4、使用模块加载器，可以支持sass，less等处理器进行打包且支持静态资源样式及图片进行打包
 二、console:
+    $ webpack --help //webpack -h
     $ webpack --display-error-details   //显示错误详细信息
     $ webpack         // 最基本的启动webpack的方法
     $ webpack -w      // 提供watch方法；实时进行打包更新
