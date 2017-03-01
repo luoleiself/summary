@@ -34,4 +34,27 @@
     <style>
       CSS代码
     </style>
-
+    <body>
+      <div id="app">//#app是Vue实例挂载的元素，应该在挂载元素范围内使用组件
+        <my-component></my-component>
+      </div>
+    </body>
+  2、//创建一个组件构建器
+    var myComponent = Vue.extend({
+      template:"<div>This is myComponent</div>",
+    })
+    //注册组件,并指定组件的标签,组件的Html标签定义为<my-component>
+    Vue.component("my-component",myComponent);//第一个参数为组件的标签，第二个参数为组件构造器
+    //渲染页面
+    new Vue({
+      el:"#app"
+    })
+  3、var myComponent = Vue.extend({
+      template:"<div>This is my Component</div>"
+    })
+    new Vue({
+      el:"#app",
+      component:{
+        "my-component":myComponent
+      }
+    })
