@@ -5,24 +5,30 @@
   4、npm install //安装依赖
   5、npm run dev //启动服务
 2、vue重要组件:
-  1、data:{a:1,b:[]} // vue对象中的数据,
+  1、data:{a:1,b:[]} // data属性指向Model,
   2、methods:{doSomething:function(){
     cosole.log(this.a);
   }}//定义vue对象的方法
   3、watch:{'a':function(val,oldVal){
-    console.log(val,oldVal);
-  }}//对vue对象的监听
-3、模板指令:写在Html中的指令
+      console.log(val,oldVal);
+    }}//对vue对象的监听
+  4、el:表示该Vue实例将挂载到指定的dom对象上,
+3、模板指令:指令是以v-开头的,它们作用于HTML元素,指令提供了一些特殊的特性,
+  将指令绑定在元素上时,指令会为绑定的目标元素添加一些特殊的行为,
+  我们可以将指令看作特殊的HTML特性（attribute）
   1、{{}}:
   2、v-text:处理后的html数据
   3、v-html:保存了html结构的数据
   4、v-if:控制模块隐藏,不渲染html
-  5、v-show:控制模块显示,渲染html
+  5、v-show:控制模块显示,渲染html,控制html元素的css样式
+    v-else:条件控制模块显示,必须放在v-if或v-show元素的后面,是否渲染到html中取决于前面的条件控制语句
   6、v-for:循环渲染html
   7、v-on:click:事件绑定
     7.1 @click:事件绑定
   8、v-bind:src:
     8.1 :class="{red:isRed}"   [classA,classB]
+    v-bind:参数通常是HTML元素的特性(attribute),缩写为:
+    v-on:用于给监听DOM事件,缩写为@
 4、数据观测的实现:
   1、AngularJs:数据观测采用的是脏检查(dirty checking)机制,每一个指令都有一个对应的用来观测数据的对象watcher,一个作用域中会有很多个watcher。
     每当界面需要更新时，Angular会遍历当前作用域里的所有watcher，对它们一一求值，然后和之前保存的旧值进行比较。
