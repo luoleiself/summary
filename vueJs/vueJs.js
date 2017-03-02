@@ -36,7 +36,6 @@
     2、在watcher的求值过程中,每一个被取值的可观察对象都会将当前的watcher注册为自己的一个订阅者,并成为当前watcher的一个依赖
     3、当一个被依赖的可观察对象被赋值时,它会通知所有订阅自己的watcher重新求值,并触发相应的更新
     4、依赖收集的优点在于可以精确、主动地追踪数据的变化,不存在上述提到的脏检查的两个问题
-
 5、组件:扩展HTML元素，封装可重用的HTML代码
   1、核心概念:
     1、模板(Tmplate):模板声明了数据和最终展现给用户的DOM之间的映射关系
@@ -49,40 +48,49 @@
     6、私有资源(assets):Vue.js当中将用户自定义的指令、过滤器、组件等统称为资源.
         由于全局注册资源容易导致命名冲突,一个组件可以声明自己的私有资源.
         有资源只有该组件和它的子组件可以调用
+  2、全局注册:
+    1、第一种方式:
+      1、//定义组件
+        eg:var defineComponent = Vue.extend({template:"<div>This is define component</div>"});
+      2、//注册组件
+        eg:Vue.component("global-component",defineComponent);
+      3、//渲染组件
+        eg:var vm = new Vue({el:"#globalComponent"});
+    2、第二种方式:
+      1、//定义和注册组件
+        eg:Vue.component("global-component",{tempalte:"<div>This is signin global component"});
+      2、//渲染组件
+        eg:var vm = new Vue({el:"#globalComponent"});
+  3、局部注册:
+      eg:var vm2 = new Vue({
+          el:"#local",
+          components:{
+            local:{
+              template:"<p @click='change'>{{msg}}</p>",
+              data:function(){
+                return {msg:"这是局部注册的组件"}
+              },
+              methods:{
+                change:function(){
+                  console.log(this);
+                }
+              }
+            }
+          }
+        })
+  4、实例属性:
+    vm.$data: Vue 实例观察的数据对象
+    vm.$el: Vue 实例使用的根 DOM 元素
+    vm.$options: 用于当前 Vue 实例的初始化选项
+    vm.$parent: 父实例,如果当前实例有的话
+    vm.$root: 当前组件树的根 Vue 实例
+    vm.$children: 当前实例的直接子组件
+    vm.$slots: 用来访问被 slot 分发的内容
+    vm.$scopedSlots
+    vm.$refs: 一个对象,其中包含了所有拥有 ref 注册的子组件
+    vm.$isServer: 当前 Vue 实例是否运行于服务器
 
 
 
-  2、//template
-    <template>
-      html代码
-    </template>
-    <script>
-      js代码
-    </script>
-    <style>
-      CSS代码
-    </style>
-    <body>
-      <div id="app">//#app是Vue实例挂载的元素，应该在挂载元素范围内使用组件
-        <my-component></my-component>
-      </div>
-    </body>
-  3、//创建一个组件构建器
-    var myComponent = Vue.extend({
-      template:"<div>This is myComponent</div>",
-    })
-    //注册组件,并指定组件的标签,组件的Html标签定义为<my-component>
-    Vue.component("my-component",myComponent);//第一个参数为组件的标签，第二个参数为组件构造器
-    //渲染页面
-    new Vue({
-      el:"#app"
-    })
-  4、var myComponent = Vue.extend({
-      template:"<div>This is my Component</div>"
-    })
-    new Vue({
-      el:"#app",
-      component:{
-        "my-component":myComponent
-      }
-    })
+
+
