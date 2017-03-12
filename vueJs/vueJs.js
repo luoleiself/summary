@@ -70,12 +70,14 @@
   3、局部注册:
       eg:var vm2 = new Vue({
           el:"#local",
+          data:{},
           components:{
             local:{
               template:"<p @click='change'>{{msg}}</p>",
               data:function(){
                 return {msg:"这是局部注册的组件"}
               },
+              props:[""],
               methods:{
                 change:function(){
                   console.log(this);
@@ -95,7 +97,29 @@
     vm.$scopedSlots
     vm.$refs: 一个对象,其中包含了所有拥有 ref 注册的子组件
     vm.$isServer: 当前 Vue 实例是否运行于服务器
+  5、自定义事件:
+    $on:注册一个自定义事件
+    $off:取消自定义事件
+    $once:注册一个一次性的自定义事件
+    $emit:手动触发事件
+    $dispatch:事件派发,由内向外冒泡执行,子组件向父组件传递数据
+    $broadcast:事件广播,深度优先遍历子组件,并执行各个子组件的监听事件
+组件:
+  export default{
+    data:function(){
+      return:{
 
+      }
+    },
+    events:{
+      onClickMe:function(){
+
+      }
+    },
+    methods:{
+
+    }
+  }
 
 
 
