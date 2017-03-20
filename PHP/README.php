@@ -252,9 +252,7 @@ A is equal to 5
 		1. trait不能通过它自身来实例化
 		2. 从基类继承的成员被 trait 插入的成员所覆盖.优先顺序是来自当前类的成员覆盖了 trait 的方法,而 trait 则覆盖了被继承的方法
 		  eg:class Base{
-		  	public function sayHello(){
-		  		echo "Hello";
-		  	}
+		  	public function sayHello(){echo "Hello";}
 		  }
 		  trait sayWorld{
 		  	public function sayHello(){
@@ -357,4 +355,13 @@ A is equal to 5
 				}
 				$example = new PropertiesExample;
 				$example->x;
-	12. spl_autoload_register();
+	12. spl_autoload_register():自动加载,
+	13. 重载:动态的创建类的属性和方法,所有的重载方法都必须声明为public,(传统的重载:提供多个同名的类方法,但各方法的参数类型和个数不同)
+		1. 属性重载只能在对象中进行.在静态方法中,这些魔术方法将不会被调用.
+		2. 在对象中调用一个不可访问方法时,__call()会被调用.
+			 用静态方式调用一个不可访问方法时,__callStatic()会被调用.
+
+
+
+
+
