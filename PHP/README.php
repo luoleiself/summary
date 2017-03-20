@@ -108,8 +108,9 @@ eot
 	6. goto:
 	7. 流程控制的替代语法:
 		`<?php if ($a == 5): ?>
-			A is equal to 5
-		<?php endif; ?>`
+A is equal to 5
+	<?php endif; ?>
+`
 9. 函数: PHP不支持函数重载,也不可能取消定义或者重定义已声明的函数,
 	1. 用户自定义函数:
 	2. 参数:按值传递,引用传递(&),默认参数(默认参数必须放在所有参数的最后面定义)
@@ -117,5 +118,243 @@ eot
 	4. 可变函数: $foo = "bar"; function bar(){}; $foo();
 	5. 匿名函数:
 10. 类和对象:
-
-
+	1. 关键字:
+		1. public:被定义的类成员可以在任何地方被访问,可以在子类中重新定义,
+		2. protected:被定义的类成员可以被其自身以及子类和父类访问,可以在子类中重新定义
+		3. private:被定义的类成员只能在被其定义的所在的类访问,不能子类中重新定义
+			eg: class MyClass{
+				public $public = "Public";
+				protected $protected = "Protected";
+				private $private = "Private";
+				function propertyPrint(){
+					echo $this -> public;
+					echo $this -> protected;
+					echo $this -> private;
+				}
+			}
+			$obj = new MyClass();
+			echo $obj -> public;
+			echo $obj -> protected;
+			echo $obj -> private;
+			$obj -> propertyPrint();
+		4. static:声明类属性和方法为静态,可以不实例化类而直接访问,
+			1. 静态属性不能通过一个类已实例化的对象来访问(静态方法可以)
+			2. 静态属性不能通过对象操作符访问:->
+			3. 静态属性只能被初始化为文件或者常量,不能使用表达式,不能为一个变量或函数的返回值,不能指向一个对象
+			4. 静态方法不需要实例化类就可以调用,伪变量$this在静态方法中不可用.
+			5. 用静态方式调用一个非静态方法会导致E_STRICT级别的错误
+	2. 属性:类的变量成员,由public,protected,private关键字开头,然后跟一个普通的变量声明来组成,属性变量可以初始化,但必须是常数,
+	3. 伪变量:$this:是一个到主叫对象的引用(通常是该方法所从属的对象,但如果是从第二个对象静态调用时也可能是另一个对象).
+	4. 类常量:类中定义始终保持不变的值,在定义和使用时不需要使用$符号;
+	5. ->:对象运算符,$this -> property;访问非静态属性;
+	6. :: 范围解析操作符(Paamayim Nekudotayim),可以用于访问静态成员,类常量,覆盖类中的属性和方法
+			eg:在类外部使用
+				class MyClass{
+					const CONST_VALUE = "A constant value";
+				}
+				$className = "MyClass";
+				echo $className::CONST_VALUE; //PHP 5.3
+				echo MyClass::CONST_VALUE;
+			eg:在类内部使用
+				class OtherClass extends MyClass{
+					public static $my_static = 'static var';
+					public static function doubleColon(){
+						echo parent::CONST_VALUE . "\n";
+						echo self::$my_static . "\n";
+					}
+				}
+				$otherClass = "OtherClass";
+				echo $otherClass::doubleColon(); // PHP 5.3
+				OtherClass::doubleColon();
+	7. extends:PHP 不支持多继承,一个类只能继承一个基类
+	8. 构造函数和析构函数:
+		1. 具有构造函数的类每次使用新对象时优先调用构造函数进行初始化工作,
+			eg:class BaseClass{
+				function __construct(){
+					print "In BaseClass contructor\n";
+				}
+			}
+			class SubClass extends BaseClass {
+			  function __construct() {
+		      parent::__construct();
+		      print "In SubClass constructor\n";
+			  }
+			}
+			class OtherSubClass extends BaseClass{}
+			$obj1 = new BaseClass(); // In BaseClass contructor;
+			$obj2 = new SubClass(); // In BaseClass contructor;// In SubClass contructor;
+			$obj3 = new OtherSubClass(); // In BaseClass contructor;
+		2. 析构函数:在某个对象的所有引用都被删除或者当对象被显式销毁时执行.
+			eg:class MyDestructableClass{
+				function __construct(){
+					print "In constructor\n";
+					$this -> name = "MyDestructableClass";
+				}
+				function __destruct(){
+					print "Destroying" . $this -> name . "\n";
+				}
+			}
+			$obj = new MyDestructableClass();
+	9. 抽象类和抽象方法:任何一个类至少有一个方法为抽象方法,则该类就必须声明为抽象类,
+			被定义为抽象的方法只是声明了其调用方式(参数),不能定义其具体的功能实现,
+			子类继承抽象父类定义抽象方法并可以声明父类抽象方法中不存在的可选参数
+			eg:abstract class AbstractClass{
+				abstract protected function getValue();
+				abstract protected function preFixValue($prefix);
+				public function printOut(){
+					echo $this -> getValue() . "\n";
+				}
+			}
+			class ConcreateClass1 extends AbstractClass{
+				protected function getValue(){
+					return "ConcreateClass1";
+				}
+				protected function preFixValue($prefix,$gg){
+					return "{$prefix}ConcreateClass1";
+				}
+			}
+			class ConcreateClass2 extends AbstractClass{
+				protected function getValue(){
+					return "ConcreateClass2";
+				}
+				protected function preFixValue($prefix,$gg){
+					return "{$prefix}ConcreateClass1";
+				}
+			}
+			$class1 = new ConcreateClass1();
+			$class1 -> print();
+			echo $class1 -> preFixValue("FOO1_")."\n";
+			$class2 = new ConcreateClass1();
+			$class2 -> print();
+			echo $class2 -> preFixValue("FOO2_")."\n";
+	10. 抽象接口: 可以指定某个类必须实现哪些方法,但不需要定义这些方法的具体内容,所有的接口定义的方法都是公有的.
+			1. 类中必须实现接口中定义的所有的方法,否则会报错.
+			2. 类实现接口,必须使用和接口中定义的方法完全一致的方式,否则会报错.
+			3. 类实现多个接口时,接口的方法不能重名.
+			4. 接口中可以定义常量,接口常量和类常量的使用完全相同,但是不能被子类或子接口所覆盖.
+				eg:interface iTemplate{
+					public function setVariable($name,$var);
+					public function getHtml($template);
+				}
+				class Template implements iTemplate{
+					private $vars = [];
+					public function setVariable($name,$var){
+						$this -> $vars[$name] = $var;
+					}
+					public function getHtml($template){
+						foreach ($this -> vars as $name => $value) {
+							$template = str_replace('{'.$name.'}',$value,$template,$count);
+						}
+						return $template;
+					}
+				}
+	11. Traits:是一种为类似 PHP 的单继承语言而准备的代码复用机制,应用类的成员不需要继承,
+		1. trait不能通过它自身来实例化
+		2. 从基类继承的成员被 trait 插入的成员所覆盖.优先顺序是来自当前类的成员覆盖了 trait 的方法,而 trait 则覆盖了被继承的方法
+		  eg:class Base{
+		  	public function sayHello(){
+		  		echo "Hello";
+		  	}
+		  }
+		  trait sayWorld{
+		  	public function sayHello(){
+		  		parent::sayHello();
+		  		echo "World!";
+		  	}
+		  }
+		  class　MyHelloWorld extends Base{
+		  	use sayWorld;
+		  }
+		  $o = new MyHelloWorld();
+		  $o -> sayHello();
+		3. 冲突的解决:
+			1. 使用 insteadof 操作符来明确指定使用冲突方法中的哪一个,允许排除掉其它方法.
+			2. as 操作符可以将其中一个冲突的方法以另一个名称来引入.
+				eg:trait A {
+			    public function smallTalk() {echo 'a';}
+			    public function bigTalk() {echo 'A';}
+				}
+				trait B {
+			    public function smallTalk() {echo 'b';}
+			    public function bigTalk() {echo 'B';}
+				}
+				class Talker {
+			    use A, B {
+			      B::smallTalk insteadof A;
+			      A::bigTalk insteadof B;
+			    }
+				}
+				class Aliased_Talker {
+			    use A, B {
+			      B::smallTalk insteadof A;
+			      A::bigTalk insteadof B;
+			      B::bigTalk as talk;
+			    }
+				}
+			3. 使用as调整方法的访问控制.
+				eg:trait HelloWorld {
+			    public function sayHello() {echo 'Hello World!';}
+				}
+				// 修改 sayHello 的访问控制
+				class MyClass1 {
+			    use HelloWorld { sayHello as protected;}
+				}
+				// 给方法一个改变了访问控制的别名
+				// 原版 sayHello 的访问控制则没有发生变化
+				class MyClass2 {
+				  use HelloWorld { sayHello as private myPrivateHello;}
+				}
+			4. trait 来组成 trait
+				eg:trait Hello {
+				  public function sayHello() {echo 'Hello ';}
+				}
+				trait World {
+				  public function sayWorld() {echo 'World!';}
+				}
+				trait HelloWorld {use Hello, World;}
+				class MyHelloWorld{use HelloWorld;}
+				$o = new MyHelloWorld();
+				$o->sayHello();
+				$o->sayWorld();	
+			5. trait 的抽象成员	
+				trait Hello {
+			    public function sayHelloWorld() {
+			      echo 'Hello'.$this->getWorld();
+			    }
+			    abstract public function getWorld();
+				}
+				class MyHelloWorld {
+			    private $world;
+			    use Hello;
+			    public function getWorld() {
+			      return $this->world;
+			    }
+			    public function setWorld($val) {
+			      $this->world = $val;
+			    }
+				}
+			6. trait 的静态成员
+				trait StaticExample {
+				  public static function doSomething() {
+				    return 'Doing something';
+				  }
+				  public function ionic(){
+				  	static $i = 0;
+				  	$c += 1;
+				  	echo $c;
+				  }
+				}
+				class Example {
+				  use StaticExample;
+				}
+				Example::doSomething();
+			7. trait 定义属性
+				trait PropertiesTrait {
+    			public $x = 1;
+				}
+				class PropertiesExample {
+	    		use PropertiesTrait;
+				}
+				$example = new PropertiesExample;
+				$example->x;
+	12. spl_autoload_register();
