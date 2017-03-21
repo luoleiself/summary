@@ -360,6 +360,63 @@ A is equal to 5
 		1. 属性重载只能在对象中进行.在静态方法中,这些魔术方法将不会被调用.
 		2. 在对象中调用一个不可访问方法时,__call()会被调用.
 			 用静态方式调用一个不可访问方法时,__callStatic()会被调用.
+	14. final:属性不能被final修饰,如果父类中的方法被声明为 final,则子类无法覆盖该方法.如果一个类被声明为 final,则不能被继承.
+  15. 对象克隆、对象比较: clone() ==
+  16. 类型约束: 不能用于标量类型,int,string,boolean,float.traits也不行
+  17. 转发调用(forwarding call)指的是通过以下几种方式进行的静态调用：self::,parent::,static:: 以及 forward_static_call();
+  18. 序列化对象: 
+11. 命名空间:是一种封装事物的方法,用来解决在编写类库或应用程序时创建可重用的代码如类或函数时碰到的两类问题:
+	1. 用户编写的代码与PHP内部的类/函数/常量或第三方类/函数/常量之间的名字冲突
+	2. 为很长的标识符名称(通常是为了缓解第一类问题而定义的)创建一个别名(或简短)的名称，提高源代码的可读性
+	3. 如果一个文件中包含命名空间,则必须在其他代码之前声明.
+	4. 所有非PHP代码包括空白字符都不能出现在命名空间之前;
+	5. 一个文件中定义多个命名空间时,使用大括号语法区分,
+		eg:namespace MyProject\Sub\Level{// 分层次的子命名空间
+			class MyClass{/*....*/}
+			function myFunction(){/*....*/}
+			const MY_CONST = "My_Constant";
+		} 
+		eg: '<html>
+				<?php 
+					namespace MyProject; // 声明错误,
+				?>'
+	6. 命名空间的限定方式:
+		1. 非限定名称:不包含任何前缀的类名称,被解析为currentNamespace\Foo();
+		2. 限定名称:包含前缀的类名称,被解析为currentNamespace\subNamespace\Foo();
+		3. 完全限定名称:包含了全局前缀操作符的名称:被解析为(literal name)currentnamespace\foo();
+			eg:namespace Foo\Bar\subnamespace{// file1.php
+				const FOO = 1;
+				function foo() {}
+				class foo{
+				  static function staticmethod() {}
+				}
+			}
+			namespace Foo\Bar{// file2.php
+				include 'file1.php';
+				const FOO = 2;
+				function foo() {}
+				class foo
+				{
+				  static function staticmethod() {}
+				}
+			}
+			/*非限定名称*/
+			foo(); // 解析为 Foo\Bar\foo resolves to function Foo\Bar\foo
+			foo::staticmethod(); // 解析为类 Foo\Bar\foo的静态方法staticmethod。resolves to class Foo\Bar\foo, method staticmethod
+			echo FOO; // resolves to constant Foo\Bar\FOO
+			/* 限定名称 */
+			subnamespace\foo(); // 解析为函数 Foo\Bar\subnamespace\foo
+			subnamespace\foo::staticmethod(); // 解析为类 Foo\Bar\subnamespace\foo,
+			                                  // 以及类的方法 staticmethod
+			echo subnamespace\FOO; // 解析为常量 Foo\Bar\subnamespace\FOO
+			/* 完全限定名称 */
+			\Foo\Bar\foo(); // 解析为函数 Foo\Bar\foo
+			\Foo\Bar\foo::staticmethod(); // 解析为类 Foo\Bar\foo, 以及类的方法 staticmethod
+			echo \Foo\Bar\FOO; // 解析为常量 Foo\Bar\FOO
+
+
+
+
 
 
 
