@@ -32,6 +32,7 @@ http://webpack.github.io/docs/
       // the target directory for all output files
       // must be an absolute path (use the Node.js path module)
     3、publicPath: 指定了一个在浏览器中被引用的URL地址, 网站运行时的访问路径
+        pulbicPath:"http://localhost:8080/..."
       string|""|url// the url to the output directory resolved relative to the HTML page
     4、library:编译后将bundle打包成lib
       string// the name of the exported library
