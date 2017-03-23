@@ -416,7 +416,21 @@ A is equal to 5
 			\Foo\Bar\foo(); // 解析为函数 Foo\Bar\foo
 			\Foo\Bar\foo::staticmethod(); // 解析为类 Foo\Bar\foo, 以及类的方法 staticmethod
 			echo \Foo\Bar\FOO; // 解析为常量 Foo\Bar\FOO
-
+12. 超全局变量:
+	1. $GLOBALS:包含了全部变量的全局组合数组,变量的名字就是数组的键
+	2. $_SERVER:包含了诸如头信息(header)、路径(path)、以及脚本位置(script locations)等等信息的数组
+	3. $_GET:通过 URL 参数传递给当前脚本的变量的数组
+	4. $_POST:通过 HTTP POST 方法传递给当前脚本的变量的数组
+	5. $_FILES:通过 HTTP POST 方式上传到当前脚本的项目的数组
+	6. $_REQUEST:默认情况下包含了 $_GET、$_POST 和 $_COOKIE 的数组
+	7. $_SESSION:当前脚本可用 SESSION 变量的数组
+	8. $_ENV:通过环境方式传递给当前脚本的变量的数组
+	9. $_COOKIE:通过 HTTP Cookies 方式传递给当前脚本的变量的数组
+	10. $php_errormsg:变量包含由 PHP 生成的最新错误信息
+	11. $HTTP_RAW_POST_DATA:包含 POST 提交的原始数据
+	12. $http_response_header:HTTP 响应头
+	13. $argc:传递给脚本的参数数目
+	14. $argv:传递给脚本的参数数组
 
 
 
