@@ -227,6 +227,7 @@ gulp.task("default",function(){
       .pipe(webpack())
       .pipe(gulp.dest("dist/"));
 })
+
 //seconds uses mode
 var gulp = require("gulp");
 var webpack = require("webpack");
@@ -242,6 +243,7 @@ gulp.task("default",function(){
       }))
       .pipe(gulp.dest("dist/"))
 })
+
 //third uses mode
 var gulp = require("gulp");
 var webpack = require("webpack");
@@ -250,6 +252,7 @@ gulp.task("default",function(){
       .pipe(webpack(require("./webpack.config.js")))
       .pipe(gulp.dest("dist/"))
 })
+
 //fourth uses mode
 var gulp = require("gulp");
 var webpack = require("webpack");
@@ -259,6 +262,7 @@ gulp.task("default",function(){
       .pipe(gulpWebpack({},webpack))
       .pipe(gulp.dest("dist/"))
 })
+
 //fifth uses mode
 var gulp = require("gulp");
 var webpack = require("gulp-webpack");
@@ -270,6 +274,7 @@ gulp.task("default",function(){
         /*use stats to do more things if needed*/
       }))
 })
+
 //multiple entry Point
 var gulp = require('gulp');
 var webpack = require('gulp-webpack');
