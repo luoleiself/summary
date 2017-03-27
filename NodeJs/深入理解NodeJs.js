@@ -16,9 +16,14 @@ NodeJs-module:
 		builtin node_buffer.cc 中提供的功能来实现大容量内存申请和管理，目的是能够脱离 V8 内存大小使用限制。
 	4.3rd-party module: 以上模块可以统称 Node 内建模块，除此之外为第三方模块，典型的如 express 模块。
 模块加载:
-Global-Object:process,global,console,
-Global-Fun:setInterval(),setTimeout(),clearInterval(),clearTimeout(),require(),Buffer()
-Global-Variable:__filename,__dirname
+	Global-Object:process,global,console,
+	Global-Fun:setInterval(),setTimeout(),clearInterval(),clearTimeout(),require(),Buffer()
+	Global-Variable:__filename,__dirname
+CommonJs规范:
+	CommonJS规范加载模块是同步的,也就是说，只有加载完成，才能执行后面的操作。
+	AMD规范则是非同步加载模块,允许指定回调函数。
+	由于Node.js主要用于服务器编程,模块文件一般都已经存在于本地硬盘,所以加载起来比较快,不用考虑非同步加载的方式,所以CommonJS规范比较适用。
+	但是,如果是浏览器环境,要从服务器端加载模块,这时就必须采用非同步模式,因此浏览器端一般采用AMD规范
 	
 
 
