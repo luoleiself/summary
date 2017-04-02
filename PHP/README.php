@@ -143,9 +143,23 @@ A is equal to 5
 		4. static:声明类属性和方法为静态,可以不实例化类而直接访问,
 			1. 静态属性不能通过一个类已实例化的对象来访问(静态方法可以)
 			2. 静态属性不能通过对象操作符访问:->
+				eg:className::方法名/属性名
 			3. 静态属性只能被初始化为文件或者常量,不能使用表达式,不能为一个变量或函数的返回值,不能指向一个对象
 			4. 静态方法不需要实例化类就可以调用,伪变量$this在静态方法中不可用.
 			5. 用静态方式调用一个非静态方法会导致E_STRICT级别的错误
+			6. 静态方法中,$this伪变量不允许使用.可以使用self，parent，static在内部调用静态方法与属性。
+				eg:class Car {
+			    private static $speed = 10;
+			    public static function getSpeed() {return self::$speed;}
+			    public static function speedUp() {return self::$speed+=10;}
+				}
+				class BigCar extends Car {
+			    public static function start() {
+			        parent::speedUp();
+			    }
+				}
+				BigCar::start();
+				echo BigCar::getSpeed();
 	2. 属性:类的变量成员,由public,protected,private关键字开头,然后跟一个普通的变量声明来组成,属性变量可以初始化,但必须是常数,
 	3. 伪变量:$this:是一个到主叫对象的引用(通常是该方法所从属的对象,但如果是从第二个对象静态调用时也可能是另一个对象).
 	4. 类常量:类中定义始终保持不变的值,在定义和使用时不需要使用$符号;
