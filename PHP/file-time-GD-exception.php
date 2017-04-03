@@ -39,7 +39,14 @@
     9. $im = imagecreatefromjpeg(filename); // 从图片文件创建图像
     10. $logo = imagecreatefrompng(filename); 
     11. imagecopy($im,$logo,15,15,0,0,$width,$height);
-
+  4. exception
+    1. message: 异常消息内容
+    2. code: 异常代码
+    3. file: 抛出异常的文件名
+    4. line: 抛出异常在该文件的行数
+    5. getTrace: 获取异常追踪消息
+    6. getTraceAsString: 获取异常追踪信息的字符串
+    7. getMessage: 获取出错信息
 
 
  ?>
