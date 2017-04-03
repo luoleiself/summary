@@ -28,6 +28,20 @@ eot
 				$str = "foo";
 				echo $str{2};
 				echo $str[2];
+			7. strlen($str); // 获取字符串的长度
+			8. mb_strlen($str,encoding); // 获取字符串中中文长度,中文编码格式
+			9. substr($str,startInd,length); // 字符串截取函数
+			10. mb_substr(str, start,length, encoding); // 中文字符串的截取
+			11. strpos($str,$searchStr,startInd,); // 字符串查找函数
+			12. str_replace(要查找的字符串, 要替换的字符串, 被搜索的字符串, 替换进行计数[可选]); // 字符串替换函数
+			13. sprintf(格式,要转化的字符串); //　字符串格式化
+				eg:echo sprintf("%07.3f","100.1"); // 100.100;
+			14. implode(分隔符[可选], 数组); // 字符串合并函数
+				eg:implode(" ", ["hello","world"]); // "hello world"
+			15. explode(分隔符[可选], 字符串); // 字符串分割函数
+				eg:explode(",", "apple,banana"); // ["apple","banana"]
+			16. addslashes($str); // 字符串转义函数;
+				eg:echo addslashes("what's your name"); // waht\'s your name;
 	2.复合类型:
 		1.array:一个有序映射,PHP不区分索引数组和关联数组
 			1.定义:key:只能为integer/string,其他类型被强制类型转换,float舍去小数部分,boolean转换1/0,不合法的十进制数不会被转换,重复key名前面会被覆盖,
@@ -515,9 +529,32 @@ A is equal to 5
 	12. $http_response_header:HTTP 响应头
 	13. $argc:传递给脚本的参数数目
 	14. $argv:传递给脚本的参数数组
-
-
-
+13. 正则表达式:
+	1. 语法
+		1.\ 一般用于转义字符
+			^ 断言目标的开始位置(或在多行模式下是行首)
+			$ 断言目标的结束位置(或在多行模式下是行尾)
+			. 匹配除换行符外的任何字符(默认)
+			[ 开始字符类定义
+			] 结束字符类定义
+			| 开始一个可选分支
+			( 子组的开始标记
+			) 子组的结束标记
+			? 作为量词，表示 0 次或 1 次匹配。位于量词后面用于改变量词的贪婪特性。 (查阅量词)
+			* 量词，0 次或多次匹配
+			+ 量词，1 次或多次匹配
+			{ 自定义量词开始标记
+			} 自定义量词结束标记
+	2. 函数
+		1. reg:preg_match($reg,$str,$matches); // 判断一类字符模式是否存在,return boolean;
+		2. preg_match_all($reg,$str,$matches);  // 匹配返回所有的结果
+		3. preg_replace($pattern, $replacement, $string); // 字符串替换
+14. Cookies:
+	1. setcookie(name,value,expire,path,domain);
+15. $_SESSION:
+	1. session_start(oid); // 开启session
+	2. session_destroy(); // 销毁当前session
+	
 
 
 
