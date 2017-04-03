@@ -161,6 +161,20 @@ A is equal to 5
 				BigCar::start();
 				echo BigCar::getSpeed();
 	2. 属性:类的变量成员,由public,protected,private关键字开头,然后跟一个普通的变量声明来组成,属性变量可以初始化,但必须是常数,
+		eg:class Car{
+			private function __construct(){ //将构造函数定义为私有
+				echo "object create";
+			}
+			private static $_object = null;
+			public static function getInstance(){// 内部方法可以调用私有方法,通过内部方法创建对象
+				if(empty(self::$_object)){
+					self::$_object = new Car();
+				}
+				return self::$_object;
+			}
+		}
+		// $car = new Car(); // 这里不允许直接实例化对象
+		$car = Car::getInstance(); //通过静态方法来获得一个实例
 	3. 伪变量:$this:是一个到主叫对象的引用(通常是该方法所从属的对象,但如果是从第二个对象静态调用时也可能是另一个对象).
 	4. 类常量:类中定义始终保持不变的值,在定义和使用时不需要使用$符号;
 	5. ->:对象运算符,$this -> property;访问非静态属性;
@@ -375,13 +389,69 @@ A is equal to 5
 	12. spl_autoload_register():自动加载,
 	13. 重载:动态的创建类的属性和方法,所有的重载方法都必须声明为public,(传统的重载:提供多个同名的类方法,但各方法的参数类型和个数不同)
 		1. 属性重载只能在对象中进行.在静态方法中,这些魔术方法将不会被调用.
-		2. 在对象中调用一个不可访问方法时,__call()会被调用.
+		2. 属性重载使用__set,__get,__isset,__unset这些魔术方法动态创建.
+		3. 在对象中调用一个不可访问方法时,__call()会被调用.
 			 用静态方式调用一个不可访问方法时,__callStatic()会被调用.
+		eg1:class Car{
+			private $ary = array();
+			public function __set($key,$val){
+				$this -> ary[$key] = $val;
+			}
+			public function __get($key){
+				if(isset($this -> ary[$key])){
+					return $this -> ary[$key]
+				}
+				return null;
+			}
+			public function __isset($key){
+				if (isset($this -> ary[$key])) {
+					return true;
+				}
+				return false;
+			}
+			public function __unset($key){
+				unset($this -> ary[$key]);
+			}
+		}
+		$car = new Car();
+		$car -> name = "汽车";
+		echo $car -> name;
+		eg2:class Car{
+			public $speed = 10;
+			public function __call($name,$args){
+				if($name == "speedUp"){
+					$this -> speed += 10;
+				}
+			}
+		}
+		$car = new Car();
+		$car -> speedUp(); // 调用不存在的方法会使用重载
+		echo $car -> speed;
 	14. final:属性不能被final修饰,如果父类中的方法被声明为 final,则子类无法覆盖该方法.如果一个类被声明为 final,则不能被继承.
-  15. 对象克隆、对象比较: clone() ==
+  15. 对象克隆、对象比较: clone(), ==,判断两个对象是否是同一个类的实例, ===,判断两个对象的引用变量是否一样
+  	eg:class Car{
+  		public $name = "car";
+  		public function __clone(){
+  			$obj = new Car();
+  			$obj -> name = $this -> name;
+  		}
+  	}
+  	$a = new Car();
+  	$a -> name = "new Car";
+  	$b = clone $a;
+  	var_dump($b);
+  	echo $a == $b;
   16. 类型约束: 不能用于标量类型,int,string,boolean,float.traits也不行
   17. 转发调用(forwarding call)指的是通过以下几种方式进行的静态调用：self::,parent::,static:: 以及 forward_static_call();
-  18. 序列化对象: 
+  18. 序列化对象: serialize($obj);unserialize($str);
+  eg:class Car{
+  	public $name = "car";
+  }
+  $a = new Car();
+  $str = serialize($a); // 对象序列化成字符串
+  echo $str."<br>";  // {s:4:"name";s:3:"car";}
+  $o = unserialize($str); // 反序列化为对象
+  var_dump($o); // object(Car)#2 (1) {["name"]=>string(3) "car"}
 11. 命名空间:是一种封装事物的方法,用来解决在编写类库或应用程序时创建可重用的代码如类或函数时碰到的两类问题:
 	1. 用户编写的代码与PHP内部的类/函数/常量或第三方类/函数/常量之间的名字冲突
 	2. 为很长的标识符名称(通常是为了缓解第一类问题而定义的)创建一个别名(或简短)的名称，提高源代码的可读性
