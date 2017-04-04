@@ -21,6 +21,11 @@ module.exports = {
     filename:"js/[name]-[chunkhash].js",
     publicPath:"http://cdn.com/"
   },
+  module:{
+    loaders:[
+      {test:/\.js$/,loader:"babel",query:{presets:["latest"]}},
+    ]
+  },
   plugins:[
     // new htmlWebpackPlugin({
     //   template:"index.html",
