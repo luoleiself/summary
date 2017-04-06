@@ -554,7 +554,8 @@ A is equal to 5
 15. $_SESSION:
 	1. session_start(oid); // 开启session
 	2. session_destroy(); // 销毁当前session
-	
+16. File:
+	1. 文件名不能包含\/:?*"<>|	
 
 
 
