@@ -94,7 +94,7 @@
     /* do something */
     return {}
   })
-5.require.js插件
+5.requireJs插件:
   define(["text!review.txt","image!cat.jpg"],function(review,cat){
     console.log(review);
   })
