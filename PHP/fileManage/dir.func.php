@@ -1,4 +1,11 @@
-<?php 
+<?php
+/**
+ * [readDirectory 读取文件路径名]
+ * @param  [type]                   $path [description]
+ * @return [type]                         [description]
+ * @author luolei
+ * @date   2017-04-08T16:35:44+0800
+ */
   function readDirectory($path){
     $handle = opendir($path); // 打开指定目录
     while(($item = readdir($handle)) !== false){
