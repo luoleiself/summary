@@ -105,4 +105,104 @@
     header("Content-Disposition:attachment;filename=".$filename);
     header("Content-Length:".filesize($filename));
     readfile($filename);
+  }
+  /**
+   * [copyFile 拷贝目录]
+   * @param  [type]                   $filename [description]
+   * @param  [type]                   $dstname  [description]
+   * @return [type]                             [description]
+   * @author luolei
+   * @date   2017-04-09T11:32:38+0800
+   */
+  function copyFile($filename,$dstname){
+    if(file_exists($dstname)){
+      if(!file_exists($dstname."/".basename($filename)){
+        if(copy($filename,$dstname."/".basename($filename))){
+          $mes = "文件复制成功";
+        }else{
+          $mes = "文件复制失败";
+        }
+      }else{
+        $mes = "存在同名文件";
+      }
+    }else{
+      $mes = "目标路径不存在";
+    }
+    return $mes;
+  }
+  /**
+   * [cutFile 剪切文件]
+   * @param  [type]                   $filename [description]
+   * @param  [type]                   $dstname  [description]
+   * @return [type]                             [description]
+   * @author luolei
+   * @date   2017-04-09T11:36:45+0800
+   */
+  function cutFile($filename,$dstname){
+    if(file_exists($dstname)){
+      if(!file_exists($dstname."/".basename($filename)){
+        if(rename($filename,$dstname."/".basename($filename))){
+          $mes = "文件复制成功";
+        }else{
+          $mes = "文件复制失败";
+        }
+      }else{
+        $mes = "存在同名文件";
+      }
+    }else{
+      $mes = "目标路径不存在";
+    }
+    return $mes;
+  }
+  /**
+   * [uploadFile 上传文件]
+   * @param  [type]                   $fileInfo [description]
+   * @param  [type]                   $path     [description]
+   * @param  array                    $allowExt [description]
+   * @param  integer                  $maxSize  [description]
+   * @return [type]                             [description]
+   * @author luolei
+   * @date   2017-04-09T12:00:47+0800
+   * pathinfo(string $path [, int $options = PATHINFO_DIRNAME | PATHINFO_BASENAME | PATHINFO_EXTENSION | PATHINFO_FILENAME ]) 
+   *   :返回一个关联数组包含有 path 的信息。返回关联数组还是字符串取决于 options
+   *  is_upload_file($string) :判断文件是否是通过 HTTP POST 上传的
+   *  move_upload_file(string $filename , string $destination) :将上传的文件移动到新位置
+   */
+  function uploadFile($fileInfo,$path,$allowExt = array("gif","jpeg","jpg","png"),$maxSize = 10485760){
+    if($fileInfo["error"] == UPLOAD_ERR_OK){
+      if(is_uploaded_file($fileInfo["temp_name"])){
+        $ext = getExt($fileInfo["name"]);
+        $uniquid = getUniqidName();
+        $destination = $path.pathinfo($fileInfo["name"],PATHINFO_FILENAME)."_".$uniqid.".".$ext;
+        if(in_array($ext,$allowExt)){
+          if($fileInfo["size"] <= $maxSize){
+            if(move_uploaded_file($fileInfo["temp_name"],$destination)){
+              $mes = "文件上传次成功";
+            }else{
+              $mes = "文件移动失败";
+            }
+          }else{
+            $mes = "文件过大";
+          }
+        }else{
+          $mes = "非法文件";
+        }
+      }else{
+        $mes = "文件不是通过HTTP POST方式上传上来的";
+      }
+    }else{
+      switch ($fileINf["error"]) {
+        case 1:
+          $mes = "超过了配置文件的大小";
+          break;
+        case 2:
+          $mes = "超过了表单允许接收数据的大小";
+          break;
+          case 3:
+          $mes = "文件部分被上传";
+          break;
+      }
+    }
+    return $mes;
+  }
   ?>
