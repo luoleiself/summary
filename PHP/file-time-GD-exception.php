@@ -11,6 +11,7 @@
        fileatime($filePath); // 获取文件的访问时间
        filesize($filePath); // 获取文件的大小
     7. file_put_contents($filename, data); //将一个字符串写入文件中
+    8. dirname($path);  // 返回上一级目录
   2. time:
     1. time(); // 获取服务器当前时间,返回值为当前距离1970年1月1日的0时0分的毫秒数
     2. date_default_timezone_set('Asia/Shanghai'); // 设置时区
