@@ -18,4 +18,18 @@
       3. $password = "dbpass";
       4. $dbh = new PDO($dsn,$user,$password);  
   2. mysql_fetch_array($result) == mysql_fetch_row($result,MYSQL_NUM) == mysql_fetch_assoc($result,MYSQL_ASSOC);
+  3. 4个fetch函数的区别:
+    1. mysql_fetch_row($query); 
+      // 每执行一次,依次获取查询到的资源的每一条数据,当前一条数据已经取到最后一条数据时,返回一个null
+      // 取一条数据产生一个索引数组
+    2. mysql_fetch_array($query);
+      // 默认状态下取一条数据产生一个索引数组和一个关联数组
+      // 第二个参数:
+      //  MYSQL_ASSOC - 关联数组
+      //  MYSQL_NUM - 索引数组
+      //  MYSQL_BOTH - 默认
+    3. mysql_fetch_assoc($query); 和 mysql_fetch_array($query,MYSQL_ASSOC) // 效果一致
+      // 获取一条数据产生一个关联数组
+    4. mysql_fetch_object($query);
+      // 获取一条数据产生一个对象
  ?>
