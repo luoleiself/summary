@@ -113,3 +113,15 @@ mysql_fetch_array();
 mysql_connect();
 mysql_close();
 mysql_select_db( db_name, connection ); #PHP语法选择数据库;
+mysql登录数据库:参数
+	-D,--database=name 打开指定数据库
+	--delimiter=name 指定分隔符
+	-E,--vertical 垂直显示结果
+	-h,--host=name 服务器名称
+	-H,--html 提供HTML输出
+	-X,--xml 提供XML输出
+	-p,--password[=name]密码
+	-P,--port=# 端口号
+	--prompt=name 设置提示符
+	-u,--user=name 用户名
+	-V，--version 输出版本信息并退出
