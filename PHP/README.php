@@ -54,6 +54,17 @@ eot
 				7. $arr = ["a","b","c","d"]; // unset($arr[2]); // This removes the element from the array
 				8. $arr = [1 => "a",2 => "b",3 => "c"]; // unset($arr[2]); $arr(1 => "a",2 => "c")  array_values($arr); //重建数组索引 $arr(0 => "a",1 => "c");
 				9. $arr1 = &$arr; // 引用赋值
+				10. array_change_key_case(array,[case]); // 将数组的所有的 KEY 都转换为大写或小写,case => CASE_LOWER(default),CASE_UPPER
+					 eg:$a=array("a"=>"Cat","b"=>"Dog","c"=>"Horse");  
+    					print_r(array_change_key_case($a,CASE_UPPER));
+    		11. array_chunk(array,size,[preserve_key]); // 把一个数组分成新的数组块
+    			// array:必需
+    			// size:必需，规定每个新数组包括多少元素
+    			// preserve_key:可选，true(保留键名），false(新索引）
+    			eg:$a1=array("a"=>"Cat","b"=>"Dog","c"=>"Horse","d"=>"Cow");  
+    				print_r(array_chunk($a1,2));  
+    				$a2=array("a"=>"Cat","b"=>"Dog","c"=>"Horse","d"=>"Cow");  
+    				print_r(array_chunk($a2,2,true));
 			2. function:
 				1. unset($arr[2]);// 删除数组中指定的元素
 				2. $arr1 = array_values($arr); // 重置数组的索引
