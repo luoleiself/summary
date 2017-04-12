@@ -42,6 +42,9 @@ eot
 				eg:explode(",", "apple,banana"); // ["apple","banana"]
 			16. addslashes($str); // 字符串转义函数;
 				eg:echo addslashes("what's your name"); // waht\'s your name;
+			17. ucfirst($string); // 首字母大写
+			18. ucwords($string); // 将每个单词的首字母转换为大写字母
+			19. int strpos(string haystack, mixed needle[, int offset]); // 返回一个字符在另一个字符第一次出现的位置
 	2.复合类型:
 		1.array:一个有序映射,PHP不区分索引数组和关联数组
 			1.定义:key:只能为integer/string,其他类型被强制类型转换,float舍去小数部分,boolean转换1/0,不合法的十进制数不会被转换,重复key名前面会被覆盖,
@@ -55,12 +58,13 @@ eot
 				8. $arr = [1 => "a",2 => "b",3 => "c"]; // unset($arr[2]); $arr(1 => "a",2 => "c")  array_values($arr); //重建数组索引 $arr(0 => "a",1 => "c");
 				9. $arr1 = &$arr; // 引用赋值
 				10. array_change_key_case(array,[case]); // 将数组的所有的 KEY 都转换为大写或小写,case => CASE_LOWER(default),CASE_UPPER
+					// case:可选，CASE_LOWER(默认值，小写字母返回数组的键），CASE_UPPER(大写字母返回数组的键)
 					 eg:$a=array("a"=>"Cat","b"=>"Dog","c"=>"Horse");  
     					print_r(array_change_key_case($a,CASE_UPPER));
     		11. array_chunk(array,size,[preserve_key]); // 把一个数组分成新的数组块
     			// array:必需
-    			// size:必需，规定每个新数组包括多少元素
-    			// preserve_key:可选，true(保留键名），false(新索引）
+    			// size:必需,规定每个新数组包括多少元素
+    			// preserve_key:可选,true(保留键名）,false(新索引）
     			eg:$a1=array("a"=>"Cat","b"=>"Dog","c"=>"Horse","d"=>"Cow");  
     				print_r(array_chunk($a1,2));  
     				$a2=array("a"=>"Cat","b"=>"Dog","c"=>"Horse","d"=>"Cow");  
