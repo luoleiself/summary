@@ -1,4 +1,4 @@
-var app = require("express")();
+/*var app = require("express")();
 var http = require("http");
 app.get("/index.html/:id?/:name?", function(req, res) {
   // res.writeHeader("200",{"content-type":"text/html"});
@@ -14,4 +14,17 @@ app.get("/index.html/:id?/:name?", function(req, res) {
   res.send(str);
 }).listen("9000", "localhost");
 // http.createServer(app).listen("9000");
-//
+//*/
+var app = require("express")();
+var http = require("http");
+app.get("/index.html/:id(\\d+)", function(req, res, next) {
+  if (req.params.id > 10) {
+    next();
+  } else {
+    res.send("id参数值必须大于10");
+  }
+});
+app.get("/index.html/:id(\\d+)", function(req, res) {
+  res.send("Hello World");
+});
+app.listen("9000", "localhost");

@@ -93,6 +93,15 @@
  					D:\mongodb\bin>mongostat
  				18、mongotop;MongoDB的内置工具,该工具提供一个方法来跟踪MongoDB的实例,统计时间消费,默认时间为1秒
  					D:\mongodb\bin>mongotop 10 //每10秒统计一次
+ 				19. mongod --bind_ip yourIPadress --logpath "d:\mongodb\data\log\mongodb.log" --logappend --dbpath "d:\mongodb\data\db" --port yourPortNumber --serviceName "YourServiceName" --serviceDisplayName "YourServiceName" --install
+ 						--bind_ip:绑定服务IP,若绑定127.0.0.1,则只能本机访问,不指定默认本地所有IP
+ 						--logpath:指定MongoDB日志文件,注意是指定文件不是目录
+ 						--logappnd:使用追加的方式写日志
+ 						--dbpath:指定数据库路径
+ 						--port:指定服务端口号,默认端口27017
+ 						--serviceName:指定服务名称
+ 						--serviceDisplayName:指定服务名称,有多个mongodb服务时执行
+ 						--install:指定作为一个Windows服务安装
  			2、集合的操作
 				1、Insert:插入
 					0、db.COLLECTION_NAME.insert(document);向集合中插入文档,返回一个 Object,如果该集合不存在,则自动创建该集合并插入文档
