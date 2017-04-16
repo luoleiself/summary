@@ -174,9 +174,9 @@ A is equal to 5
 			2. 静态属性不能通过对象操作符访问:->
 				eg:className::方法名/属性名
 			3. 静态属性只能被初始化为文件或者常量,不能使用表达式,不能为一个变量或函数的返回值,不能指向一个对象
-			4. 静态方法不需要实例化类就可以调用,伪变量$this在静态方法中不可用.
+			4. 静态方法不需要实例化类就可以调用,伪变量$this在静态方法中不可用,
 			5. 用静态方式调用一个非静态方法会导致E_STRICT级别的错误
-			6. 静态方法中,$this伪变量不允许使用.可以使用self，parent，static在内部调用静态方法与属性。
+			6. 静态方法中,$this伪变量不允许使用,可以使用self，parent，static在内部调用静态方法与属性。
 				eg:class Car {
 			    private static $speed = 10;
 			    public static function getSpeed() {return self::$speed;}
