@@ -38,7 +38,45 @@
     2. 唯一约束:UNIQUE KEY
     3. 默认约束:DEFAULT
     4. 非空约束:NOT NULL
-
+2017年05月06日
+  1.设置默认存储引擎: default-storage-engine=INNODB
+  2.查看创建表的引擎: SHOW CREATE TABLE tableName;
+  3.显示索引: SHOW INDEXS FROM provinces;
+  4.添加外键约束: 
+    CREATE TABLE provinces(
+      id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+      pname VARCHAR(20) NOT NULL
+    );
+    CREATE TABLE users(
+      id SMALLINT UNSIENED PRIMARY KEY AUTO_INCREMENT,
+      username VARCHAR(10) NOT NULL,
+      pid SMALLINT UNSIGNED,
+      FOREIGN KEY (pid) REFERENCES provinces (id) ON DELETE CASCADE
+    );
+  5.外键约束的参照(物理约束):
+    CASCADE: 从父表删除或更新且自动删除或更新子表中匹配的行
+    SET NULL: 从设置父表删除或更新行,并设置子表中的外键列为NULL,如果使用该选项,必须保证子表列约束不为NOT NULL
+    RESTRICT: 拒绝对父表的删除或更新操作
+    NO ACTION: 标准SQL的关键字,在MYSQL中与RESTRICT相同
+  6.表级约束与列级约束:
+    对一个数据列建立的约束,列级约束
+    对多个数据列建立的约束,表级约束
+    表级约束只能在列定义后声明;
+  7.修改数据表:
+    添加单列: ALTER TABLE tbl_name ADD column_name column_definition [FIRST | AFTER column_name ];
+    添加多列: ALTER TABLE tbl_name ADD (column_name column_definition,...);
+    删除列:   ALTER TABLE tbl_name DROP column_name1,DROP column_name2,...;
+    添加主键/唯一/默认/外键/约束: ALTER TABLE tbl_name ADD PRIMAREY KEY (column_name);
+    添加/删除默认约束: ALTER TABLE tbl_name ALTER column_name {SET DEFAULT literal | DROP DEFAULT};
+    删除主键约束: ALTER TABLE tbl_name DROP PRIMARY KEY;
+    删除唯一约束: ALTER TABLE tbl_name DROP INDEX cloumn_name;
+    删除外键约束: ALTER TABLE tbl_name DROP FORIGN KEY column_name;
+    修改列定义: ALTER TABLE tbl_name MODIFY column_name column_definition [FIRST | AFTER column_name];
+    修改列名称: ALTER TABLE tbl_name CHANGE old_col_name new_col_name column_definition [FIRST | AFTER column_name];
+    修改多个表名: RENAME TABLE tbl_name TO new_tbl_name [,tbl_name2 TO new_tbl_name,...];
+  8.总结:
+    约束: NOT NULL,PRIMARY KEY,UINQUE KEY,DEFAULT,FOREIGN KEY,表级约束,列级约束
+    修改数据表:增加/删除字段、列定义、列名称、列定义、表名(两种方式)
 
 
 
