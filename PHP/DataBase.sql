@@ -88,7 +88,25 @@
       HAVING:分组条件,SELECT sex FROM users GROUP BY sex HAVING count(id) > 5;
       ORDER BY:查询结果排序,[ORDER BY{col_name | position} [ASC | DESC],]
       LIMIT:限制结果数量,SELECT * FROM tbl_name LIMIT 2,2; // 返回3,4两条记录
-
+ 10.子查询: 出现在其他SQL语句内的select子句
+      使用比较运算符的子查询;
+      ANY,SOME,ALL修饰符:
+      IN/NOT IN:
+      EXISTS/NOT EXISTS:
+ 11.多表更新:
+      UPDATE tdb_goods INNER JOIN tdb_goods_cates ON goods_cate = cate_name SET goods_cate = cate_id
+      CREATE TABLE [IF NOT EXISTS] tbl_name  SELECT select_statement
+      别名:UPDATE tdb_goods AS g INNER JOIN tdb_goods_brands AS b ON g.brand_name = b.brand_name SET g.brand_name = b.brand_id 
+ 12.连接: JOIN == CROSS JOIN == INNER JOIN
+      内连接(INNER JOIN): 仅显示符合连接条件的记录
+        SELECT goods_id,goods_name,cate_name FROM tdb_goods INNER JOIN tdb_goods_cates ON tdb_goods.cate_id = tdb_goods_cates.cate_id;
+      左外连接(LEFT [OUTER] JOIN):仅显示左表的全部记录及右表符合连接条件的记录
+        SELECT goods_id,goods_name,cate_name FROM tdb_goods LEFT JOIN tdb_goods_cates ON tdb_goods.cate_id = tdb_goods_cates.cate_id;
+      右外连接(RIGHT [OUTER] JOIN): 仅显示右表的全部记录及左表符合连接条件的记录
+        SELECT goods_id,goods_name,cate_name FROM tdb_goods RIGHT JOIN tdb_goods_cates ON tdb_goods.cate_id = tdb_goods_cates.cate_id;
+      多表连接:
+        SELECT goods_id,goods_name,cate_name,brand_name,goods_price FROM tdb_goods AS g INNER JOIN tdb_goods_cates AS c ON g.cate_id = c.cate_id INNER JOIN tdb_goods_brands AS b On g.brand_id = b.brand_id;
+  
 
 create table 系(系编号 char(4),primary key(系编号),foreign key(学院编号) references 学院(学院编号));
 alter table 系 add 系名称 varchar(255);
