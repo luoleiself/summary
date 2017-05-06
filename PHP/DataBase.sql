@@ -54,40 +54,40 @@
       FOREIGN KEY (pid) REFERENCES provinces (id) ON DELETE CASCADE
     );
   5.外键约束的参照(物理约束):
-    CASCADE: 从父表删除或更新且自动删除或更新子表中匹配的行
-    SET NULL: 从设置父表删除或更新行,并设置子表中的外键列为NULL,如果使用该选项,必须保证子表列约束不为NOT NULL
-    RESTRICT: 拒绝对父表的删除或更新操作
-    NO ACTION: 标准SQL的关键字,在MYSQL中与RESTRICT相同
+      CASCADE: 从父表删除或更新且自动删除或更新子表中匹配的行
+      SET NULL: 从设置父表删除或更新行,并设置子表中的外键列为NULL,如果使用该选项,必须保证子表列约束不为NOT NULL
+      RESTRICT: 拒绝对父表的删除或更新操作
+      NO ACTION: 标准SQL的关键字,在MYSQL中与RESTRICT相同
   6.表级约束与列级约束:
-    对一个数据列建立的约束,列级约束
-    对多个数据列建立的约束,表级约束
-    表级约束只能在列定义后声明;
+      对一个数据列建立的约束,列级约束
+      对多个数据列建立的约束,表级约束
+      表级约束只能在列定义后声明;
   7.修改数据表:
-    添加单列: ALTER TABLE tbl_name ADD column_name column_definition [FIRST | AFTER column_name ];
-    添加多列: ALTER TABLE tbl_name ADD (column_name column_definition,...);
-    删除列:   ALTER TABLE tbl_name DROP column_name1,DROP column_name2,...;
-    添加主键/唯一/默认/外键/约束: ALTER TABLE tbl_name ADD PRIMAREY KEY (column_name);
-    添加/删除默认约束: ALTER TABLE tbl_name ALTER column_name {SET DEFAULT literal | DROP DEFAULT};
-    删除主键约束: ALTER TABLE tbl_name DROP PRIMARY KEY;
-    删除唯一约束: ALTER TABLE tbl_name DROP INDEX cloumn_name;
-    删除外键约束: ALTER TABLE tbl_name DROP FORIGN KEY column_name;
-    修改列定义: ALTER TABLE tbl_name MODIFY column_name column_definition [FIRST | AFTER column_name];
-    修改列名称: ALTER TABLE tbl_name CHANGE old_col_name new_col_name column_definition [FIRST | AFTER column_name];
-    修改多个表名: RENAME TABLE tbl_name TO new_tbl_name [,tbl_name2 TO new_tbl_name,...];
+      添加单列: ALTER TABLE tbl_name ADD column_name column_definition [FIRST | AFTER column_name ];
+      添加多列: ALTER TABLE tbl_name ADD (column_name column_definition,...);
+      删除列:   ALTER TABLE tbl_name DROP column_name1,DROP column_name2,...;
+      添加主键/唯一/默认/外键/约束: ALTER TABLE tbl_name ADD PRIMAREY KEY (column_name);
+      添加/删除默认约束: ALTER TABLE tbl_name ALTER column_name {SET DEFAULT literal | DROP DEFAULT};
+      删除主键约束: ALTER TABLE tbl_name DROP PRIMARY KEY;
+      删除唯一约束: ALTER TABLE tbl_name DROP INDEX cloumn_name;
+      删除外键约束: ALTER TABLE tbl_name DROP FORIGN KEY column_name;
+      修改列定义: ALTER TABLE tbl_name MODIFY column_name column_definition [FIRST | AFTER column_name];
+      修改列名称: ALTER TABLE tbl_name CHANGE old_col_name new_col_name column_definition [FIRST | AFTER column_name];
+      修改多个表名: RENAME TABLE tbl_name TO new_tbl_name [,tbl_name2 TO new_tbl_name,...];
   8.总结:
-    约束: NOT NULL,PRIMARY KEY,UINQUE KEY,DEFAULT,FOREIGN KEY,表级约束,列级约束
-    修改数据表:增加/删除字段、列定义、列名称、列定义、表名(两种方式)
+      约束: NOT NULL,PRIMARY KEY,UINQUE KEY,DEFAULT,FOREIGN KEY,表级约束,列级约束
+      修改数据表:增加/删除字段、列定义、列名称、列定义、表名(两种方式)
   9.操作记录:
-    插入记录(insert,insert select,insert set): INSERT [INTO] tbl_name [(column_name,...)] VALUES ({expr | DEFAULT});
-    更新记录(单表操作、多表操作): UPDATE tbl_name SET column_name = {expr | DEFAULT},...[WHERE where_condition];
-    删除记录(单表操作、多表操作): DELETE FROM tbl_name [WHERE where_condition];
-    查找记录: 
-      AS:查询字段别名,username AS name
-      WHERE:查询条件
-      GROUP BY:查询结果分组,[GROUP BY{col_name | position} [ASC | DESC],]
-      HAVING:分组条件,SELECT sex FROM users GROUP BY sex HAVING count(id) > 5;
-      ORDER BY:查询结果排序,[ORDER BY{col_name | position} [ASC | DESC],]
-      LIMIT:限制结果数量,SELECT * FROM tbl_name LIMIT 2,2; // 返回3,4两条记录
+      插入记录(insert,insert select,insert set): INSERT [INTO] tbl_name [(column_name,...)] VALUES ({expr | DEFAULT});
+      更新记录(单表操作、多表操作): UPDATE tbl_name SET column_name = {expr | DEFAULT},...[WHERE where_condition];
+      删除记录(单表操作、多表操作): DELETE FROM tbl_name [WHERE where_condition];
+      查找记录: 
+        AS:查询字段别名,username AS name
+        WHERE:查询条件
+        GROUP BY:查询结果分组,[GROUP BY{col_name | position} [ASC | DESC],]
+        HAVING:分组条件,SELECT sex FROM users GROUP BY sex HAVING count(id) > 5;
+        ORDER BY:查询结果排序,[ORDER BY{col_name | position} [ASC | DESC],]
+        LIMIT:限制结果数量,SELECT * FROM tbl_name LIMIT 2,2; // 返回3,4两条记录
  10.子查询: 出现在其他SQL语句内的select子句
       使用比较运算符的子查询;
       ANY,SOME,ALL修饰符:
