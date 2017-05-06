@@ -77,7 +77,17 @@
   8.总结:
     约束: NOT NULL,PRIMARY KEY,UINQUE KEY,DEFAULT,FOREIGN KEY,表级约束,列级约束
     修改数据表:增加/删除字段、列定义、列名称、列定义、表名(两种方式)
-
+  9.操作记录:
+    插入记录(insert,insert select,insert set): INSERT [INTO] tbl_name [(column_name,...)] VALUES ({expr | DEFAULT});
+    更新记录(单表操作、多表操作): UPDATE tbl_name SET column_name = {expr | DEFAULT},...[WHERE where_condition];
+    删除记录(单表操作、多表操作): DELETE FROM tbl_name [WHERE where_condition];
+    查找记录: 
+      AS:查询字段别名,username AS name
+      WHERE:查询条件
+      GROUP BY:查询结果分组,[GROUP BY{col_name | position} [ASC | DESC],]
+      HAVING:分组条件,SELECT sex FROM users GROUP BY sex HAVING count(id) > 5;
+      ORDER BY:查询结果排序,[ORDER BY{col_name | position} [ASC | DESC],]
+      LIMIT:限制结果数量,SELECT * FROM tbl_name LIMIT 2,2; // 返回3,4两条记录
 
 
 create table 系(系编号 char(4),primary key(系编号),foreign key(学院编号) references 学院(学院编号));
