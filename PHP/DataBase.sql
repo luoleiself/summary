@@ -106,8 +106,25 @@
         SELECT goods_id,goods_name,cate_name FROM tdb_goods RIGHT JOIN tdb_goods_cates ON tdb_goods.cate_id = tdb_goods_cates.cate_id;
       多表连接:
         SELECT goods_id,goods_name,cate_name,brand_name,goods_price FROM tdb_goods AS g INNER JOIN tdb_goods_cates AS c ON g.cate_id = c.cate_id INNER JOIN tdb_goods_brands AS b On g.brand_id = b.brand_id;
-  
-
+2017年05月07日    
+  1.字符函数:
+    CONCAT(str1,str2);字符连接
+    CONCAT_WS(Separator,str1,str2);使用指定的分隔符进行字符连接
+    FORMAT(number,DecimalDigit);数字格式化
+    LOWER(str);转换成小写
+    UPPER(str);转换成大写
+    LEFT(str,num);获取左侧字符
+    RIGHT(str,num);获取右侧字符
+    LENGTH(str);获取字符串的长度
+    LTRIM(str);删除字符左侧空格
+    RTRIM(str);删除字符串末尾空格
+    TRIM(str);删除字符串两端空格
+    SUBSTRING(str,startIndex,num);字符串的截取
+    [NOT] LIKE;模式匹配,SELECT "MySQL" LIKE "%1%%" EASCAPE "1";
+    REPLACE(str,ostr,nstr);字符串替换
+    
+    
+    
 create table 系(系编号 char(4),primary key(系编号),foreign key(学院编号) references 学院(学院编号));
 alter table 系 add 系名称 varchar(255);
 alter table 系 alter 系名称 varchar(20);
