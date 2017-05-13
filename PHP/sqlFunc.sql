@@ -83,15 +83,15 @@
     [NOT] LIKE;模式匹配,SELECT "MySQL" LIKE "%1%%" EASCAPE "1";
     REPLACE(str,ostr,nstr);字符串替换
 2017年05月13日
-	1.数值运算符:
-		CEIL();进一取整,CEIL(3.01); # 4
-		FLOOR();减一取整,FLOOR(3.01); # 3
-		DIV();整数除法,DIV(3/4); # 0
-		MOD();取余数
-		POWER();幂运算
-		ROUND();四舍五入
-		TRUNCATE();数字截取
-	2.比较运算符:
+  1.数值运算符:
+    CEIL();进一取整,CEIL(3.01); # 4
+    FLOOR();减一取整,FLOOR(3.01); # 3
+    DIV();整数除法,DIV(3/4); # 0
+    MOD();取余数
+    POWER();幂运算
+    ROUND();四舍五入
+    TRUNCATE();数字截取
+  2.比较运算符:
 		[NOT]BETWEEN... AND...;[不]在范围之内
 		[NOT]IN();[不]在列出值范围内
 		IS [NOT] NULL;[不]为空
