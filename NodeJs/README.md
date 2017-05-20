@@ -1,4 +1,4 @@
-### NodeJs的安装:
+### NodeJs的安装及环境配置:
  * 1、首先从官网上下载安装包(window.msi):http://nodejs.cn/download/<br>
  * 2、启动安装程序:根据提示下一步操作
  * 3、修改NodeJs的主程序路径:D:\nodeJs
@@ -17,8 +17,10 @@
    * ```npm config list -l``` ->查看nodeJs配置文件详情/c:\Users\Administrator\.npmrc
  * 11、设置系统环境变量:
    * 1、计算机 -> 属性 -> 高级系统设置 -> 高级 -> 环境变量
-   * 2、修改用户变量PATH:D:\nodeJs\node_global -> 安装的全局模块的执行命令在此目录下,不修改报错"xxx不是内部或外部命令，也不是可运行的程序或批处理文件"
-   * 3、新建系统环境变量NODE_PATH:D:\nodeJs\node_global\node_modules ->全局模块的安装路径,使用时nodeJs会从此路径下加载
+   * 2、修改用户变量PATH:
+      * D:\nodeJs\node_global -> 安装的全局模块的执行命令在此目录下,不修改报错"xxx不是内部或外部命令，也不是可运行的程序或批处理文件"
+   * 3、新建系统环境变量NODE_PATH:
+      * D:\nodeJs\node_global\node_modules ->全局模块的安装路径,使用时nodeJs会从此路径下加载
  * 12、安装anywhere全局模块测试:
 ### npm命令:
 * npm install modulesName@version  //安装版本
