@@ -16,9 +16,15 @@
 
 [数值的扩展](https://github.com/luoleiself/summary/blob/master/ECMAScript6/numberExpand.js)
   
-  Number.parseInt();Number.parseFloat();Number.isInteger();Number.EPSILON;
+  Number.EPSILON;  
+  Number.parseInt();Number.parseFloat();Number.isInteger();
   Math.trunc();Math.sign();Math.cbrt();Math.clz32();Math.imul();Mahtl.fround();Math.hypot();
   Math.signh();Math.cosh();Math.tanh();Math.asinh();Math.acosh();Math.atanh();
   Math.signbit();
   ```**``` // 指数运算符
+  
+[数组的扩展](https://github.com/luoleiself/summary/blob/master/ECMAScript6/arrayExpand.js)
 
+ Array.from();Array.of();  
+ Array.prototype.copyWithin();Array.prototype.find();Array.prototype.findIndex();Array.prototype.fill();
+ Array.prototype.entries();Array.prototype.keys();Array.prototype.values();Array.prototype.includes()
