@@ -28,3 +28,7 @@
  Array.from();Array.of();  
  Array.prototype.copyWithin();Array.prototype.find();Array.prototype.findIndex();Array.prototype.fill();
  Array.prototype.entries();Array.prototype.keys();Array.prototype.values();Array.prototype.includes()
+
+[函数的扩展](https://github.com/luoleiself/summary/blob/master/ECMAScript6/funcExpand.js)
+
+ ...运算符;func.length;func.name;=>;尾调用;尾逗号;
