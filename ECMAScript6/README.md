@@ -32,3 +32,9 @@
 [函数的扩展](https://github.com/luoleiself/summary/blob/master/ECMAScript6/funcExpand.js)
 
  ...运算符;func.length;func.name;=>;尾调用;尾逗号;
+
+[对象的扩展](https://github.com/luoleiself/summary/blob/master/ECMAScript6/objectExpand.js)
+
+ 简洁表示法;属性名表达式;.name;  
+ Object.is();Object.assign();Object.setPrototypeOf();Object.getPrototypeOf();  
+ Object.keys();Object.values();Object.entries();Object.getOwnPropertyDescriptors();
