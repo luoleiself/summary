@@ -1,0 +1,63 @@
+dpkg:Debian Package,Debian专门开发的套件管理系统,方便软件的安装、更新及移除.
+    1.dpkg -i|--install <.deb file name>; 安装一个Debian软件包,
+    2.dpkg -c ...;列出包的内容,
+    3.dpkg -l|--list [<pattern> ...];提取包裹信息,
+    4.dpkg -r ...;移除一个已安装的包裹,
+    5.dpkg -p|--purge <package>;完全清除一个已安装的包裹,和'remove'区别,'remove'只是删除数据和可执行文件,'purge'另外还删除所有的配置文件,
+    6.dpkg -L|--listfiles <package>;列出安装的所有文件清单,同时请看'dpkg -c'来检查一个.deb文件的内容
+      dpkg -l|--list <package>;li   
+    7.dpkg -s|--status <package>;显示已安装包裹的信息,同时请看apt-cache显示Debian存档中的包裹信息,以及dpkg -l 来显示从一个.deb文件提取的包裹信息,
+      dpkg -S|--search <pattern> ...;Find package(s) owning file(s);
+    8.dpkg -reconfigure ...;重新配置一个已经安装的包裹,如果它使用的是'debconf'(debconf为包裹安装提供了一个同意的配置界面).
+      dpkg -r|--remove <package>;
+      dpkg -V|--verify <package>; Verify the integrity of package(s);
+      dpkg -P|--print-avail <package>;Display available version details;    
+      dpkg -C|--audit ; Check for broken package(s);
+      dpkg -O|--selected-only;忽略没有被选中安装或升级的软件包
+      dpkg -E|--skip-same-version;忽略版本与已安装软件版本相同的软件包
+      dpkg -G|--refuse-downgrade;忽略版本早于已安装软件版本的软件包
+      dpkg -B|--auto-deconfigure 就算会影响其他软件包,也要安装
+      dpkg --admindir=<目录>;使用<目录>而非/var/lib/dpkg
+      dpkg --root=<目录>;安装到另一个跟目录下
+      dpkg --instdir=<目录>;改变安装目录的同时保持管理目录不变
+      dpkg --path-exclude=<表达式>;不要安装符合Shell表达式的路径
+      dpkg --path-include=<表达式>;在排除模式后再包含一个模式   
+    9.和apt-get的区别:
+      1.dpkg绕过apt包管理数据库对软件包进行操作,所以你用dpkg安装过的软件包用apt可以再安装一遍,系统不知道安装过了,将会覆盖之前dpkg的安装.
+      2.dpkg用来安装.deb文件,但不会解决模块的依赖关系,且不会关心ubuntu的软件仓库内的软件,可以用于安装本地的deb文件.
+      3.apt会解决和安装模块的依赖问题,并会咨询软件仓库,但不会安装本地的deb文件,apt是建立在dpkg之上的软件管理工具.
+apt-get:Advanced-Package Tool;
+    apt-get [选项] [命令] [软件包名]...
+    选项:
+      1.-h;本帮助文档.
+      2.-q;让输出可作为日志-不显示进度
+      3.-qq;除了错误外,什么都不输出
+      4.-d;仅仅下载-【不】安装或解压包文件
+      5.-s;不作实际操作,只是依次模拟执行命令
+      6.-y;对所有询问都是回答是(yes),同时不作任何提示
+      7.-f;当出现破坏的依赖关系时,程序将尝试修正系统
+      8.-m;当有包文件无法找到时,程序仍尝试继续执行
+      9.-u;显示已升级的软件包列表
+      10.-b;在下载完源码包后,编辑生成相应的软件包
+      11.-V；显示详尽的版本号
+      12.-c=?;读取指定配置文件
+      13.-o=?;设置任意指定的配置选项
+    命令:
+      1.sudo apt-get update ;取回更新的软件包列表信息 
+      2.sudo apt-get upgrade;进行一次升级
+      3.sudo apt-get install <package> --reinstall;安装新的软件包,重新安装包
+      4.sudo apt-get remove <package> --purge;卸载软件包,并删除配置文件
+      5.sudo apt-get autoremove;卸载所有自动安转且不再使用的软件包
+      6.sudo apt-get clean && autoclean;清理无用的包
+      7.apt-get cache search package;搜索包
+      8.apt-get cache show package;获取包的相关信息
+      9.apt-get cache depends package;了解使用依赖
+      10.apt-get cache rdepends package;查看该包被哪些包依赖
+      11.apt-get source package;下载该包的源代码
+      12.sudo apt-get check;检查是否有损坏的依赖  
+      13.sudo apt-get build-dep package;安装相关的编译环境
+      14.sudo apt-get -f install;修复安装'-f=__fix-missing'
+      15.sudo apt-get dist-upgrade;升级系统
+      16.sudo apt-get dselect-upgrade;使用dselect升级
+  
+      
