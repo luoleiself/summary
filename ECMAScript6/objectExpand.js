@@ -23,9 +23,13 @@
       // 等同于hello: function ()...
       hello() { console.log('我的名字是', this.name); }
     };
-2.属性名表达式:ES6中支持两种写法,5仅支持1,属性表达式和简洁表示法不能同时使用
+2.属性名表达式:ES6中支持两种写法,ES5仅支持1,属性表达式和简洁表示法不能同时使用
   1.标识符属性:
-  2.表达式属性:
+    eg:var obj = {
+        foo: true,
+        abc: 123
+      };
+  2.表达式属性:表达式放在方括号内
     eg:let propKey = 'foo';
       let obj = {
         [propKey]: true,
@@ -37,6 +41,13 @@
         }
       };
       obj.hello() // hi
+      // 报错
+      var foo = 'bar';
+      var bar = 'abc';
+      var baz = { [foo] };
+      // 正确
+      var foo = 'bar';
+      var baz = { [foo]: 'abc'};
 3.方法的neme属性:返回方法名;
   eg:const person = {
       sayName() {
