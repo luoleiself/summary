@@ -35,7 +35,13 @@
 
 [对象的扩展](https://github.com/luoleiself/summary/blob/master/ECMAScript6/objectExpand.js)
 
- 简洁表示法;属性名表达式;.name;  
+ 简洁表示法;属性名表达式;  
+ .name;  
  Object.is();Object.assign();Object.setPrototypeOf();Object.getPrototypeOf();  
  Object.keys();Object.values();Object.entries();Object.getOwnPropertyDescriptors();  
  Object.getOwnPropertySymbols();
+
+[Symbol](https://github.com/luoleiself/summary/blob/master/ECMAScript6/symbol.js)
+
+ 类似字符串的原始数据类型(对象的属性名的两种表示方式);  
+ let s = Symbol();Symbol.for();Symbol.keyFor();
