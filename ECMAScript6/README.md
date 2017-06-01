@@ -37,4 +37,5 @@
 
  简洁表示法;属性名表达式;.name;  
  Object.is();Object.assign();Object.setPrototypeOf();Object.getPrototypeOf();  
- Object.keys();Object.values();Object.entries();Object.getOwnPropertyDescriptors();
+ Object.keys();Object.values();Object.entries();Object.getOwnPropertyDescriptors();  
+ Object.getOwnPropertySymbols();
