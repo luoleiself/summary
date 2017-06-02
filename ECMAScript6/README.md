@@ -45,3 +45,5 @@
 
  类似字符串的原始数据类型(对象的属性名的两种表示方式);  
  let s = Symbol();Symbol.for();Symbol.keyFor();
+
+[Set 和 Map数据结构](https://github.com/luoleiself/summary/blob/master/ECMAScript6/SetAndMap.js)
