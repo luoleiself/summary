@@ -47,3 +47,20 @@
  let s = Symbol();Symbol.for();Symbol.keyFor();
 
 [Set 和 Map数据结构](https://github.com/luoleiself/summary/blob/master/ECMAScript6/SetAndMap.js)
+
+ Set:类似于数组的数据结构,成员值唯一;  
+ const set = new Set(["a","a","b","c","c"]); // ["a","b","c"];
+ Set.prototype.size;
+ Set.prototype.add(value);Set.prototype.delete(value);Set.prototype.has(value);Set.prototype.clear();  
+ keys();values();entries();forEach();  
+ WeakSet:类似于Set的数据结构,成员值唯一,无法遍历;区别:成员只能是对象,不计入垃圾回收机制;    
+ WeakSet.prototype.add(value);WeakSet.prototype.delete(value);WeakSet.prototype.has(value);  
+ Map:接受任意类型的值作为键名,Object只能接受字符串;  
+ const map = new Map([['name', '张三'],['title', 'Author']]);//{"name":"张三","title":"Author"};
+ Map.prototype.size;  
+ Map.prototype.set(key,value);Map.prototype.get(key);Map.prototype.delete(key);map.prototype.has(key);Map.prototype.clear();  
+ keys();values();entries();forEach();  
+ 与数组,对象,JSON的互转;  
+ WeakMap:类似于Map的数据结构,无法遍历;区别:只接受对象作为键名(null除外),不计入垃圾回收机制;  
+ WeakMap.prototype.set(key,value);WeakMap.prototype.get(key);WeakMap.prototype.delete(key);WeakMap.prototype.has(key);
+ 
