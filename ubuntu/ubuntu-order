@@ -48,7 +48,15 @@ ls -a 列出当前目录文件（包括隐含文件）
 ls -l 列出当前目录下文件的详细信息 
 cd .. 回当前目录的上一级目录 
 cd - 回上一次所在的目录 
-cd ~ 或 cd 回当前用户的宿主目录 
+cd ~ 或 cd 回当前用户的宿主目录
+cd / 返回根目录
+  -: 普通文件
+  d: 目录
+  l: 符号链接
+  c: 字符型设备节点
+  b: 块设备节点
+  p: 命名管道
+  s: 套接 
 mkdir 目录名 创建一个目录 
 rmdir 空目录名 删除一个空目录 
 rm 文件名 文件名 删除一个文件或多个文件 
@@ -56,20 +64,23 @@ rm -rf 非空目录名 删除一个非空目录下的一切
 mv 路经/文件 /经/文件移动相对路经下的文件到绝对路经下 
 mv 文件名 新名称 在当前目录下改名 
 find 路经 -name “字符串” 查找路经所在范围内满足字符串匹配的文件和目录 
-二、系统管理 
+file fileName 显示文件的属性
 
+二、系统管理 
+top  全屏显示进程信息,按q退出
 fdisk fdisk -l 查看系统分区信息 
 fdisk fdisk /dev/sdb 为一块新的SCSI硬盘进行分区 
 chown chown root /home 把/home的属主改成root用户 
 chgrp chgrp root /home 把/home的属组改成root组 
 
+whoami 显示当前用户名
 Useradd 创建一个新的用户 
 Groupadd 组名 创建一个新的组 
 Passwd 用户名 为用户创建密码 
 Passwd -d用户名 删除用户密码也能登陆 
 Passwd -S用户名 查询账号密码 
 Usermod -l 新用户名 老用户名 为用户改名 
-Userdel–r 用户名 删除用户一切 
+Userdel –r 用户名 删除用户一切 
 
 service [servicename] start/stop/restart 系统服务控制操作 
 /etc/init.d/[servicename] start/stop/restart 系统服务控制操作 
