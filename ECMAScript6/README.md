@@ -77,3 +77,9 @@ Reflect.apply(target,thisArg,args);Reflect.construct(target,args);Reflect.get(ta
 Reflect.set(target,name,value,receiver)Reflect.defineProperty(target,name,desc);Reflect.deleteProperty(target,name);
 Reflect.has(target,name);Reflect.ownKeys(target)Reflect.isExtensible(target);Reflect.preventExtensions(target);
 Reflect.getOwnPropertyDescriptor(target, name);Reflect.getPrototypeOf(target);Reflect.setPrototypeOf(target, prototype)
+
+[Promise](https://github.com/luoleiself/summary/blob/master/ECMAScript6/promise.js)
+
+Promise.prototype.then();Promise.prototype.catch();  
+Promise.all();Promise.race();Promise.resolve();Promise.reject();Promise.try();  
+done();finally();
