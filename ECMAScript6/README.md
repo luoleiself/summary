@@ -64,3 +64,7 @@
  WeakMap:类似于Map的数据结构,无法遍历;区别:只接受对象作为键名(null除外),不计入垃圾回收机制;  
  WeakMap.prototype.set(key,value);WeakMap.prototype.get(key);WeakMap.prototype.delete(key);WeakMap.prototype.has(key);
  
+[Proxy](https://github.com/luoleiself/summary/blob/master/ECMAScript6/proxy.js)
+
+new Proxy(target,handle);  
+Proxy.revocable(target,handle); Proxy.prototype.revoke();
