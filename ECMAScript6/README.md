@@ -68,3 +68,12 @@
 
 new Proxy(target,handle);  
 Proxy.revocable(target,handle); Proxy.prototype.revoke();
+
+[Reflect](https://github.com/luoleiself/summary/blob/master/ECMAScript6/reflect.js)
+
+与Proxy对象的区别:Proxy相当于去修改设置对象的属性行为，而Reflect则是获取对象的这些行为.  
+Static function:  
+Reflect.apply(target,thisArg,args);Reflect.construct(target,args);Reflect.get(target,name,receiver);
+Reflect.set(target,name,value,receiver)Reflect.defineProperty(target,name,desc);Reflect.deleteProperty(target,name);
+Reflect.has(target,name);Reflect.ownKeys(target)Reflect.isExtensible(target);Reflect.preventExtensions(target);
+Reflect.getOwnPropertyDescriptor(target, name);Reflect.getPrototypeOf(target);Reflect.setPrototypeOf(target, prototype)
