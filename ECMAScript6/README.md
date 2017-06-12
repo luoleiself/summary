@@ -83,3 +83,8 @@ Reflect.getOwnPropertyDescriptor(target, name);Reflect.getPrototypeOf(target);Re
 Promise.prototype.then();Promise.prototype.catch();  
 Promise.all();Promise.race();Promise.resolve();Promise.reject();Promise.try();  
 done();finally();
+
+[Iterator](https://github.com/luoleiself/summary/blob/master/ECMAScript6/iterator.js)
+
+Iterator:为各种不同的数据结构提供统一的访问机制,把接口规格加到数据结构之上,遍历器和数据结构各自独立;  
+Symbol.iterator;return();throw();
