@@ -206,6 +206,17 @@ async:
       }
       f().then(v => console.log(v)).catch(e => console.log(e))
       // Error：出错了
+  5.使用注意点:
+    1.await命令的Promise对象的运行结果有可能是rejected,最好放到try...catch代码块中
+    2.多个await命令后的异步操作不存在继发关系,最好同时触发
+      eg:// 写法一
+        let [foo, bar] = await Promise.all([getFoo(), getBar()]);
+        // 写法二
+        let fooPromise = getFoo();
+        let barPromise = getBar();
+        let foo = await fooPromise;
+        let bar = await barPromise;
+    3.await命令只能在async函数中,用在普通函数中会报错
 4.async函数实现原理:就是将 Generator 函数和自动执行器，包装在一个函数里
   eg:async function fn(args) {
       // ...
