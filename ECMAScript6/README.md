@@ -95,3 +95,9 @@ Generator:
 next();Generator.prototype.throw();Generator.prototype.return();yield;  
 Async:  
 async await;for await...of;
+
+[Class](https://github.com/luoleiself/summary/blob/master/ECMAScript6/class.js)
+
+class.name;new.target;static;    
+extends;super;
+
