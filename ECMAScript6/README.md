@@ -101,3 +101,8 @@ async await;for await...of;
 class.name;new.target;static;    
 extends;super;
 
+[Decorator](https://github.com/luoleiself/summary/blob/master/ECMAScript6/decorator.js)
+
+类的修饰器: 是一个函数,用来修改类的行为,不能修饰方法(存在函数提升);
+@
+
