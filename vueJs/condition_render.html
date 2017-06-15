@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>condition_render</title>
+  <link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css">
+  <script type="text/javascript" src="http://vuejs.org/js/vue.min.js"></script>
+  <script type="text/javascript" src="http://unpkg.com/iview/dist/iview.min.js"></script>
+  <style>
+    h3,
+    p {
+      margin: 5px 0;
+    } 
+    p {
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app-1">
+    <p v-if="isShow">条件判断:v-if="isShow"</p>
+    <p v-else>条件判断:v-else</p>
+  </div>
+  <div id="app-2">
+    <p v-if="Math.random() > 0.3">条件判断:v-if="Math.random() > 0.3"</p>
+    <p v-else-if="Math.random() > 0.6">条件判断:v-else-if="Math.random() > 0.6"</p>
+    <p v-else-if="Math.random() > 0.9">条件判断:v-else-if="Math.random() > 0.9"</p>
+    <p v-else>条件判断:v-else</p>
+  </div>
+  <h3>key关键字管理可复用的元素:</h3>
+  <div id="app-3">
+    <div v-if="loginType == 'userName'">
+      <label>用户名</label>
+      <input type="text" placeholder="enter your name" key="userName-input">
+    </div>
+    <div v-else>
+      <label>邮箱</label>
+      <input type="text" placeholder="enter your email address" key="email-input">
+    </div>
+    <button @click="toggle">toggle</button>
+  </div>
+  <h3>条件判断:v-show,不支持template,v-else</h3>
+  <div id="app-4">
+    <p v-show="isShow">是否显示</p>
+  </div>
+  <h3>列表渲染:v-for-in</h3>
+  <ol id="app-5">
+    <li v-for="(item,index) in items">
+      {{parentMessage}} - {{index}} - {{item.text}}
+    </li>
+  </ol>
+  <h3>列表渲染:v-for-of</h3>
+  <ol id="app-6">
+    <li v-for="(item,index) of items">
+      {{parentMessage}} - {{index}} - {{item.text}}
+    </li>
+  </ol>
+  <h3>组件中的应用:v-for</h3>
+  <div id="app-7">
+    <input v-model="newToDoTxt" v-on:keyup.enter='addNewToDo' placeholder="Add a Todo">
+    <ul>
+      <li is="todo-item" v-for="(item,index) in items" :title="item" @remove="items.splice(index,1)"></li>
+    </ul>
+  </div>
+  <h3>计算属性:computed</h3>
+  <div id="app-8">
+    <ol>
+      <li>原始值</li>
+      <li v-for="n in numbers">{{n}}</li>
+    </ol>
+    <ol>
+      <li>处理结果</li>
+      <li v-for="n in evenNumbers">{{n}}</li>
+    </ol>
+  </div>
+  <h3>methods:v-for="n in even(numbers)"</h3>
+  <div id="app-9">
+    <ol>
+      <li v-for="n in even(numbers)">{{n}}</li>
+    </ol>
+  </div>
+  <h3>重塑数组:下面两种情况不会触发Vue的状态检测更新</h3>
+  <h4 style="margin-left:5px;">1. 当你利用索引直接设置一个项时，例如： vm.items[indexOfItem] = newValue</h4>
+  <h4 style="margin-left:5px;">2. 当你修改数组的长度时，例如： vm.items.length = newLength</h4>
+  <h4>解决办法:</h4>
+  <p>1. Vue.set(example1.items, indexOfItem, newValue);// Vue.set </p>
+  <p>2. example1.items.splice(indexOfItem, 1, newValue);// Array.prototype.splice`</p>
+</body>
+<script type="text/javascript">
+  var app1 = new Vue({
+    el: "#app-1",
+    data: {
+      isShow: true
+    }
+  })
+  var app2 = new Vue({
+    el: "#app-2"
+  })
+  var app3 = new Vue({
+    el: "#app-3",
+    data: {
+      loginType: "userName"
+    },
+    methods: {
+      toggle: function() {
+        return this.loginType = this.loginType === "userName" ? "email" : "userName";
+      }
+    }
+  })
+  var app4 = new Vue({
+    el: "#app-4",
+    data: {
+      isShow: true
+    }
+  })
+  var app5 = new Vue({
+    el: "#app-5",
+    data: {
+      parentMessage: "Parent",
+      items: [{
+        text: "text-1"
+      }, {
+        text: "text-2"
+      }, {
+        text: "text-3"
+      }, {
+        text: "text-4"
+      }]
+    }
+  })
+  var app6 = new Vue({
+    el: "#app-6",
+    data: {
+      parentMessage: "Parent",
+      items: [{
+        text: "text-1"
+      }, {
+        text: "text-2"
+      }, {
+        text: "text-3"
+      }, {
+        text: "text-4"
+      }]
+    }
+  })
+  Vue.component("todo-item", {
+    template: '<li>{{title}} <button v-on:click="$emit(\'remove\')">X</button></li>',
+    props: ["title"]
+  })
+  var app7 = new Vue({
+    el: "#app-7",
+    data: {
+      newToDoTxt: "",
+      items: [
+        'Do the dishes',
+        'Take out the trash',
+        'Mow the lawn'
+      ]
+    },
+    methods: {
+      addNewToDo: function() {
+        this.items.push(this.newToDoTxt);
+        this.newToDoTxt = "";
+      }
+    }
+  })
+  var app8 = new Vue({
+    el: "#app-8",
+    data: {
+      numbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    },
+    computed: {
+      evenNumbers: function() {
+        return this.numbers.filter(function(number) {
+          return number % 2 == 0;
+        })
+      }
+    }
+  })
+  var app9 = new Vue({
+    el: "#app-9",
+    data: {
+      numbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    },
+    methods: {
+      even: function(numbers) {
+        return numbers.filter(function(number) {
+          return number % 2 == 0;
+        })
+      }
+    }
+  })
+</script>
+
+</html>

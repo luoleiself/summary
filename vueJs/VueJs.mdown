@@ -33,3 +33,10 @@
           }
         }
     })`
+## 修饰符
+   1. **事件**修饰符:
+      `.stop.prevent.capture.self.once`
+   2. **按键**修饰符:
+      `.enter.tab.delete.esc.space.up.down.left.right .ctrl.alt.shift.meta`
+   3. **v-model**:
+      `.lazy .number .trim`
