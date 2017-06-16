@@ -45,62 +45,62 @@
    2. data必须是函数,每个组件有独立的data对象互不影响
    3. Prop验证:需要用对象的形式,而不能用字符串数组
 
-        `props:{    
-          propA:{
-            type:String,
-            required:true 
-          },
-          propB:[String,Number],
-          propC:{
-            type:Number,
-            default:100
-          },
-          propD:{
-            type:Object,
-            default:function(){
-              return {}
+          `props:{    
+            propA:{
+              type:String,
+              required:true 
+            },
+            propB:[String,Number],
+            propC:{
+              type:Number,
+              default:100
+            },
+            propD:{
+              type:Object,
+              default:function(){
+                return {}
+              }
+            },
+            propE:{
+              validator:function(value){
+                return value > 10;
+              }
             }
-          },
-          propE:{
-            validator:function(value){
-              return value > 10;
-            }
-          }
-        }`
+          }`
    4. 自定义事件: 父组件监听子组件绑定事件,由子组件触发事件
-   
-        `<div id="app-5">
-           <p>{{total}}</p>
-           <button-counter v-on:increment="incrementTotal"></button-counter>
-           <button-counter v-on:increment="incrementTotal"></button-counter>
-         </div>
-         var app5 = new Vue({
-          el:"#app-5",
-          data: {
-            total: 0
-          },
-          methods: {
-            incrementTotal: function() {
-              this.total++;
-            }
-          },
-          components: {
-            'button-counter': {
-              template: "<button v-on:click='increment'>{{counter}}</button>",
-              data: function() {
-                return {
-                  counter: 0
-                }
-              },
-              methods: {
-                increment: function() {
-                  this.counter++;
-                  this.$emit('increment');
+
+          `<div id="app-5">
+             <p>{{total}}</p>
+             <button-counter v-on:increment="incrementTotal"></button-counter>
+             <button-counter v-on:increment="incrementTotal"></button-counter>
+           </div>
+           var app5 = new Vue({
+            el:"#app-5",
+            data: {
+              total: 0
+            },
+            methods: {
+              incrementTotal: function() {
+                this.total++;
+              }
+            },
+            components: {
+              'button-counter': {
+                template: "<button v-on:click='increment'>{{counter}}</button>",
+                data: function() {
+                  return {
+                    counter: 0
+                  }
+                },
+                methods: {
+                  increment: function() {
+                    this.counter++;
+                    this.$emit('increment');
+                  }
                 }
               }
             }
-          }
-        })`
+          })`
    5. slot：内容分发,混合父组件的内容与子组件自己的模板(组件的组合)
       1. 单个slot：除非子组件模板包含至少一个 `<slot>` 插口，否则父组件的内容将会被丢弃,当子组件模板只有一个没有属性的 `<slot>` 时，父组件整个内容片段将插入到 `<slot>` 所在的 DOM 位置，并替换掉 `<slot>` 标签本身
           > 最初在 `<slot>` 标签中的任何内容都被视为备用内容，备用内容在子组件的作用域内编译，并且只有在宿主元素为空，且没有要插入的内容时才显示备用内容
