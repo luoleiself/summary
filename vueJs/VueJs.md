@@ -170,7 +170,9 @@
                       }
                     }
                  })`
+                 
             **作用域插槽列表组件应用,`<template>`元素也可以使用slot属性**
+            
                 `<div id='app-9'>
                     <my-awesome-list :items="items">
                       <!-- 作用域插槽也可以是具名的 -->
@@ -213,7 +215,7 @@
             },
             components: {
                home: {
-                 template: "<p>this is a home page</p>"
+                 template: "<p>this is a home page</p>"
                },
                posts: {
                  template: "<p>this is a posts page</p>"
