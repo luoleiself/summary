@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Component</title>
+  <link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css">
+  <script type="text/javascript" src="http://vuejs.org/js/vue.min.js"></script>
+  <script type="text/javascript" src="http://unpkg.com/iview/dist/iview.min.js"></script>
+  <style>
+    body {
+      padding: 0 10px;
+    }
+    
+    [id] {
+      margin-left: 15px;
+    }
+    
+    h3,
+    p {
+      margin: 5px 0;
+    }
+    
+    p {
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+
+<body>
+  <h3>注册全局组件:Vue.component(tagName,options)</h3>
+  <h3>全局注册组件:</h3>
+  <div id="app-1">
+    <my-component></my-component>
+    <local-component></local-component>
+  </div>
+  <h3>局部注册组件:</h3>
+  <div id="app-2">
+    <local-component></local-component>
+  </div>
+  <h3>data必须是一个函数:每个组件都有一个独立的data对象互不影响</h3>
+  <div id="app-3">
+    <simple-counter></simple-counter>
+    <simple-counter></simple-counter>
+    <simple-counter></simple-counter>
+  </div>
+  <h3>动态Prop:</h3>
+  <div id="app-4">
+    <input type="text" v-model="parentMsg">
+    <child :child-msg="parentMsg"></child>
+  </div>
+  <h3>prop验证:指定验证规格,需要用对象的形式,而不能用字符串数组:</h3>
+  <pre>
+    Vue.componet("example",{
+      props:{
+        propA:{
+          type:Number,
+          default:100
+        },
+        propB:[String,Number],
+        propC:{
+          type:String,
+          required:true
+        },
+        propD:{
+          validator: function (value) {
+            return value > 10
+          }
+        }
+      }
+    })
+  </pre>
+  <h3>自定义事件:</h3>
+  <div id="app-5">
+    <p>{{total}}</p>
+    <button-counter v-on:increment="incrementTotal"></button-counter>
+    <button-counter v-on:increment="incrementTotal"></button-counter>
+  </div>
+  <h3>单个slot:分发内容在父组件内编译,除非子组件模板包含至少一个 slot 插口,否则父组件的内容将会被丢弃</h3>
+  <p>子组件中的slot中的内容只有当宿主中元素为空时才会显示</p>
+  <div id="app-6">
+    <h3>这是父组件的标题</h3>
+    <child-component>
+      <p>这是一些初始内容</p>
+      <p>这是更多的初始内容</p>
+    </child-component>
+  </div>
+  <h3>具名slot:可以使用特殊的属性 name 来配置如何分发内容,宿主元素使用slot属性指定内容分发容器</h3>
+  <div id="app-7">
+    <app-layout>
+      <h3 slot="header">设置name属性的slot的header</h3>
+      <p>没有设置slot属性的显示信息main1</p>
+      <p>没有设置slot属性的显示信息main2</p>
+      <h3 slot="footer">设置name属性的slot的footer</h3>
+    </app-layout>
+  </div>
+  <h3>作用域插槽:是一种特殊类型的插槽，用作使用一个（能够传递数据到）可重用模板替换已渲染元素</h3>
+  <p>具有特殊属性 scope 的 &lt; template &gt; 元素，表示它是作用域插槽的模板。scope 的值对应一个临时变量名，此变量接收从子组件中传递的 prop 对象</p>
+  <div id="app-8" class="parent">
+    <child>
+      <template scope="props">
+        <p>Hello from parent</p>
+        <p>{{props.text}}</p>
+      </template>
+    </child>
+  </div>
+  <h4>作用域插槽列表组件应用:</h4>
+  <div id='app-9'>
+    <my-awesome-list :items="items">
+      <!-- 作用域插槽也可以是具名的 -->
+      <template slot="item" scope="props">
+        <li class="my-fancy-item">{{ props.text }}</li>
+      </template>
+    </my-awesome-list>
+  </div>
+  <h3>动态组件:通过使用保留的 &lt;component&gt; 元素，动态地绑定到它的 is 特性，我们让多个组件可以使用同一个挂载点</h3>
+  <div id="app-10">
+    <componet :is="currentView">
+      </component>
+  </div>
+  <h3>编写可复用组件:Vue组件的API:Props 允许外部环境传递数据给组件;Events 允许组件触发外部环境的副作用;Slots 允许外部环境将额外的内容组合在组件中</h3>
+  <h3>子组件索引:ref -> 为子组件添加一个索引ID</h3>
+  <div id="parent">
+    <user-profile ref="profile"></user-profile>
+  </div>
+  <pre>
+    var parent = new Vue({ el: '#parent' })
+    // 访问子组件
+    var child = parent.$refs.profile
+  </pre>
+</body>
+<script type="text/javascript">
+  Vue.component("my-component", {
+    template: "<p>this is a global component.</p>"
+  })
+  var app1 = new Vue({
+    el: "#app-1"
+  })
+  var app2 = new Vue({
+    el: "#app-2",
+    components: {
+      'local-component': {
+        template: '<p>this is a local component.</p>'
+      }
+    }
+  })
+  var app3 = new Vue({
+    el: "#app-3",
+    components: {
+      "simple-counter": {
+        template: '<button @click="count++">{{count}}</button>',
+        data: function() {
+          return {
+            count: 0
+          }
+        }
+      }
+    }
+  })
+  var app4 = new Vue({
+    el: "#app-4",
+    data: {
+      parentMsg: "Hello World"
+    },
+    components: {
+      'child': {
+        template: "<p>{{childPropsMsg}}<p>",
+        props: ["childMsg"],
+        computed: {
+          childPropsMsg: function() {
+            return this.childMsg;
+          }
+        }
+      }
+    }
+  })
+  var app5 = new Vue({
+    el: "#app-5",
+    data: {
+      total: 0
+    },
+    methods: {
+      incrementTotal: function() {
+        this.total++;
+      }
+    },
+    components: {
+      'button-counter': {
+        template: "<button v-on:click='increment'>{{counter}}</button>",
+        data: function() {
+          return {
+            counter: 0
+          }
+        },
+        methods: {
+          increment: function() {
+            this.counter++;
+            this.$emit('increment');
+          }
+        }
+      }
+    }
+  })
+  var app6 = new Vue({
+    el: "#app-6",
+    components: {
+      "child-component": {
+        template: "<div><h3>这是子组件的标题</h3><slot></slot></div>"
+      }
+    }
+  })
+  var app7 = new Vue({
+    el: "#app-7",
+    components: {
+      'app-layout': {
+        template: "<div class='container'><header><slot name='header'>宿主元素为空时显示</slot></header><main><slot>宿主元素为空时显示</slot></main><footer><slot name='footer'>宿主元素为空时显示</slot></footer></div>"
+      }
+    }
+  })
+  var app8 = new Vue({
+    el: "#app-8",
+    components: {
+      'child': {
+        template: "<div class='child'><slot text='Hello from child'></slot></div>"
+      }
+    }
+  })
+  var app9 = new Vue({
+    el: "#app-9",
+    data: {
+      items: [{
+        text: "item-1"
+      }, {
+        text: "item-2"
+      }, {
+        text: "item-3"
+      }, {
+        text: "item-4"
+      }]
+    },
+    components: {
+      'my-awesome-list': {
+        template: '<ul><slot name="item" v-for="item in items" :text="item.text"></slot></ul>',
+        props: ["items"]
+      }
+    }
+  })
+  var app10 = new Vue({
+    el: "#app-10",
+    data: {
+      currentView: "home"
+    },
+    components: {
+      home: {
+        template: "<p>this is a home page</p>"
+      },
+      posts: {
+        template: "<p>this is a posts page</p>"
+      },
+      archive: {
+        template: "<p>this is a archive page</p>"
+      }
+    }
+  })
+</script>
+
+</html>
