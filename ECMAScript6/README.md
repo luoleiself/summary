@@ -91,9 +91,9 @@ Symbol.iterator;return();throw();
 
 [GeneratorAndAsync](https://github.com/luoleiself/summary/blob/master/ECMAScript6/GeneratorAndAsync.js)
 
-Generator:  
+Generator:  1.*;2.yield;  
 next();Generator.prototype.throw();Generator.prototype.return();yield;  
-Async:  
+Async:  Generator函数的语法糖  
 async await;for await...of;
 
 [Class](https://github.com/luoleiself/summary/blob/master/ECMAScript6/class.js)
