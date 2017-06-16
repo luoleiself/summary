@@ -214,15 +214,10 @@
                currentView: "home"
             },
             components: {
-               home: {
-                 template: "<p>this is a home page</p>"
-               },
-               posts: {
-                 template: "<p>this is a posts page</p>"
-               },
-               archive: {
-                 template: "<p>this is a archive page</p>"
-               }
+               home: {template: "<p>this is a home page</p>"},
+               posts: {template: "<p>this is a posts page</p>"},
+               archive: {template: "<p>this is a archive page</p>"}
             }
           })`
+
       
