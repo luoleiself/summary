@@ -40,6 +40,7 @@
       `.enter.tab.delete.esc.space.up.down.left.right .ctrl.alt.shift.meta`
    3. **v-model**:
       `.lazy .number .trim`
+   4. slot name;template scope;component is;ref
 ## 组件 :Props(外->内),Events(内->外),Slots(额外添加)
    1. 作用域独立,父子组件通信`prop down,events up`
    2. data必须是函数,每个组件有独立的data对象互不影响
