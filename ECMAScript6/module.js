@@ -106,3 +106,94 @@
     3.动态的模块路径:
       eg:import(f()).then(...);
       
+11.浏览器加载:
+  1.defer:渲染完再执行;<script type='application/javascript' defer></script>
+  2.async:下载完就执行;<script type='application/javascript' async></script>
+  3.加载ES6:
+    eg:<script type="module" src="foo.js"></script>
+      <!-- 等同于 -->
+      <script type="module" src="foo.js" defer></script>
+12.ES6模块和CommonJs模块的差异:
+  1.CommonJS 模块输出的是一个值的拷贝,ES6 模块输出的是值的引用
+  2.CommonJS 模块是运行时加载，ES6 模块是编译时输出接口
+  3.ES6 模块之中，顶层的this指向undefined,CommonJS 模块的顶层this指向当前模块
+    eg:// CommonJs加载方式
+      // lib.js
+      var counter = 3;
+      function incCounter() {
+        counter++;
+      }
+      module.exports = {
+        counter: counter,
+        incCounter: incCounter,
+      };
+      // main.js
+      var mod = require('./lib');
+      console.log(mod.counter);  // 3
+      mod.incCounter();
+      console.log(mod.counter); // 3
+    eg:// CommonJs加载方式修改
+      // lib.js
+      var counter = 3;
+      function incCounter() {
+        counter++;
+      }
+      module.exports = {
+        get counter() { // 取值器函数
+          return counter;
+        },
+        set counter(val) { // 设值器函数
+          counter = val;
+        },
+        incCounter: incCounter
+      }
+      // main.js
+      var mod = require("./lib.js");
+      console.log(mod.counter); // 3
+      mod.incCounter();
+      console.log(mod.counter); // 4
+      console.log(__dirname); // 执行js文件的目录的绝对路径
+      console.log(__filename); // 执行js文件的文件名的绝对路径
+      console.log(process.cwd()); // 执行node命令的目录的绝对路径
+      mod.counter = 10;
+      console.log(mod.counter); // 10
+      mod.incCounter();
+      console.log(mod.counter); // 11
+    eg: // ES6加载方式
+      // lib.js
+      export let counter = 3;
+      export function incCounter() {
+        counter++;
+      }
+      // main.js
+      import { counter, incCounter } from './lib';
+      console.log(counter); // 3
+      incCounter();
+      console.log(counter); // 4
+13.Node加载:
+  1.Node加载ES6模块:
+    eg:export {};不输出任何接口
+  2.import加载CommonJs模块:module.exports 被当作默认输出
+    eg:// a.js
+      module.exports = {
+        foo: 'hello',
+        bar: 'world'
+      };
+      // 等同于
+      export default {
+        foo: 'hello',
+        bar: 'world'
+      };
+  3.reuqire加载ES6模块:ES6 模块的所有输出接口，会成为输入对象的属性
+    eg:// es.js
+      let foo = {bar:'my-default'};
+      export default foo;
+      foo = null;
+      // cjs.js
+      const es_namespace = require('./es');
+      console.log(es_namespace.default);
+      // {bar:'my-default'}
+14.循环记载:
+15.ES6模块的转码:
+  1.ES6 module transpiler
+  2.SystemJS
