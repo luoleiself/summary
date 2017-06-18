@@ -107,3 +107,7 @@ extends;super;
 类的修饰器: 是一个函数,用来修改类的行为,不能修饰方法(存在函数提升);
 @
 
+[module](https://github.com/luoleiself/summary/blob/master/ECMAScript6/module.js)
+
+ES6:import;export;as;*;export default;import();  
+CommonJS:module.exports;require();
