@@ -113,3 +113,5 @@ ES6:import;export;as;*;export default;import();
 CommonJS:module.exports;require();
 
 [编程风格](https://github.com/luoleiself/summary/blob/master/ECMAScript6/summary.js)
+
+let;const;...;=>;import;export;
