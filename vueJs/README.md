@@ -237,3 +237,60 @@
            Vue.component('hello-world', {
               template: '#hello-world-template'
            })`
+## 响应式
+   1. 响应属性和对象的绑定
+      1. Vue.set(vm.someObject,key,value); // 将响应属性添加到对象上
+      2. vm.$set(vm.someObject,key,value); // Vue.Set方法的别名
+   2. 异步更新队列： Vue.nextTick(callback);
+      > Vue 异步执行 DOM 更新，只要观察到数据变化，Vue 将开启一个队列，并缓冲在同一事件循环中发生的所有数据改变。如果同一个 watcher 被多次触发，只会一次推入到队列中。这种在缓冲时去除重复数据对于避免不必要的计算和 DOM 操作上非常重要
+        
+            `var vm = new Vue({
+                el: '#example',
+                data: {
+                  message: '123'
+                }
+             })
+             vm.message = 'new message' // 更改数据
+             vm.$el.textContent === 'new message' // false
+             Vue.nextTick(function () {
+                vm.$el.textContent === 'new message' // true
+             })` 
+
+          **回调函数在 DOM 更新完成后就会调用**
+
+            `Vue.component('example', {
+               template: '<span>{{ message }}</span>',
+               data: function () {
+                  return {
+                    message: '没有更新'
+                  }
+               },
+               methods: {
+                  updateMessage: function () {
+                    this.message = '更新完成'
+                    console.log(this.$el.textContent) // => '没有更新'
+                    this.$nextTick(function () {
+                      console.log(this.$el.textContent) // => '更新完成'
+                    })
+                  }
+               }
+             })`
+## 过渡
+   1. 过渡的类名：
+      `v-enter;v-enter-active;v-enter-to;;v-leave;v-leave-active;v-leave-to`
+   2. 自定义过渡类名:`enter-class;enter-active-class;leave-class;leave-active-class`
+ 
+         `<div id="app-2">
+            <button @click="show = !show">
+              Toggle render
+            </button>
+            <transition name="custom-classes-transition" enter-active-class="animated tada" leave-active-class="animated bounceOutRight">
+              <p v-if="show">hello</p>
+            </transition>
+          </div>
+          var app2 = new Vue({
+            el: '#app-2',
+            data: {
+              show: true
+            }
+          })`

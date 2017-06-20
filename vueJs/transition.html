@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>transition</title>
+  <link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css">
+  <link href="https://unpkg.com/animate.css@3.5.1/animate.min.css" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="http://vuejs.org/js/vue.min.js"></script>
+  <script type="text/javascript" src="http://unpkg.com/iview/dist/iview.min.js"></script>
+  <style>
+    body {
+      padding: 0 10px;
+    }
+    
+    [id] {
+      margin-left: 15px;
+    }
+    
+    h3,
+    p {
+      margin: 5px 0;
+    }
+    
+    p {
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+    
+    .fade-enter-active,
+    .fade-leave-active {
+      transition: opacity 0.5s
+    }
+    
+    .fade-enter,
+    .fade-leave-active
+    /* .fade-leave-active in <2.1.8 */
+    
+    {
+      opacity: 0
+    }
+  </style>
+</head>
+
+<body>
+  <h3>transition组件:</h3>
+  <div id="app-1">
+    <div id="demo">
+      <button v-on:click="show = !show">
+        Toggle
+      </button>
+      <transition name="fade">
+        <p v-if="show">hello</p>
+      </transition>
+    </div>
+  </div>
+  <h3>自定义过渡类名：</h3>
+  <div id="app-2">
+    <button @click="show = !show">
+      Toggle render
+    </button>
+    <transition name="custom-classes-transition" enter-active-class="animated tada" leave-active-class="animated bounceOutRight">
+      <p v-if="show">hello</p>
+    </transition>
+  </div>
+</body>
+<script type="text/javascript">
+  var app1 = new Vue({
+    el: "#app-1",
+    data: {
+      show: true
+    }
+  })
+  var app2 = new Vue({
+    el: "#app-2",
+    data: {
+      show: true
+    }
+  })
+</script>
+
+</html>
