@@ -241,7 +241,7 @@
     },
     components: {
       'my-awesome-list': {
-        template: '<ul><slot name="item" v-for="item in items" :text="item.text"></slot></ul>',
+        template: '<ul><slot name="item" v-for="item in items" text="item.text"></slot></ul>',
         props: ["items"]
       }
     }

@@ -221,4 +221,19 @@
               }
             })`
 
-      
+   7. 内联模板：如果子组件有 inline-template 特性，组件将把它的内容当作它的模板，而不是把它当作分发内容
+          
+          `<my-component inline-template>
+              <div>
+                <p>These are compiled as the component's own template.</p>
+                <p>Not parent's transclusion content.</p>
+              </div>
+           </my-component>`
+   8. X-templates：在 JavaScript 标签里使用 text/x-template 类型，并且指定一个id
+
+          `<script type="text/x-template" id="hello-world-template">
+              <p>Hello hello hello</p>
+           </script>
+           Vue.component('hello-world', {
+              template: '#hello-world-template'
+           })`
