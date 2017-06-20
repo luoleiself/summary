@@ -275,22 +275,22 @@
                   }
                }
              })`
-## 过渡
+## 过渡组件:`<transition name=''>`
    1. 过渡的类名：
       `v-enter;v-enter-active;v-enter-to;;v-leave;v-leave-active;v-leave-to`
    2. 自定义过渡类名:`enter-class;enter-active-class;leave-class;leave-active-class`
  
-         `<div id="app-2">
-            <button @click="show = !show">
-              Toggle render
-            </button>
-            <transition name="custom-classes-transition" enter-active-class="animated tada" leave-active-class="animated bounceOutRight">
-              <p v-if="show">hello</p>
-            </transition>
-          </div>
-          var app2 = new Vue({
-            el: '#app-2',
-            data: {
-              show: true
-            }
-          })`
+           `<div id="app-2">
+              <button @click="show = !show">
+                Toggle render
+              </button>
+              <transition name="custom-classes-transition" enter-active-class="animated tada" leave-active-class="animated bounceOutRight">
+                <p v-if="show">hello</p>
+              </transition>
+            </div>
+            var app2 = new Vue({
+              el: '#app-2',
+              data: {
+                show: true
+              }
+            })`
