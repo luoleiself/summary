@@ -1,28 +1,11 @@
-### NodeJs的安装及环境配置:
- * 1、首先从官网上下载安装包(window.msi):http://nodejs.cn/download/<br>
- * 2、启动安装程序:根据提示下一步操作
- * 3、修改NodeJs的主程序路径:D:\nodeJs
- * 4、cmd：
-   * ```node -v``` # 查看nodejs版本号
-   * ```npm -v``` #查看npm版本号
- * 5、上面成功显示表示nodejs安装成功
- * 6、修改全局配置:nodejs的全局模块和缓存都默认在c盘,容易c盘的空间占用问题
- * 7、修改全局模块的安装路径:
-   * ```npm config set prefix D:\nodeJs\node_global```   -> 在nodeJs安装目录中多了这两个文件
- * 8、修改全局模块的缓存路径:
-   * ```npm config set cache D:\nodeJs\node_cache```
- * 9、修改镜像资源地址:
-   * ```npm config set registry https://registry.npm.taobao.org```
- * 10、cmd:
-   * ```npm config list -l``` ->查看nodeJs配置文件详情/c:\Users\Administrator\.npmrc
- * 11、设置系统环境变量:
-   * 1、计算机 -> 属性 -> 高级系统设置 -> 高级 -> 环境变量
-   * 2、修改用户变量PATH:
+#### NodeJs的环境变量配置：
+  1. 计算机 -> 属性 -> 高级系统设置 -> 高级 -> 环境变量
+    1. 修改用户变量PATH:
       * D:\nodeJs\node_global -> 安装的全局模块的执行命令在此目录下,不修改报错"xxx不是内部或外部命令，也不是可运行的程序或批处理文件"
-   * 3、新建系统环境变量NODE_PATH:
+    2. 新建系统环境变量NODE_PATH:
       * D:\nodeJs\node_global\node_modules ->全局模块的安装路径,使用时nodeJs会从此路径下加载
- * 12、安装anywhere全局模块测试:
-### npm命令:
+  2. 安装anywhere全局模块测试:
+#### npm命令:
 * npm install modulesName@version  //安装版本
 * npm install modulesName -S/--save //生产阶段依赖;
 * npm install modulesName -D/--save-dev   //开发阶段依赖;
@@ -45,3 +28,4 @@
 * npm publish     //发布模块
 * npm config set prefix "globalDirPath"
 * npm config set cache "cacheDirPath"
+### [README_E.md](https://github.com/luoleiself/summary/blob/master/NodeJs/README_E.md)
