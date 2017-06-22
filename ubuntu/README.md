@@ -35,3 +35,4 @@
       3. `anywhere --help` => 显示帮助命令表示配置成功
       4. `anywhere: 未找到命令` => 表示系统环境配置错误，请检查 `8.2` 的配置路径是否正确
   
+####  [Vim常用命令:](https://github.com/luoleiself/summary/blob/master/ubuntu/vim)
