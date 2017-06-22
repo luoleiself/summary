@@ -1,9 +1,9 @@
 #### 安装NodeJs配置全局环境，以 `8.1.2` 版本为例
   1. 下载NodeJs安装包：`node-v8.1.2-linux-x64.tar.xz` 
   2. c => 压缩，x => 解压缩，v => 显示过程信息，f => 以包名为文件名：
-    1. `tar -Jxvf node-v8.1.2-linux-x64.tar.xz` => 解压 `xz` 压缩包
-    2. `tar -zxvf node-v8.1.2-linux-x64.tar.xz` => 解压 `gz` 压缩包
-    3. `tar -jxvf node-v8.1.2-linux-x64.tar.xz` => 解压 `bz` 压缩包
+      1. `tar -Jxvf node-v8.1.2-linux-x64.tar.xz` => 解压 `xz` 压缩包
+      2. `tar -zxvf node-v8.1.2-linux-x64.tar.xz` => 解压 `gz` 压缩包
+      3. `tar -jxvf node-v8.1.2-linux-x64.tar.xz` => 解压 `bz` 压缩包
   3. 移动文件：目录自己定，后面的设置需要用到
     1. `sudo mv node-v8.1.2-linux-x64 /usr/local/` => 移动到 `/usr/local/` 目录下
   4. 创建启动命令符号连接：
