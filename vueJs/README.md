@@ -299,13 +299,11 @@
             `<transition appear appear-class="" appear-active-class="" v-on:before-appear='' v-on:appear=''>
                 <!-- **** -->
              </transition>`
-  4. 列表渲染： `<transition-group name tag></tranistion-group>`
+  4. 列表渲染： `transition-group` [FLIP](https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js)
     * 默认渲染为 `span` ，通过 `tag` 特性指定标签
     * 内部元素需要提供唯一的 `key` 属性值 
-    1. `transition-group` 的 `v-move` 特性
-    > https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js
-
-    1. 列表位移渲染：
+    * `transition-group` 的 `v-move` 特性
+  5. 列表位移渲染：
 
             `<style>
               .list-complete-item {
@@ -352,4 +350,72 @@
                 }
               }
             })`
+   6. 列表渐进渲染：
+            
+            `<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
+             <div id="app-7">
+               <input v-model="query">
+               <transition-group name="staggered-fade" tag="ul" v-bind:css="false" v-on:before-enter="beforeEnter" v-on:enter="enter" v-on:leave="leave">
+                 <li v-for="(item, index) in computedList" v-bind:key="item.msg" v-bind:data-index="index">
+                   {{ item.msg }}
+                 </li>
+               </transition-group>
+             </div>
+             var app7 = new Vue({
+                  el: '#app-7',
+                  data: {
+                    query: '',
+                    list: [{
+                      msg: 'Bruce Lee'
+                    }, {
+                      msg: 'Jackie Chan'
+                    }, {
+                      msg: 'Chuck Norris'
+                    }, {
+                      msg: 'Jet Li'
+                    }, {
+                      msg: 'Kung Fury'
+                    }]
+                  },
+                  computed: {
+                    computedList: function() {
+                      var vm = this
+                      return this.list.filter(function(item) {
+                        return item.msg.toLowerCase().indexOf(vm.query.toLowerCase()) !== -1
+                      })
+                    }
+                  },
+                  methods: {
+                    beforeEnter: function(el) {
+                      el.style.opacity = 0
+                      el.style.height = 0
+                    },
+                    enter: function(el, done) {
+                      var delay = el.dataset.index * 150
+                      setTimeout(function() {
+                        Velocity(
+                          el, {
+                            opacity: 1,
+                            height: '1.6em'
+                          }, {
+                            complete: done
+                          }
+                        )
+                      }, delay)
+                    },
+                    leave: function(el, done) {
+                      var delay = el.dataset.index * 150
+                      setTimeout(function() {
+                        Velocity(
+                          el, {
+                            opacity: 0,
+                            height: 0
+                          }, {
+                            complete: done
+                          }
+                        )
+                      }, delay)
+                    }
+                  }
+                })`
         
