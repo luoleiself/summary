@@ -39,6 +39,36 @@
     {
       opacity: 0
     }
+    
+    .list-item {
+      display: inline-block;
+      margin-right: 10px;
+    }
+    
+    .list-enter-active,
+    .list-leave-active {
+      transition: all 1s;
+    }
+    
+    .list-enter,
+    .list-leave-active {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    /*列表的位移*/
+    .list-complete-item {
+      transition: all 1s;
+      display: inline-block;
+      margin-right: 10px;
+    }
+    .list-complete-enter,
+    .list-complete-leave-active {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    .list-complete-leave-active {
+      position: absolute;
+    }
   </style>
 </head>
 
@@ -54,7 +84,7 @@
       </transition>
     </div>
   </div>
-  <h3>自定义过渡类名：</h3>
+  <h3>自定义过渡类名：name='custom-classes-transition' enter-active-class='' leave-active-class=''</h3>
   <div id="app-2">
     <button @click="show = !show">
       Toggle render
@@ -62,6 +92,111 @@
     <transition name="custom-classes-transition" enter-active-class="animated tada" leave-active-class="animated bounceOutRight">
       <p v-if="show">hello</p>
     </transition>
+  </div>
+  <h3>初始过渡:appear appear-class='' appear-active-class=''</h3>
+  <div id="app-3">
+    <pre>
+      &lt;transition appear appear-class="custom-appear-class" appear-active-class="custom-appear-active-class"&gt;
+        <!-- ... -->
+      &lt;/transition&gt;
+    </pre>
+  </div>
+  <h3>自定义javascript钩子</h3>
+  <pre>
+    &lt;transition appear v-on:before-appear="customBeforeAppearHook" v-on:appear="customAppearHook" v-on:after-appear="customAfterAppearHook"&gt;
+      <!-- ... -->
+    &lt;/transition&gt;
+  </pre>
+  <h3>动态组件过渡:</h3>
+  <div id="app-4">
+    <pre>
+      &lt;transition name="component-fade" mode="out-in"&gt;
+        &lt;component v-bind:is="view"&gt;&lt;/component&gt;
+      &lt;/transition&gt;
+      new Vue({
+        el: '#app-4',
+        data: {
+          view: 'v-a'
+        },
+        components: {
+          'v-a': {
+            template: '&lt;div&gt;Component A&lt;/div&gt;'
+          },
+          'v-b': {
+            template: '&lt;div&gt;Component B&lt;/div&gt;'
+          }
+        }
+      })
+    </pre>
+  </div>
+  <h3>列表过渡：&lt;transition-group&gt;</h3>
+  <div id="app-5" class="demo">
+    <button v-on:click="add">Add</button>
+    <button v-on:click="remove">Remove</button>
+    <transition-group name="list" tag="p">
+      <span v-for="item in items" v-bind:key="item" class="list-item">
+      {{ item }}
+    </span>
+    </transition-group>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"></script>
+  <h3>列表的位移过渡：v-move</h3>
+  <div id="app-6" class="demo">
+    <button v-on:click="shuffle">Shuffle</button>
+    <button v-on:click="add">Add</button>
+    <button v-on:click="remove">Remove</button>
+    <transition-group name="list-complete" tag="p">
+      <span v-for="item in items" v-bind:key="item" class="list-complete-item">
+      {{ item }}
+    </span>
+    </transition-group>
+    <pre>
+      &lt;style&gt;
+        .list-complete-item {
+          transition: all 1s;
+          display: inline-block;
+          margin-right: 10px;
+        }
+        .list-complete-enter,
+        .list-complete-leave-active {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        .list-complete-leave-active {
+          position: absolute;
+        }
+      &lt;/style&gt;
+      &lt;button v-on:click="shuffle"&gt;Shuffle&lt;/button&gt;
+      &lt;button v-on:click="add"&gt;Add&lt;/button&gt;
+      &lt;button v-on:click="remove"&gt;Remove&lt;/button&gt;
+      &lt;transition-group name="list-complete" tag="p"&gt;
+        &lt;span v-for="item in items" v-bind:key="item" class="list-complete-item"&gt;
+        
+      &lt;/span&gt;
+      &lt;/transition-group&gt;
+      &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"&gt;&lt;/script&gt;
+      var app6 = new Vue({
+        el: '#app-6',
+        data: {
+          items: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+          nextNum: 10
+        },
+        methods: {
+          randomIndex: function() {
+            return Math.floor(Math.random() * this.items.length)
+          },
+          add: function() {
+            this.items.splice(this.randomIndex(), 0, this.nextNum++)
+          },
+          remove: function() {
+            this.items.splice(this.randomIndex(), 1)
+          },
+          shuffle: function() {
+            this.items = _.shuffle(this.items)
+          }
+        }
+      })
+    </pre>
   </div>
 </body>
 <script type="text/javascript">
@@ -75,6 +210,45 @@
     el: "#app-2",
     data: {
       show: true
+    }
+  })
+  var app5 = new Vue({
+    el: '#app-5',
+    data: {
+      items: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+      nextNum: 10
+    },
+    methods: {
+      randomIndex: function() {
+        return Math.floor(Math.random() * this.items.length)
+      },
+      add: function() {
+        this.items.splice(this.randomIndex(), 0, this.nextNum++)
+      },
+      remove: function() {
+        this.items.splice(this.randomIndex(), 1)
+      },
+    }
+  })
+  var app6 = new Vue({
+    el: '#app-6',
+    data: {
+      items: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+      nextNum: 10
+    },
+    methods: {
+      randomIndex: function() {
+        return Math.floor(Math.random() * this.items.length)
+      },
+      add: function() {
+        this.items.splice(this.randomIndex(), 0, this.nextNum++)
+      },
+      remove: function() {
+        this.items.splice(this.randomIndex(), 1)
+      },
+      shuffle: function() {
+        this.items = _.shuffle(this.items)
+      }
     }
   })
 </script>

@@ -294,3 +294,62 @@
                 show: true
               }
             })`
+  3. 初始渲染过渡和Js钩子：`appear appear-class appear-active-class`
+            
+            `<transition appear appear-class="" appear-active-class="" v-on:before-appear='' v-on:appear=''>
+                <!-- **** -->
+             </transition>`
+  4. 列表渲染： `<transition-group name tag></tranistion-group>`
+    * 默认渲染为 `span` ，通过 `tag` 特性指定标签
+    * 内部元素需要提供唯一的 `key` 属性值 
+    1. `transition-group` 的 `v-move` 特性
+    > https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js
+
+    1. 列表位移渲染：
+
+            `<style>
+              .list-complete-item {
+                transition: all 1s;
+                display: inline-block;
+                margin-right: 10px;
+              }
+              .list-complete-enter,
+              .list-complete-leave-active {
+                opacity: 0;
+                transform: translateY(30px);
+              }
+              .list-complete-leave-active {
+                position: absolute;
+              }
+            </style>
+            <button v-on:click="shuffle">Shuffle</button>
+            <button v-on:click="add">Add</button>
+            <button v-on:click="remove">Remove</button>
+            <transition-group name="list-complete" tag="p">
+              <span v-for="item in items" v-bind:key="item" class="list-complete-item">
+              {{ item }}
+            </span>
+            </transition-group>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"></script>
+            var app6 = new Vue({
+              el: '#app-6',
+              data: {
+                items: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+                nextNum: 10
+              },
+              methods: {
+                randomIndex: function() {
+                  return Math.floor(Math.random() * this.items.length)
+                },
+                add: function() {
+                  this.items.splice(this.randomIndex(), 0, this.nextNum++)
+                },
+                remove: function() {
+                  this.items.splice(this.randomIndex(), 1)
+                },
+                shuffle: function() {
+                  this.items = _.shuffle(this.items)
+                }
+              }
+            })`
+        
