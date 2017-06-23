@@ -17,4 +17,6 @@
   * console.time();console.timeEnd(); => 统计一段代码的执行时间
   * console.trace(); => 将当前位置处的栈信息作为标准错误信息输出
   * console.assert(); => 对一个表达式的结果进行评估
-    
+### global:
+  * var timer = setInterval(callback,time,args,[...]);clearInterval(timer);timer.unref();timer.ref();
+  * var timer = setTimeout(callback,time,args,[...]);clearTimeout(timer);timer.unref();timer.ref();
