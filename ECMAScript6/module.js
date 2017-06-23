@@ -113,8 +113,8 @@
     eg:<script type="module" src="foo.js"></script>
       <!-- 等同于 -->
       <script type="module" src="foo.js" defer></script>
-12.ES6模块和CommonJs模块的差异:
-  1.CommonJS 模块输出的是一个值的拷贝,ES6 模块输出的是值的引用
+12.ES6模块和CommonJs模块的差异:运行机制不同,加载时执行,执行时加载
+  1.CommonJS 模块输出的是一个值的拷贝;ES6 模块输出的是值的引用
   2.CommonJS 模块是运行时加载，ES6 模块是编译时输出接口
   3.ES6 模块之中，顶层的this指向undefined,CommonJS 模块的顶层this指向当前模块
     eg:// CommonJs加载方式
