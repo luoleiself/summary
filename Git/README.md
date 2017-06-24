@@ -1,3 +1,5 @@
+### [README_E.md](https://github.com/luoleiself/summary/edit/master/Git/README_E.md)
+
 ### 快捷键
     * git config --global alias.co checkout  #配置快捷键
     * git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
