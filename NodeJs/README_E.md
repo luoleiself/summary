@@ -18,6 +18,7 @@
   * console.trace(); => 将当前位置处的栈信息作为标准错误信息输出
   * console.assert(); => 对一个表达式的结果进行评估
 ### global:
+  * Buffer;module;process;
   * var timer = setInterval(callback,time,args,[...]);clearInterval(timer);timer.unref();timer.ref();
   * var timer = setTimeout(callback,time,args,[...]);clearTimeout(timer);timer.unref();timer.ref();
   * require.resolve('moduleName'); => 获取指定模块文件的带有完整绝对路径的文件名
