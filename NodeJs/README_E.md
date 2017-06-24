@@ -20,3 +20,20 @@
 ### global:
   * var timer = setInterval(callback,time,args,[...]);clearInterval(timer);timer.unref();timer.ref();
   * var timer = setTimeout(callback,time,args,[...]);clearTimeout(timer);timer.unref();timer.ref();
+  * require.resolve('moduleName'); => 获取指定模块文件的带有完整绝对路径的文件名
+  * require.cache; => 缓存所有已被加载的模块文件的缓存区
+    * {filePath:module}
+  * __filename:获取当前模块文件的带有完整绝对路径的文件名
+  * __dirname:获取当前模块文件的带有完整绝对路径的目录名
+  * EventEmitter:
+    * emitter.addListener(event,listener); => 对指定事件绑定事件及事件处理函数
+    * emitter.on(event,listener); => addListener的别名
+    * emitter.once(event,listener); => 绑定只执行一次的事件
+    * emitter.removeListener(event,listener); => 对指定事件解除事件处理函数
+    * emitter.removeAllListeners([event]); => 对指定事件解除所有事件处理函数
+    * emitter.setMaxListeners(number); => 指定事件的事件处理函数的个数,默认最大绑定10个
+    * emitter.listeners(event); => 获取指定事件的所有事件处理函数
+    * emitter.emit(event,[arg1],[...]); => 手动触发指定事件
+    * EventEmitter.listenerCount(emitter,event); => 获取某个对象的指定事件的事件处理函数的数量
+    * newListener => 对继承了EventEmitter类的子类的实例对象绑定事件处理函数时触发该事件
+    * removeListener => 对继承了EventEmitter类的子类的实例对象解除事件处理函数时触发该事件
