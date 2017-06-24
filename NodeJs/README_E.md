@@ -37,3 +37,15 @@
     * EventEmitter.listenerCount(emitter,event); => 获取某个对象的指定事件的事件处理函数的数量
     * newListener => 对继承了EventEmitter类的子类的实例对象绑定事件处理函数时触发该事件
     * removeListener => 对继承了EventEmitter类的子类的实例对象解除事件处理函数时触发该事件
+  * debug:
+    * node debug/inspect filename => 启动debug模式
+    * c => 继续执行剩余代码;n => 下一步;s => 进行方法内部执行;o => 退出
+    * sb/setBreakPoint([filename],number) => 设置断点;cb/clearBreakPoint([filename],number) => 清除断点
+    * bt/backtrace => 查看该函数及外层各函数的返回位置;
+    * list(number) => 查看当前行的前后的指定行的代码;
+    * repl => 进入交互环境
+    * restart =>　重新开始调试
+    * kill => 终止脚本调试
+    * run => kill命令执行后,重新开始脚本调试
+    * scripts => 查看加载的模块文件名称(不包含NodeJs内置模块)
+    * version => 显示Js引擎版本号
