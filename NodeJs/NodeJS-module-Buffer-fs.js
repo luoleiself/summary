@@ -345,20 +345,20 @@
     1、Buffer类:为二进制数据的存储提供一个缓冲区
       1、var buf = new Buffer(size);//指定缓冲区的大小(以字节为单位)
       2、var buf = new Buffer([value,[offset],[end]]);//使用数组初始化缓冲区
-      3、var buf = new Buffer(string,[encoding]);//使用字符串初始化缓冲区
+      3、var buf = new Buffer(string,[encoding]);//使用字符串初始化缓冲区,默认为 `utf8`
       4、方法:
-        1、fill(value,[offset],[end]);//初始化缓冲区中的所有内容
+        1、buf.fill(value,[offset],[end]); //初始化缓冲区中的所有内容
       5、字符串长度和缓存区的长度不一样;
-        1、slice();//字符串截取,缓存区截取后,缓存区将会改变
+        1、buf.slice(start,end);//字符串截取,缓存区截取后,缓存区将会改变
       6、Buffer与String的转换
         1、buf.toString([encoding],[start],[end]);
-        2、buf.write(str,[offset],[length],[encoding]);
+        2、buf.write(str,[offset],[length],[encoding]); // 替换原缓冲区中的字节数据
         3、//使用NodeJs模块:stringDecoder对象
       7、Buffer与Number的转换
         1、buf.readUInt8()/buf.writeUInt8();
       8、Buffer与Json的转换
-        1、JSON.stringify();
-        2、JSON.parse();
+        1、JSON.stringify(buf); // 结果为一个json字符串数组
+        2、JSON.parse(jsonBuf); // 将json字符串数组转换为数组
       9、复制缓存数据
         1、buf.copy(targetBuffer,[targetStart],[sourceStart],[sourceEnd]);
       10、类方法:
