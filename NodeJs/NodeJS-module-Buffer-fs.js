@@ -70,14 +70,17 @@
     1、同步:fs.readFileSync();
         同步方法立即返回操作结果,在使用同步方法执行的操作结束之前,不能执行后续代码.
         var fs = require("fs");
-        var data = fs.readFileSync("./index.html","utf8");
+        var data = fs.readFileSync('./test.txt',{flag:'r',encoding:'utf8'});
         console.log(data);
     2、异步:fs.readFile();
         异步方法将操作结果作为回调函数的参数返回,在方法调用之后,可立即执行后续代码
         var fs = require("fs");
-        fs.readFile("./index.html","utf8",function(err,data){
-          //操作结果作为回调函数的第二个参数返回
-          console.log(data);
+        fs.readFile('./test.txt',{flag:'r',encoding:'utf8'},function(err,data){
+          if(err){
+            congole.lo('读取文件失败');
+          }else{
+            console.log(data);
+          }
         })
     3、对文件读写操作方法:
       1、方法一:读取文件内容
