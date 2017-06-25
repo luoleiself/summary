@@ -82,9 +82,11 @@
     3、对文件读写操作方法:
       1、方法一:读取文件内容
         fs.readFile(filename,[options],callback);
-        fs.readFileSync(filename,[options]);
-        e.g:fs.readFile("./test.txt","utf8",function(err,data){})
+        fs.readFileSync(filename,[options]); 
         fs.ReadStream(filename);
+        eg:fs.readFile("./test.txt",{flag:'r',encoding:'utf8'},function(err,data){
+          console.log(data);
+        })
           option值为对象;
           1、flag:对文件的操作权限
             r:默认值,读取文件,如果文件不存在则抛出异常
@@ -99,12 +101,11 @@
             a+:读取并追加写入文件,如果该文件不存在则创建该文件
             ax+:作用和a+类似,使用排他方式打开文件
           2、encoding:指定编码格式来读取该文件,
-            读取文件时,不指定编码格式,该回调函数的第二个参数存储的实际是原始二进制内容的缓存区对象
-            utf8,ascii,base64
+            读取文件时,不指定编码格式,该回调函数的第二个参数存储的实际是原始二进制内容的缓存区对象utf8,ascii,base64     
       2、方法二:向文件写入内容
         fs.writeFile(filename,data,[options],callback);
         fs.writeFileSync(filename,data,[options]);
-        e.g:fs.writeFile("./test.txt","这是写入的内容\n","utf8",function(err){})
+        eg:fs.writeFile("./test.txt","这是写入的内容\n","utf8",function(err){})
         fs.WriteStream(filename);
           1、filename:指定需要被写入文件的完整路径及文件名
           2、data:指定需要写入的内容
