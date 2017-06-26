@@ -1,24 +1,47 @@
 ### [README_E.md](https://github.com/luoleiself/summary/edit/master/Git/README_E.md)
+### 新建代码库
+  * git init   # 在当前目录新建一个 `Git` 代码仓库
+  * git init [project-name]   # 新建一个目录，将其初始化为 `Git` 代码库
+  * git clone [url]   # 下载一个项目和它的整个代码历史
+### 配置
+  * git config -l/--list   # 显示当前的 `Git` 配置
+  * git config -e [--global]   # 编辑 `Git` 配置文件
+  * git config [--global] user.name '[name]'  # 设置提交代码时的用户信息-用户名
+  * git config [--global] user.email '[email address]'  # 设置提交代码时的用户信息-邮箱
+  * git config --global alias.co checkout  # 配置 `checkout` 快捷键
+  * git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"  # 配置 `log` 快捷键和显示历史颜色 
+### 增加/删除文件
+  * git add [file1] [file2] ...   # 添加到指定文件到暂存区
+  * git add [dir]   # 添加指定目录到暂存区，包括子目录
+  * git add . == git add -A/--all   #  添加当前目录的所有文件到暂存区
+  * git add -i   # 进入互动模式
+  * git rm [file1] [file2] ...   # 删除工作区文件，并将这次删除操作添加到暂存区
+  * git rm --cached [file]    # 停止追踪指定文件，但该文件会保留在工作区
+  * git mv [file-original] [file-renamed]  # 文件重命名，并将此次操作添加到暂存区  
+### 代码提交
+  * git commit -m 'message'  # 提交暂存区到仓库区
+  * git commit [file1] [file2] ... -m 'message'   # 提交暂存区的指定文件到仓库区
+  * git commit -a    # 提交工作区自上次 `commit` 之后的变化，直接到仓库区
+  * git commit -v    # 提交时显示所有 `diff` 信息
+  * git commit --amend -m 'message'   # 使用一次新的 `commit`，替代上一次提交
+  *                                   # 如果代码没有任何新变化，则用来改写上一次 `commit` 的提交信息   
+  * git commit --amend [file1] [file2] ...    # 重做上一次 `commit`，并包括指定文件的新变化                                
+### 分支
+  * 
 
-### 快捷键
-    * git config --global alias.co checkout  #配置快捷键
-    * git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
-### git add
-    * git add .   #将文件先暂存到staging area,stages new and modified,without deleted 
-    * git add -A/--all  #states all
-    * git add -u #states modified and deleted, without new
-    * git add -i #进入互动模式
-    * git add filename #新增一个文件
-    * git add modify-file #修### 改过得文档也要加add,不然在commit时要加-a
-### git rm #删除文件
-    * git rm filename
-### git mv #修改文件名，或搬移目录
-    * git mv filename newfilename
-### git status #查看状态
-### git commit 
-    * git commit -m 'commit message' #提交添加说明
-    * git commit -a -m "message" #提交修改文件并添加说明
-    * git commit -a -v #-v查看修改的内容
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### git branch
     * git branch #列出所有的分支
     * git branch new-branch #产生新的分支
