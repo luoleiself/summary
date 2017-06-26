@@ -27,116 +27,77 @@
   *                                   # 如果代码没有任何新变化，则用来改写上一次 `commit` 的提交信息   
   * git commit --amend [file1] [file2] ...    # 重做上一次 `commit`，并包括指定文件的新变化                                
 ### 分支
-  * 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### git branch
-    * git branch #列出所有的分支
-    * git branch new-branch #产生新的分支
-    * git branch new-branch master #master产生新的分支
-    * git branch -d branch #删除分支
-    * git branch -D branch #强制删除分支
-    * git checkout -b new-branch #产生新分支并切换过去
-    * git branch -r #列出所有repository branch 
-    * git branch -a #列出所有分支
-    * git branch --set-upstream master origin 	#手动建立追踪关系
-### git checkout
-    * git checkout branch-name #切换到branch-name 
-    * git checkout master #切换到master 
-    * git checkout -b new-branch master #从master建立新的分支，并切换过去
-    * git checkout -b new-branch #由当前分支建立新分支
-    * git checkout -b new-branch origin #由origin建立分支
-    * git checkout filename #还原状态到repository状态
-    * git checkout HEAD . #将所有文件都checkout出来
-    * git checkout xxxx . #xxxx是commit的编号的前四位,将xxxx编号的版本checkout出来
-    * git checkout – * #恢复上一次commit的状态
-### git diff
-    * git diff master #与master对比看哪些文件不同
-    * git diff –cached #比较staging area与repository 
-    * git diff tag1 tag2 #tag1与tag2比较
-    * git diff tag1:file1 tag2:file2 #tag1的file1与tag2的file2比较
-    * git diff #当前与staging area比较
-    * git diff HEAD #当前与repository比较
-    * git diff new-brach #当前与newbranch的比较
-    * git diff –stat  
-### git tag
-    * git tag v1 ebff #为commit ebff810c462234433434323334343设置标记v1 
-    * git tag 版本1 ebff #tag可以为中文
-    * git tag -d 版本1 #删除标记版本1
-### git log
-    * git log #列出所有log 
-    * git log –all 
-    * git log -p #列出log及修改的内容
-    * git log -p filename #将filename的log及修改内容列出来
-    * git log –name-only #列出哪些文件被修改
-    * git log –stat –summary #列出各个版本间的改动及行数
-    * git log filename #这个文件的所有log 
-    * git log directory #这个目录的所有log 
-    * git log -S'FUNC（）‘ #列出由FUNC()这个字符串的log 
-    * git log –no-merges #不要列出merge的log 
-    * git log –since="2 weeks ago" #列出最后两周的log 
-    * git log –pretty=oneline
-    * git log –pretty=short
-    * git log -p  #查看历史纪录以来哪几行被修改
-### git show
-    * git show ebff #显示commit ebff810xxxxxxxxxxx的内容
-    * git show v1 #显示tag v1的修改内容
-    * git show v1:hello.txt #显示tag:v1的hello.txt文件修改内容
-    * git show HEAD #当前版本的修改文件
-    * git show HEAD^ #前一版本所有修改的文件
-    * git show HEAD~4 #前4版本的修改文件
-### git reset
-    * git reset --soft HEAD^   #  还原版本库到上一个版本  
-    * git reset --mixed HEAD^ #  default,还原版本库、暂存区到上一个版本  
-    * git reset -–hard HEAD^  #  还原版本库、暂存区、工作区到上一个版本  
-    * git reset -–hard HEAD~3 #  还原到第三个版本  
-### git grep
-    * git grep "hello" v1 #查找tag:v1中是否由“hello"字符串
-    * git grep "hello"
-### git stash
-    * git stash #放进暂存区
-    * git stash list #列出暂存区的文件
-    * git stash pop #取出最新的一笔，并移除
-    * git stash apply #取出但不移除
-    * git stash clear #清除暂存区
-### git merge
-    * git merge #合并
-### git blame
-    * git blame filename #列出此文件所有commit的记录
-### git ls-files
-    * git ls-files -d #查看已删除的文件
-    * git ls-files -d | xargs git checkout –#将已删除的文件还原
-### git revert
-    * git revert HEAD #回到前一此commit的状态
-    * git revert HEAD^ #回到上上一次的状态
-### git remote
-    * git remote add new-branch http://git.xxx.xx.com/project.git #增加远程repository的branch 
-    * git remote show #列出现在由多少repository 
-    * git remote rm new-branch #删除服务器上的新分支
-    * git remote update #更新所有repository branch
-### git fetch
-    * git fetch origin
-### git push
-    * git push <远程主机名> <本地分支名>:<远程分支名>
-    * git push origin：heads/xxx-branch
-    * git push --all origin #推送本地的所有分支到远程仓库
-### git pull
-    * git pull <远程主机名> <远程分支名>:<本地分支名>
-    * git pull = git fetch + git merge
-    * git pull --rebase == git fetch + git rebase
-    * git add --all 
-    * git rebase --continue
-
+  * git branch    # 列出本地所有分支
+  * git branch -r    # 列出所有远程分支
+  * git branch -a    # 列出所有本地分支和远程分支
+  * git branch [branch-name]    # 新建一个分支，但依然停留在当前分支
+  * git branch [branch-name] [master]    # 
+  * git checkout -b [branch]    # 新建一个分支，并切换到新分支
+  * git branch [branch] [commit]    # 新建一个分支，指向指定 `commit`
+  * git branch --track [branch] [remote-branch]    # 新建一个分支，与指定的远程分支建立追踪关系
+  * git checkout [branch-name]    # 切换到指定分支，并更新工作区
+  * git branch --set-upstream [branch] [remote-branch]   # 建立追踪关系，在现有分支与指定的远程分支之间
+  * git merge [branch]    # 合并指定分支到当前分支
+  * git cherry-pick [commit]    # 选择一个 `commit`，合并进当前分支
+  * git branch -d [branch-name]    # 删除分支
+  * git branch -D [branch-name]    # 强制删除分支
+  * git push origin --delete [branch-name]    # 删除远程分支
+  * git branch -dr [remote/branch]    # 删除远程分支
+### 标签 
+  * git tag    # 列出所有tag
+  * git tag [tag]    # 新建一个 `tag`，在当前 `commit` 上
+  * git tag [tag] [commit]    # 新建一个 `tag`，在指定 `commit` 上
+  * git show [tag]    # 查看 `tag` 信息
+  * git push [remote] [tag]    # 提交指定 `tag`
+  * git push [remote] --tags    # 提交所有 `tag`
+  * git checkout -b [branch] [tag]    # 新建一个分支，指向某个 `tag`
+### 查看信息
+  * git status    # 显示有变更的文件
+  * git log    # 显示当前分支的历史版本
+  * git log --stat    # 显示 `commit` 历史，以及每次 `commit` 发生变更的文件
+  * git log --follow [file]    # 显示某个文件的版本历史，包括文件改名
+  * git whatchanged [file]    # 显示某个文件的版本历史，包括文件改名
+  * git log -p [file]    # 显示指定文件相关的每一次 `diff`
+  * git blame [file]    # 显示指定文件是什么人什么时候修改过   
+  * git diff    # 显示暂存区和工作区的差异
+  * git diff --cached [file]    # 显示暂存区和上一个 `commit` 的差异   
+  * git diff HEAD    # 显示工作区与当前分支最新 `commit` 之间的差异
+  * git diff [first-branch] ... [second-branch]    # 显示两次提交之间的差异
+  * git show [commit]    # 显示某次提交的元数据和内容变化
+  * git show --name-only [commit]    # 显示某次提交发生变化的文件
+  * git show [commit]:[filename]    # 显示某次提交时，某个文件的内容
+  * git reflog    # 显示当前分支的最近几次提交                      
+### 远程同步
+  * git fetch [remote]    # 下载远程仓库的所有变动
+  * git remote -v    # 显示所有远程仓库
+  * git remote show [remote]    # 显示某个远程仓库的信息 
+  * git remote add [shortname] [url]    # 增加一个新的远程仓库，并命名
+  * git pull [remote] [branch]    # 取回远程仓库的变化，并与本地分支合并
+  * git push [remote] [branch]    # 上传本地指定分支到远程仓库
+  * git push [remote] --force    # 强行推送当前分支到远程仓库，即使有冲突
+  * git push [remote] --all    # 推送所有分支到远程仓库
+### 撤销
+  * git checkout [file]    # 恢复暂存区的指定文件到工作区
+  * git checkout [commit] [file]    # 恢复某个 `commit` 的指定文件到工作区
+  * git checkout .    # 恢复上一个 `commit` 的所有文件到工作区
+  * git reset [file]    # 重置暂存区的指定文件，与上一次 `commit` 保持一致，但工作区不变
+  * git reset --hard    # 重置暂存区和工作区，与上一次 `commit` 保持一致
+  * git reset [commit]    # 重置当前分支的指针为指定 `commit` ，同时重置暂存区，但工作区不变
+  * git reset --hard [commit]    # 重置当前分支的HEAD为指定 `commit`，同时重置暂存区和工作区，与指定commit一致
+  * git reset --keep [commit]    # 重置当前HEAD为指定 `commit`，但保持暂存区和工作区不变
+  * git reset --soft HEAD^    # 还原版本库到上一个版本  
+  * git reset --mixed HEAD^    # default,还原版本库、暂存区到上一个版本  
+  * git reset -–hard HEAD^    # 还原版本库、暂存区、工作区到上一个版本  
+  * git reset -–hard HEAD~3    # 还原到第三个版本  
+  * git revert [commit]    # 新建一个 `commit`，用来撤销指定 `commit`
+  * git revert [commit]    # 后者的所有变化都将被前者抵消，并且应用到当前分支
+  * git revert HEAD    # 回到前一此 `commit` 的状态
+  * git revert HEAD^    # 回到上上一次的状态
+### 其他
+  * git archive    # 生成一个可供发布的压缩包
+  * git stash #放进暂存区
+  * git stash list #列出暂存区的文件
+  * git stash pop #取出最新的一笔，并移除
+  * git stash apply #取出但不移除
+  * git stash clear #清除暂存区
 
