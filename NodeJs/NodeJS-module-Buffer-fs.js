@@ -84,8 +84,8 @@
         })
     3、对文件读写操作方法:
       1、方法一:读取文件内容
-        fs.readFile(filename,[options],callback);
-        fs.readFileSync(filename,[options]); 
+        fs.readFile(filename,[options],callback);  // 以异步方式读取文件
+        fs.readFileSync(filename,[options]);  // 以同步方式读取文件
         fs.ReadStream(filename);
         eg:fs.readFile("./test.txt",{flag:'r',encoding:'utf8'},function(err,data){
           console.log(data);
@@ -106,8 +106,8 @@
           2、encoding:指定编码格式来读取该文件,
             读取文件时,不指定编码格式,该回调函数的第二个参数存储的实际是原始二进制内容的缓存区对象utf8,ascii,base64     
       2、方法二:向文件写入内容
-        fs.writeFile(filename,data,[options],callback);
-        fs.writeFileSync(filename,data,[options]);
+        fs.writeFile(filename,data,[options],callback);  // 以异步方式写入文件
+        fs.writeFileSync(filename,data,[options]);   // 以同步方式写入文件
         eg:fs.writeFile("./test.txt","这是写入的内容\n","utf8",function(err){})
         fs.WriteStream(filename);
           1、filename:指定需要被写入文件的完整路径及文件名
