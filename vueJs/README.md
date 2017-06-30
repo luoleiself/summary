@@ -418,4 +418,5 @@
                     }
                   }
                 })`
-        
+### 路由
+   1. 第三方路由插件:[Page.js](https://github.com/visionmedia/page.js) [Director.js](https://github.com/flatiron/director)      
