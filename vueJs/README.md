@@ -1,3 +1,4 @@
+### [README_ROUTE.md](https://github.com/luoleiself/summary/blob/master/vueJs/README_ROUTE.md)
 ### VueJs [官网](https://cn.vuejs.org) iView [Vue UI](https://www.iviewui.com/)
 > computed 和  watched 属性
    
