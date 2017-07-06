@@ -126,9 +126,11 @@
               4:读权限
               如果需要设置读写复合权限,可以对以上三个数字进行加运算:2+4=6;
       3、方法三:向文件尾部追加内容
-        fs.appendFile(filename,data,[options],callback);
-        fs.appendFileSync(filename,data,[options]);
-        e.g:fs.appendFile("./test.txt","这是追加的内容\n","utf8",function(err){})
+        fs.appendFile(filename,data,[options],callback); // 以异步方式向文件末尾追加内容
+        fs.appendFileSync(filename,data,[options]);  // 以同步方式向文件末尾追加内容
+        eg:fs.appendFile("./test.txt",data,{flag:'a',mode:'0666',encoding:'utf8'},function(err,data){
+          console.log(data);
+        })
           1、options:
             1、flag:默认值为a
       4、方法四:打开文件
