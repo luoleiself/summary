@@ -108,8 +108,10 @@
       2、方法二:向文件写入内容
         fs.writeFile(filename,data,[options],callback);  // 以异步方式写入文件
         fs.writeFileSync(filename,data,[options]);   // 以同步方式写入文件
-        eg:fs.writeFile("./test.txt","这是写入的内容\n","utf8",function(err){})
         fs.WriteStream(filename);
+        eg:fs.writeFile("./test.txt",data,{flag:'w',mode:'0666',encoding:'utf8',},function(err,data){
+          console.log(data);
+        })
           1、filename:指定需要被写入文件的完整路径及文件名
           2、data:指定需要写入的内容
           3、options:
