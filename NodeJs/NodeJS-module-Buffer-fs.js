@@ -134,15 +134,15 @@
           1、options:
             1、flag:默认值为a
       4、方法四:打开文件
-        fs.open(filename,flags,[mode],callback);
-        fs.open(filename,flags,[mode]);
-        e.g:fs.open("./test.txt","utf8",function(err,fd){})
+        fs.open(filename,flags,[mode],callback);  // 以异步方式打开文件
+        fs.openSync(filename,flags,[mode]);  // 以同步方式打开文件
+        eg:fs.open("./test.txt","utf8",function(err,fd){})
           1、filename|flags|mode:使用和readFile中的参数使用方式一致
           2、回调函数的第二个参数代表打开文件时返回的文件描述符
       5、方法五:读取文件指定内容
-        fs.read(fd,buffer,offset,length,position,callback);
-        fs.read(fd,buffer,offset,length,position);
-        e.g:fs.read(fd,buf,0,9,3,function(err,byteRead,buffer){})
+        fs.read(fd,buffer,offset,length,position,callback); // 以异步方式读取文件内容
+        fs.readSync(fd,buffer,offset,length,position); // 以同步方式读取文件内容
+        eg:fs.read(fd,buf,0,9,3,function(err,byteRead,buffer){})
           1、fd:必须是open/openSync方法中的回调函数中返回的文件描述符
           2、buffer:是一个Buffer对象,指定将文件数据读取到指定的缓存区对象中
           3、offset:指定向缓存区写入数据时开始写入的位置(以字节为单位)
@@ -158,9 +158,9 @@
           })
         })
       6、方法六:向文件内写入指定内容
-        fs.write(fd,buffer,offset,length,position,callback);
-        fs.write(fd,buffer,offset,length,position);
-        e.g:fs.write(fd,buf,0,9,3,function(err,written,buffer){})
+        fs.write(fd,buffer,offset,length,position,callback); // 以异步方式写入内容
+        fs.writeSync(fd,buffer,offset,length,position);  // 以同步方式写入内容
+        eg:fs.write(fd,buf,0,9,3,function(err,written,buffer){})
           1、fd:必须是open/openSync方法中的回调函数中返回的文件描述符
           2、buffer:指定从哪个缓存区中读取数据
           3、offset:指定从缓存区中读取数据时的开始位置(以字节为单位)
@@ -178,7 +178,7 @@
       7、方法七:关闭文件
         fs.close(fd,[callback])
         fs.closeSync(fd);
-        e.g:fs.close(fd,function(err){})
+        eg:fs.close(fd,function(err){})
       8、方法八:对文件进行同步操作,将缓存区的剩下的所有数据全部写入到文件中
         fs.fsync(fd,[callback]);
         fs.fsyncSync(fd);
@@ -186,19 +186,19 @@
       1、创建目录:
         fs.mkdir(path,[mode],callback);
         fs.mkdirSync(path,[mode]);
-        e.g:fs.mkdir(path,[mode],function(err){})
+        eg:fs.mkdir(path,[mode],function(err){})
           1、path:指定需要被创建的目录的完整路径及文件名
       2、读取目录方法:
         fs.readdir(path,callback);
         fs.readdirSync(path);
-        e.g:fs.readdir(path,function(err,files){})
+        eg:fs.readdir(path,function(err,files){})
     5、查看、修改文件/目录信息
       1、查看文件或目录的信息
         fs.stat(path,callback);
         fs.statSync(path);
         fs.lstat(path,callback);
         fs.lstatSync(path);
-        e.g:fs.stat(path,function(err,stats){})
+        eg:fs.stat(path,function(err,stats){})
           1、唯一区别:查看符号链接文件的信息时,必须使用lstat方法
           2、stats:是一个fs.Stats对象
             1、isFile():判断被查看的对象是否是一个文件,boolean
@@ -222,7 +222,7 @@
         1.1、使用open、openSync方法打开文件的查看文件信息方法
           fs.fstat(fd,callback);
           fs.fstatSync(fd);
-          e.g:fs.open("./test.txt","r",function(err,fd){
+          eg:fs.open("./test.txt","r",function(err,fd){
             fs.fstat(fd,function(err,stats){
               console.log(stats);
             });
@@ -231,17 +231,17 @@
       2、检查文件或者目录是否存在
         fs.exists(path,callback);
         fs.existsSync(path);
-        e.g:fs.exists(path,function(exists){})
+        eg:fs.exists(path,function(exists){})
       3、获取文件的绝对路径
         fs.realpath(path,[cache],callback);
         fs.realpathSync(ptah,[cache]);
-        e.g:fs.realpath(path,{"/etc":"/private/etc"},function(err,resolvePath){})
+        eg:fs.realpath(path,{"/etc":"/private/etc"},function(err,resolvePath){})
           1、cahce:对象,存放一些预定义的路径
           2、resolvePath:获取文件或目录的绝对路径
       4、修改文件访问时间及修改时间
         fs.utimes(path,atime,mtime,callback);
         fs.utimesSync(path,atime,mtime);
-        e.g:fs.utimes(path,atime,mtime,function(err){})
+        eg:fs.utimes(path,atime,mtime,function(err){})
           1、atime:修改后的访问时间
           2、mtime:修改后的修改时间
         4.1、使用open、openSync方法打开文件的修改文件访问及修改时间
@@ -251,7 +251,7 @@
       5、修改文件或目录的读取权限
         fs.chmod(path,mode,callback);
         fs.chmodSync(path,mode);
-        e.g:fs.chmod(path,mode,function(err){});
+        eg:fs.chmod(path,mode,function(err){});
         5.1、使用open、openSync方法打开文件的修改权限
           fs.fchmod(fd,mode,callback);
           fs.fchmodSync(fd,mode);
