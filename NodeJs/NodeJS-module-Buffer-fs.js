@@ -136,7 +136,9 @@
       4、方法四:打开文件
         fs.open(filename,flags,[mode],callback);  // 以异步方式打开文件
         fs.openSync(filename,flags,[mode]);  // 以同步方式打开文件
-        eg:fs.open("./test.txt","utf8",function(err,fd){})
+        eg:fs.open("./test.txt","r",function(err,fd){
+          console.log(fd); // 打开文件时返回的文件描述符,文件句柄
+        })
           1、filename|flags|mode:使用和readFile中的参数使用方式一致
           2、回调函数的第二个参数代表打开文件时返回的文件描述符
       5、方法五:读取文件指定内容
