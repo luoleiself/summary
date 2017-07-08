@@ -205,12 +205,23 @@
       1、创建目录:
         fs.mkdir(path,[mode],callback);
         fs.mkdirSync(path,[mode]);
-        eg:fs.mkdir(path,[mode],function(err){})
           1、path:指定需要被创建的目录的完整路径及文件名
+          2、mode:指定该目录的权限,默认为0777
+        eg:fs.mkdir('./testPath','0755',function(err){
+          if(err){
+            console.log('创建目录操作失败');
+          }
+        })
+          
       2、读取目录方法:
         fs.readdir(path,callback);
         fs.readdirSync(path);
-        eg:fs.readdir(path,function(err,files){})
+          1、path:指定需要被读取的目录的完整路径及目录名
+          2、callback(err):读取目录失败返回的错误对象
+          3、callback(files):返回读取到的文件中的所有文件名
+        eg:fs.readdir('./testPath',function(err,files){
+          console.log(files);
+        })
     5、查看、修改文件/目录信息
       1、查看文件或目录的信息
         fs.stat(path,callback);
