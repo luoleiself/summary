@@ -71,7 +71,6 @@
         同步方法立即返回操作结果,在使用同步方法执行的操作结束之前,不能执行后续代码.
         var fs = require("fs");
         var data = fs.readFileSync('./test.txt',{flag:'r',encoding:'utf8'});
-        console.log(data);
     2、异步:fs.readFile();
         异步方法将操作结果作为回调函数的参数返回,在方法调用之后,可立即执行后续代码
         var fs = require("fs");
@@ -109,8 +108,10 @@
         fs.writeFile(filename,data,[options],callback);  // 以异步方式写入文件
         fs.writeFileSync(filename,data,[options]);   // 以同步方式写入文件
         fs.WriteStream(filename);
-        eg:fs.writeFile("./test.txt",data,{flag:'w',mode:'0666',encoding:'utf8',},function(err,data){
-          console.log(data);
+        eg:fs.writeFile("./test.txt",data,{flag:'w',mode:'0666',encoding:'utf8',},function(err){
+          if(err){
+            console.log('写入文件失败');
+          }
         })
           1、filename:指定需要被写入文件的完整路径及文件名
           2、data:指定需要写入的内容
@@ -128,8 +129,10 @@
       3、方法三:向文件尾部追加内容
         fs.appendFile(filename,data,[options],callback); // 以异步方式向文件末尾追加内容
         fs.appendFileSync(filename,data,[options]);  // 以同步方式向文件末尾追加内容
-        eg:fs.appendFile("./test.txt",data,{flag:'a',mode:'0666',encoding:'utf8'},function(err,data){
-          console.log(data);
+        eg:fs.appendFile("./test.txt",data,{flag:'a',mode:'0666',encoding:'utf8'},function(err){
+          if(err){
+            console.log('追加内容失败');
+          }
         })
           1、options:
             1、flag:默认值为a
@@ -144,46 +147,60 @@
       5、方法五:读取文件指定内容
         fs.read(fd,buffer,offset,length,position,callback); // 以异步方式读取文件内容
         fs.readSync(fd,buffer,offset,length,position); // 以同步方式读取文件内容
-        eg:fs.read(fd,buf,0,9,3,function(err,byteRead,buffer){})
           1、fd:必须是open/openSync方法中的回调函数中返回的文件描述符
           2、buffer:是一个Buffer对象,指定将文件数据读取到指定的缓存区对象中
           3、offset:指定向缓存区写入数据时开始写入的位置(以字节为单位)
           4、legnth:指定从文件读取的字节数
           5、position:指定读取文件时的开始位置(以字节为单位),如果值为null,则从当前文件被读取处开始读取
-          6、err
-          7、bytesRead:实际读取的字节数
-          8、buffer:被读取的缓存区对象
-        var fs = require("fs");
-        fs.open("./test.txt","r",function(err,fd){
-          fs.read(fd,new Buffer(255),0,6,12,function(err,bytesRead,buffer){
-            console.log(buffer.slice(0,bytesRead).toString());
+          6、callback(err):读取文件操作失败时返回的错误对象
+          7、callback(bytesRead):实际读取的字节数
+          8、callback(buffer):被读取的缓存区对象
+        eg:var fs = require("fs");
+          fs.open("./test.txt","r",function(err,fd){
+            fs.read(fd,new Buffer(255),0,6,12,function(err,bytesRead,buffer){
+              // 0:开始向缓冲区写入数据时的位置
+              // 6:从文件中读取的字节数
+              // 12:读取文件时开始位置
+              console.log(buffer.slice(0,bytesRead).toString());
+            })
           })
-        })
       6、方法六:向文件内写入指定内容
         fs.write(fd,buffer,offset,length,position,callback); // 以异步方式写入内容
         fs.writeSync(fd,buffer,offset,length,position);  // 以同步方式写入内容
-        eg:fs.write(fd,buf,0,9,3,function(err,written,buffer){})
           1、fd:必须是open/openSync方法中的回调函数中返回的文件描述符
           2、buffer:指定从哪个缓存区中读取数据
           3、offset:指定从缓存区中读取数据时的开始位置(以字节为单位)
           4、length:指定从缓存区中读取的字节数
-          5、position:指定写入文件时的开始位置(以字节为单位)
-          6、err
-          7、written:被写入的字节数
-          8、buffer:被读取的缓存区对象
-        fs.open("./message.txt","w",function(err,fd){
-          fs.write(fd,new Buffer("呵呵哈哈嘻嘻"),3,9,12,function(err,written,buffer){
-            console.log(written);
-            console.log(buffer);
-          })
-        })
+          5、position:指定写入文件时的开始位置(以字节为单位),如果为null,则从文件的当前被写入处开始写入,以追加模式打开文件并指定文件的写入位置无效
+          6、callback(err):写入文件操作失败时返回的错误对象
+          7、callback(written):被写入的字节数
+          8、callback(buffer):被读取的缓存区对象
+          eg:var fs = require('fs');
+             var buf = new Buffer('嘻嘻呵呵哈哈');
+            fs.open("./message.txt","w",function(err,fd){
+              fs.write(fd,buf,0,6,12,function(err,written,buffer){
+                // 0:从缓冲区读取数据的开始位置
+                // 6:从缓冲区读取的字节数
+                // 12:写入文件时的开始位置
+                console.log(written);
+                console.log(buffer);
+              })
+            })
       7、方法七:关闭文件
         fs.close(fd,[callback])
         fs.closeSync(fd);
-        eg:fs.close(fd,function(err){})
+          1、fd:open方法打开文件时返回的文件操作符
+        eg:fs.close(fd,function(err){
+          if(err){
+            console.log('关闭文件操作失败');
+          }
+        })
       8、方法八:对文件进行同步操作,将缓存区的剩下的所有数据全部写入到文件中
         fs.fsync(fd,[callback]);
         fs.fsyncSync(fd);
+          1、fd:open方法打开文件时返回的文件操作符
+        eg:fs.fsync(fd,function(err){})
+          fs.close(fd);
     4、创建和读写目录方法:
       1、创建目录:
         fs.mkdir(path,[mode],callback);
