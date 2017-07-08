@@ -219,8 +219,9 @@
           1、path:指定需要被读取的目录的完整路径及目录名
           2、callback(err):读取目录失败返回的错误对象
           3、callback(files):返回读取到的文件中的所有文件名
-        eg:fs.readdir('./testPath',function(err,files){
-          console.log(files);
+        eg:fs.readdir('C:/Users/Administrator/Desktop/node/global', function(err, files) {
+            console.log(files);
+            // ['app.js','view','testPath','package.json']
         })
     5、查看、修改文件/目录信息
       1、查看文件或目录的信息
