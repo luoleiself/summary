@@ -254,42 +254,76 @@
             17、stats.mtime:该属性为文件的修改时间
             18、stats.ctime:该属性为文件的创建时间
         1.1、使用open、openSync方法打开文件的查看文件信息方法
-          fs.fstat(fd,callback);
-          fs.fstatSync(fd);
+          fs.fstat(fd,callback); // 以异步方式查看文件的信息
+          fs.fstatSync(fd);  // 以同步方式查看文件的信息
           eg:fs.open("./test.txt","r",function(err,fd){
             fs.fstat(fd,function(err,stats){
               console.log(stats);
+              // {dev:'',ino:'',mode:'',uid:'',gid:'',atime:'',mtime:'',ctime:''}
             });
           })
-            1、fd:必须是打开文件返回的文件描述符
+            1、fd:必须是打开文件时返回的文件描述符
+            2、stats:和stat、lstat方法中的回调函数参数使用方式相同
       2、检查文件或者目录是否存在
-        fs.exists(path,callback);
-        fs.existsSync(path);
-        eg:fs.exists(path,function(exists){})
-      3、获取文件的绝对路径
-        fs.realpath(path,[cache],callback);
-        fs.realpathSync(ptah,[cache]);
-        eg:fs.realpath(path,{"/etc":"/private/etc"},function(err,resolvePath){})
-          1、cahce:对象,存放一些预定义的路径
-          2、resolvePath:获取文件或目录的绝对路径
+        fs.exists(path,callback); // 以异步方式检查文件或者目录是否存在
+        fs.existsSync(path);  // 以同步方式检查文件或者目录是否存在
+        eg:fs.exists(path,function(exists){
+          console.log(exists); // boolean
+        })
+            1、path:指定需要被检查的文件或者目录的完整路径的文件名或者目录名
+            2、exists:返回一个布尔值代表当前文件、目录是否存在
+      3、获取文件或者目录的绝对路径
+        fs.realpath(path,[cache],callback); // 以异步方式获取文件或目录的绝对路径
+        fs.realpathSync(ptah,[cache]);  // 以同步方式获取文件或目录的绝对路径
+        eg:fs.realpath(path,{"/etc":"/private/etc"},function(err,resolvePath){
+          console.log(resolvePath); // String,返回文件或者目录的绝对路径
+        })
+          1、path:指定需要获取绝对路径的文件名或者目录名
+          2、cahce:对象,存放一些预定义的路径
+          3、resolvePath:获取文件或目录的绝对路径
       4、修改文件访问时间及修改时间
-        fs.utimes(path,atime,mtime,callback);
-        fs.utimesSync(path,atime,mtime);
-        eg:fs.utimes(path,atime,mtime,function(err){})
-          1、atime:修改后的访问时间
-          2、mtime:修改后的修改时间
+        fs.utimes(path,atime,mtime,callback); // 以异步方式修改文件的访问时间及修改时间
+        fs.utimesSync(path,atime,mtime);  // 以同步方式修改文件的访问时间及修改时间
+        eg:fs.utimes(path,atime,mtime,function(err){
+          if(err){
+            console.log('修改文件的访问时间和修改时间操作失败');
+          }
+        })
+          1、path:指定需要修改的文件名
+          2、atime:修改后的访问时间
+          3、mtime:修改后的修改时间
+          4、callback(err):修改操作失败时返回的错误对象
         4.1、使用open、openSync方法打开文件的修改文件访问及修改时间
-          fs.futimes(fd,atime,mtime,callback);
-          fs.futimesSync(fd,atime,mtime);
-          e.g:fs.futimes(fd,atime,mtime,function(err){}) 
+          fs.futimes(fd,atime,mtime,callback);  // 以异步方式修改打开文件的访问时间及修改时间
+          fs.futimesSync(fd,atime,mtime);  // 以同步方式修改打开文件的访问时间及修改时间
+          eg:fs.futimes(fd,atime,mtime,function(err){
+            if(err){
+              console.log('修改文件的访问时间和修改时间操作失败');
+            }
+          })
+            1、fd:使用open、openSync方法打开文件时返回的文件操作符
+            2、atime:和utimes、utimesSync方法的使用方式相同
+            3、mtime:和utimes、utimesSync方法的使用方式相同
+            4、callback(err):和utimes、utimesSync方法的使用方式相同
       5、修改文件或目录的读取权限
-        fs.chmod(path,mode,callback);
-        fs.chmodSync(path,mode);
-        eg:fs.chmod(path,mode,function(err){});
+        fs.chmod(path,mode,callback); // 以异步方式修改文件或目录的读取权限
+        fs.chmodSync(path,mode);  // 以同步方式修改文件或目录的读取权限
+        eg:fs.chmod(path,'0754',function(err){
+          if(err){
+            console.log('修改文件或者目录的读取权限失败');
+            // 所有者可读可写可执行,所有者所在组可读可执行,其他人可读
+          }
+        });
+          1、path:指定需要修改操作权限的文件名或者目录名
+          2、mode:指定修改后的文件或者目录的操作权限
+          3、callback(err):修改文件或者目录的操作权限的操作失败时返回的错误信息对象
         5.1、使用open、openSync方法打开文件的修改权限
-          fs.fchmod(fd,mode,callback);
-          fs.fchmodSync(fd,mode);
-          e.g:fs.fchmod(fd,mode,function(err){})
+          fs.fchmod(fd,mode,callback);  // 以异步方式修改打开文件的操作权限
+          fs.fchmodSync(fd,mode);  // 以同步方式修改打开文件的操作权限
+          eg:fs.fchmod(fd,'0754',function(err){})
+            1、fd:使用open、openSync方法打开文件时返回的文件操作符
+            2、mode:和chmod、chmodSync方法的使用方式相同
+            3、callback(err): 和chmod、chmodSync方法的使用方式相同
     6、对文件或目录执行的其他操作
       1、移动文件或目录:
         fs.rename(oldepath,newpath,function(err){});
