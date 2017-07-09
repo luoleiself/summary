@@ -1,3 +1,4 @@
+####  [Vim常用命令:](https://github.com/luoleiself/summary/blob/master/ubuntu/vim)
 #### 安装NodeJs配置全局环境，以 `8.1.2` 版本为例
   1. 下载NodeJs安装包：`node-v8.1.2-linux-x64.tar.xz` 
   2. c => 压缩，x => 解压缩，v => 显示过程信息，f => 以包名为文件名：
@@ -34,5 +35,4 @@
       2. `ll usr/local/node-v8.1.2-linux-x64/node_global/lib/node_modules` => 显示所有文件
       3. `anywhere --help` => 显示帮助命令表示配置成功
       4. `anywhere: 未找到命令` => 表示系统环境配置错误，请检查 `8.2` 的配置路径是否正确
-  
-####  [Vim常用命令:](https://github.com/luoleiself/summary/blob/master/ubuntu/vim)
+#### 安装Mysql数据库配置全局环境
