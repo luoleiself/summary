@@ -225,31 +225,34 @@
         })
     5、查看、修改文件/目录信息
       1、查看文件或目录的信息
-        fs.stat(path,callback);
-        fs.statSync(path);
-        fs.lstat(path,callback);
-        fs.lstatSync(path);
-        eg:fs.stat(path,function(err,stats){})
+        fs.stat(path,callback); // 异步方式查看文件、目录的信息
+        fs.statSync(path);  // 同步方式查看文件、目录的信息
+        fs.lstat(path,callback); // 异步方式查看文件、目录、符号链接文件的信息
+        fs.lstatSync(path);  // 同步方式查看文件、目录、符号链接文件的信息
+        eg:fs.lstat(path,function(err,stats){
+          console.dir(stats);
+          // {dev:'',ino:'',mode:'',uid:'',nlink:'',gid:'',atime:'',mtime:'',ctime:''}
+        })
           1、唯一区别:查看符号链接文件的信息时,必须使用lstat方法
           2、stats:是一个fs.Stats对象
-            1、isFile():判断被查看的对象是否是一个文件,boolean
-            2、isDirectory():判断被查看的对象是否是一个目录,boolean
-            3、isBlockDevice():判断被查看的文件是否是一个块设备文件,boolean,仅在unix操作系统有效
-            4、isCharacterDevice():判断被查看的文件是否是一个字符设备文件,boolean,仅在unix操作系统有效
-            5、isSymbolicLink():判断被查看的文件是否是一个符号链接文件,boolean,仅在lstat的回调函数中有效
-            6、isFIFO():判断被查看的文件是否是一个FIFO文件,boolean,仅在unix操作系统有效
-            7、isSocket():判断被查看的文件是否是一个socket文件,boolean,仅在unix操作系统有效
-            8、dev:该属性为文件或者目录所在设备ID,仅在unix操作系统有效
-            9、ino:该属性为文件或目录的索引编码,仅在unix操作系统有效
-            10、mode:该属性为使用数值形式表示的文件或目录的权限标志
-            11、nlink:该属性为文件或目录的硬连接数量
-            12、uid:该属性为文件或目录所有者的用户ID,仅在unix操作系统有效
-            13、gid:该属性为文件或目录所有者的组ID,仅在unix操作系统有效
-            14、rdev:该属性为字符设备文件或块设备文件所在设备ID,仅在unix操作系统有效
-            15、size:该属性为文件尺寸(文件的字节数)
-            16、atime:该属性为文件的访问时间
-            17、mtime:该属性为文件的修改时间
-            18、ctime:该属性为文件的创建时间
+            1、stats.isFile():判断被查看的对象是否是一个文件,boolean
+            2、stats.isDirectory():判断被查看的对象是否是一个目录,boolean
+            3、stats.isBlockDevice():判断被查看的文件是否是一个块设备文件,boolean,仅在unix操作系统有效
+            4、stats.isCharacterDevice():判断被查看的文件是否是一个字符设备文件,boolean,仅在unix操作系统有效
+            5、stats.isSymbolicLink():判断被查看的文件是否是一个符号链接文件,boolean,仅在lstat的回调函数中有效
+            6、stats.isFIFO():判断被查看的文件是否是一个FIFO文件,boolean,仅在unix操作系统有效
+            7、stats.isSocket():判断被查看的文件是否是一个socket文件,boolean,仅在unix操作系统有效
+            8、stats.dev:该属性为文件或者目录所在设备ID,仅在unix操作系统有效
+            9、stats.ino:该属性为文件或目录的索引编码,仅在unix操作系统有效
+            10、stats.mode:该属性为使用数值形式表示的文件或目录的权限标志
+            11、stats.nlink:该属性为文件或目录的硬连接数量
+            12、stats.uid:该属性为文件或目录所有者的用户ID,仅在unix操作系统有效
+            13、stats.gid:该属性为文件或目录所有者的组ID,仅在unix操作系统有效
+            14、stats.rdev:该属性为字符设备文件或块设备文件所在设备ID,仅在unix操作系统有效
+            15、stats.size:该属性为文件尺寸(文件的字节数)
+            16、stats.atime:该属性为文件的访问时间
+            17、stats.mtime:该属性为文件的修改时间
+            18、stats.ctime:该属性为文件的创建时间
         1.1、使用open、openSync方法打开文件的查看文件信息方法
           fs.fstat(fd,callback);
           fs.fstatSync(fd);
