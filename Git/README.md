@@ -1,4 +1,4 @@
-### [README_E.md](https://github.com/luoleiself/summary/edit/master/Git/README_E.md)
+### [README_E.md](https://github.com/luoleiself/summary/blob/master/Git/README_E.md)
 ### 新建代码库
   * git init   # 在当前目录新建一个 `Git` 代码仓库
   * git init [project-name]   # 新建一个目录，将其初始化为 `Git` 代码库
