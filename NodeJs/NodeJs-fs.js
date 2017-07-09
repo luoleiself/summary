@@ -370,13 +370,13 @@
           2、watcher.close();
     7、使用文件流:
       1、流是一组有序的、有起点的和终点的字节数据的传输手段
-      2、概念:read/readSync、write/writeSync:在文件读写的过程中不允许Nodejs执行其他任何处理
-        1、将需要读写的数据写到一个内存缓冲区
-        2、待缓冲区写满后再将缓冲区中的内容写入到文件中，
-        3、重复执行以上步骤
+      2、概念:readFile/readFileSync、writeFile/writeFileSync:在文件读写的过程中不允许Nodejs执行其他任何处理
+        read/readSync、write/writeSync:  
+          1、将需要读写的数据写到一个内存缓冲区
+          2、待缓冲区写满后再将缓冲区中的内容写入到文件中，
+          3、重复执行以上步骤
       3、读取数据的对象
-          1、fs.ReadStream、http.IncomingMessage、net.Socket、
-              child.stdout、child.stderr、process.stdin
+          1、fs.ReadStream、http.IncomingMessage、net.Socket、child.stdout、child.stderr、process.stdin
           2、Gzip、Deflate、DeflateRaw;用于实现数据压缩,
         3.1、读取数据的对象触发事件
             readable、data、end、error、close
