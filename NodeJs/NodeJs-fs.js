@@ -402,7 +402,8 @@
          5.3、readStream.pipe(destination,[options]);  // 创建一个管道,将一个流对象输出到另一个流对象中
               1、destination:参数值必须为一个可写入流数据的对象
               2、options:
-                end:true;  // default:true;当数据全部读取完毕时,立即将OS缓存区中的剩余数据全部写入到文件并关闭文件,false:不关闭文件,可以继续写入新的数据
+                end:true;  // default:true;当数据全部读取完毕时,立即将OS缓存区中的剩余数据全部写入到文件并关闭文件,
+                           // false:不关闭文件,可以继续写入新的数据
             eg:var readStream = fs.createReadStream('./test.txt');
               var writeStream = fs.createWriteStream('./testOut.txt');
               readStream.pipt(writeStream,{end:false}); // 写入数据不关闭文件
