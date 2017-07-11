@@ -17,7 +17,6 @@
       1、方法一:读取文件内容
         fs.readFile(filename,[options],callback);  // 以异步方式读取文件
         fs.readFileSync(filename,[options]);  // 以同步方式读取文件
-        fs.ReadStream(filename);
         eg:fs.readFile("./test.txt",{flag:'r',encoding:'utf8'},function(err,data){
           console.log(data);
         })
@@ -39,7 +38,6 @@
       2、方法二:向文件写入内容
         fs.writeFile(filename,data,[options],callback);  // 以异步方式写入文件
         fs.writeFileSync(filename,data,[options]);   // 以同步方式写入文件
-        fs.WriteStream(filename);
         eg:fs.writeFile("./test.txt",data,{flag:'w',mode:'0666',encoding:'utf8',},function(err){
           if(err){
             console.log('写入文件失败');
@@ -378,45 +376,73 @@
       3、读取数据的对象
           1、fs.ReadStream、http.IncomingMessage、net.Socket、child.stdout、child.stderr、process.stdin
           2、Gzip、Deflate、DeflateRaw;用于实现数据压缩,
-        3.1、读取数据的对象触发事件
-            readable、data、end、error、close
-        3.2、读取数据的对象的方法
-            read、setEncoding、pause、resume、pipe、unpipe、unshift
+        3.1、读取数据的对象触发事件: open、readable、data、end、error、close
+        3.2、读取数据的对象的方法: read、setEncoding、pause、resume、pipe、unpipe、unshift
       4、写入数据的对象
-          1、fs.WriteStream、http.ClientRequest、http.ServerResponse、net.Socket、
-              child.stdin、process.stdout、process.stderr、
+          1、fs.WriteStream、http.ClientRequest、http.ServerResponse、net.Socket、child.stdin、process.stdout、process.stderr、
           2、Gunzip、Inflate、InflateRaw
-        4.1、写入数据的对象的事件
-            drain、finish、pipe、unpipe、error
-        4.2、写入数据的对象的方法
-            write、end
+        4.1、写入数据的对象的事件: open、drain(当OS缓存区的数据已全部读出并写入到文件时触发,数据读入OS缓存区仍在继续)、finish、pipe、unpipe、error
+        4.2、写入数据的对象的方法: write、end
       5、使用ReadStream对象读取文件
-        fs.createReadStream(path,[options]);创建一个将文件内容读取为流数据的ReadSteam对象
-          1、options:
-            flags:默认值为r
-            encoding:utf8/ascii/base64,默认值为null
-            autoClose:指定是否关闭在读取文件时操作系统内部使用的文件描述符,默认值为true
-            start:使用整数值指定文件的开始读取位置(以字节为单位)
-            end:使用整数值指定文件的结束读取位置(以字节为单位)
-          var file = fs.createReadStream(path,{encoding:"utf8",start:6,end:15});
+        fs.createReadStream(path,[options]); // 创建一个将文件内容读取为流数据的ReadSteam对象
+        eg:var readStream = fs.createReadStream('./test.txt',{flag:'r',encoding:'utf8',start:3,end:12})
+          readStream.on('open',function(fd){
+            console.log('开始读取文件');
+          });
+          readStream.on('data/close/end/error',function(data/''/''/err){});
+            1、path:指定需要被读取的文件的完整路径的文件名
+            2、options:
+              flags:默认值为r,属性值与readFile方法中options参数对象中所使用的flags属性的可指定属性值相同
+              encoding:utf8/ascii/base64,默认值为null
+              autoClose:指定是否关闭在读取文件时操作系统内部使用的文件描述符,默认值为true
+              start:使用整数值指定文件的开始读取位置(以字节为单位)
+              end:使用整数值指定文件的结束读取位置(以字节为单位)
+         5.1、readStream.pause(); // 停止文件的读取操作(data事件),已经读取的文件暂时保存在OS缓存中
+         5.2、readStream.resume(); // 恢复data事件的触发,继续文件的读取操作
+         5.3、readStream.pipe(destination,[options]);  // 创建一个管道,将一个流对象输出到另一个流对象中
+              1、destination:参数值必须为一个可写入流数据的对象
+              2、options:
+                end:true;  // default:true;当数据全部读取完毕时,立即将OS缓存区中的剩余数据全部写入到文件并关闭文件,false:不关闭文件,可以继续写入新的数据
+            eg:var readStream = fs.createReadStream('./test.txt');
+              var writeStream = fs.createWriteStream('./testOut.txt');
+              readStream.pipt(writeStream,{end:false}); // 写入数据不关闭文件
+              readStream.on('end',function(){
+                writeStream.end(); // 写入数据
+              })
+          5.4、readStream.unpipe([destination]);  // 取消目标文件的写入操作
       6、使用WriteStream对象写入文件
-        fs.createWriteStream(path,[options]);创建一个将流数据写入到文件的WriteStream对象
-          1、options:
-            flags:默认值为w
-            encoding:utf8/ascii/base64,默认值为null
-            start:指定文件的开始写入位置(以字节为单位)
-          var wf = fs.createWriteStream(path,{encoding:"utf8",start:0});
-          wf.write(chunk,[encoding],[callback]);
-            1、chunk:Buffer对象或字符串,指定需要写入的数据
-          wf.end([chunk],[encoding],[callback]);
-            1、当没有数据被写入到流中时可调用该方法关闭文件，同时迫使操作系统将所有缓存区的数据立刻写入文件中
-      7、对路径的操作
-        1、normalize();将非标准路径字符串转换成标准路径字符串//path.normalize(p);
-        2、join();将多个参数值字符串结合为一个路径字符串//path.join([path1],[path2],[...]);path.join(_dirname,"/ab/c/d");
-        3、resolve();以应用程序根目录为起点,根据所有的参数值字符串解析出一个绝对路径//path.resolve(path,[path1],[path2])
-        4、relative(from,to);获取两个路径之间的相对关系//path.relative("./././","././././")
-        5、dirname(path);获取一个路径中的目录名//path.dirname("d:/nodejs/test/test.txt");d:/nodejs/test/
-        6、basename(path,[ext]);获取一个路径中的文件名,ext去除返回的文件名的扩展名//path.basename("d:/nodejs/test/test.txt");test.txt
-        7、extname(path);获取一个路径中的扩展名,如果没有指定则返回空字符串//path.extname("d:/nodejs/test/test.txt");".txt"
+        fs.createWriteStream(path,[options]); // 创建一个将流数据写入到文件的WriteStream对象
+        eg:var writeStream = fs.createWriteStream('./test.txt',{flag:'w',encoding:'utf8',start:3})
+          writeStream.on('open',function(fd){
+            console.log('需要被写入的文件已打开');
+          });
+            1、path:指定需要被写入的文件的完整路径及文件名
+            2、options:
+              flags:默认值为w,属性值与readFile方法中options参数对象中所使用的flags属性的可指定属性值相同
+              encoding:utf8/ascii/base64,默认值为null
+              start:指定文件的开始写入位置(以字节为单位)
+        6.1、var result(boolean) = writeStream.write(chunk,[encoding],[callback]); 
+            // 向目标文件中写入数据,返回一个boolean值,false表示OS缓存区的数据已满,true表示OS缓存区可以继续写入数据
+        6.2、writeStream.end([chunk],[encoding],[callback]);  // 当没有数据被写入到流时可以使用该方法关闭文件,将OS缓存区的剩余数据立即写入文件中
+        6.3、writeStream.bytesWritten;  //  该属性表示当前已在文件中写入数据的字节数
+      7、对路径的操作:path模块
+        1、path.normalize(path);将非标准路径字符串转换成标准路径字符串
+        2、path.join([path1]...);将多个参数值字符串结合为一个路径字符串
+          // path.join([path1],[path2],[...]);
+          // path.join(_dirname,"/ab/c/d");
+        3、path.resolve();以应用程序根目录为起点,根据所有的参数值字符串解析出一个绝对路径
+          // path.resolve(path,[path1],[path2])
+        4、path.relative(from,to);获取两个路径之间的相对关系
+          // path.relative("./././","././././")
+        5、path.dirname(path);获取一个路径中的目录名
+          // path.dirname("d:/nodejs/test/test.txt");
+          // d:/nodejs/test/
+        6、path.basename(path,[ext]);获取一个路径中的文件名,ext去除返回的文件名的扩展名
+          // path.basename("d:/nodejs/test/test.txt",'.txt');
+          // test
+        7、path.extname(path);获取一个路径中的扩展名,如果没有指定则返回空字符串
+          // path.extname("d:/nodejs/test/test.txt");".txt"
         8、path.sep:属性值为操作系统指定的文件分隔符
         9、path.delimiter:属性值为操作系统指定的路径分隔符
+
+        
