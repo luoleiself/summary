@@ -29,8 +29,8 @@
   <div id="app-2">
     <button @click="greet" title="第二种">greet</button>
     <button @click="say('hi')" title="第三种">say(hi)</button>
-    <button @click="say('Hello')"  title="第三种">say(hello)</button>
-    <button v-on:click="warn('Form cannot be submitted yet.', $event)"  title="第三种">prevent Submit--$event</button>
+    <button @click="say('Hello')" title="第三种">say(hello)</button>
+    <button v-on:click="warn('Form cannot be submitted yet.', $event)" title="第三种">prevent Submit--$event</button>
   </div>
   <h3>事件修饰符:.stop.prevent.capture.self.once</h3>
   <p> @click.stop.prevent="doSomething"</p>
@@ -39,6 +39,45 @@
   <p> 配置: Vue.config.keyCodes.f1 = 112</p>
   <p> @keyup.alt.67 -> alt + c</p>
   <p> @click.ctrl="doSomething" -> Ctrl + Click</p>
+  <h3>子组件的单击事件传递给父组件：使用自定义事件</h3>
+  <div id='counter-event-example'>
+    <p>{{ total }}</p>
+    <button-counter v-on:increment="incrementTotal"></button-counter>
+    <button-counter v-on:increment="incrementTotal"></button-counter>
+  </div>
+  <h3>代码示例：</h3>
+  <pre>
+    &lt;div id='counter-event-example'&gt;
+      &lt;p>{{ total }}&lt;/p&gt;
+      &lt;button-counter v-on:increment="incrementTotal"&gt;&lt;/button-counter&gt;
+      &lt;button-counter v-on:increment="incrementTotal"&gt;&lt;/button-counter&gt;
+    &lt;/div&gt;
+    Vue.component('button-counter', {
+      template: '&lt;button v-on:click="increment"&gt;{{ counter }}&lt;/button&gt;',
+      data: function() {
+        return {
+          counter: 0
+        }
+      },
+      methods: {
+        increment: function() {
+          this.counter += 1
+          this.$emit('increment')
+        }
+      }
+    });
+    var counterEventExample = new Vue({
+      el: '#counter-event-example',
+      data: {
+        total: 0
+      },
+      methods: {
+        incrementTotal: function() {
+          this.total += 1
+        }
+      }
+    })
+  </pre>
 </body>
 <script type="text/javascript">
   var app1 = new Vue({
@@ -63,6 +102,31 @@
         // 现在我们可以访问原生事件对象
         if (event) event.preventDefault()
         alert(message)
+      }
+    }
+  });
+  Vue.component('button-counter', {
+    template: '<button v-on:click="increment">{{ counter }}</button>',
+    data: function() {
+      return {
+        counter: 0
+      }
+    },
+    methods: {
+      increment: function() {
+        this.counter += 1
+        this.$emit('increment')
+      }
+    }
+  });
+  var counterEventExample = new Vue({
+    el: '#counter-event-example',
+    data: {
+      total: 0
+    },
+    methods: {
+      incrementTotal: function() {
+        this.total += 1
       }
     }
   })
