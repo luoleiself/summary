@@ -1,143 +1,136 @@
 1. 第七章:基于TCP与UDP的数据通信:net模块/dgram模块
-    1. 使用net模块实现基于TCP的数据通信
-        1. TCP服务器:
-            1. 方法:
-                1. var server = net.createServer([options],[connectionListener]); // 创建 TCP 服务器
-                    1. options:参数为一个对象;
-                        allowHalpOpen:值为false时,当服务器接收到客户端一个FIN包时立即回发一个FIN包,
-                                    值为true时,服务器接收到客户端一个FIN包时不回发FIN包,服务器可以继续向客户端发送数据,但不会继续接收客户端发送的数据
-                                    default:false;
-                    2. connectionListener:指定当客户端和服务器建立连接时调用的回调函数,参数值为服务器监听端口的socket对象
-                    eg:var server = net.createServer(function(socket){ // 创建一个tcp服务器
-                        console.log('有客户端链接...'); // 当客户端连接服务器时输出,回调函数和connection事件作用一致
-                    }); 
-                2. server.listen(); // 监听客户端链接,下面三种方法
-                    2.1. server.listen(port,[host],[backlog],[callback]); 
-                        1. port:指定需要监听的端口号,值为0时,由TCP服务器将自动分配一个随机端口号
-                        2. host:指定需要监听的ip地址或主机名,值为null时,服务器将监听任何来自于ipv4地址的客户端链接
-                        3. backlog:指定位于等待队列中的客户端链接的最大数量,超出则拒绝新的客户端的连接请求,default:511,
-                        4. callback():指定listening事件触发时的回调函数,
-                        eg:server.listen(3000,'192.168.2.223',200,function(){
-                            console.log('服务器开始监听...');
-                        }); 
-                        // 服务器开始监听192.168.2.223:3000的客户端链接,最大连接数200,回调函数和listening事件作用一致
-                    2.2. server.listen(path,[callback]);
-                        1. path:指定需要监听的路径;
-                        2. callback():指定listening事件触发时的回调函数,
-                    2.3. server.listen(handle,[callback]);
-                        1. handle:指定需要监听的socket句柄
-                        2. callback():指定listening事件触发时的回调函数,
-                3. var addr = server.address(); // 触发listening事件后调用该方法查看监听的地址信息,返回一个对象
-                    1. addr.port:TCP服务器监听的socket端口号
-                    2. addr.address:TCP服务器监听的地址
-                    3. addr.family:TCP服务器监听的地址类型,ipv4,ipv6
-                    eg:server.on('listening',function(){
-                        var addr = server.address();
-                    })
-                4. server.getConnections(callback); // 查看当前与服务器建立连接的客户端的连接数量
-                    1. callback(err,count);
-                        1. err:错误信息对象
-                        2. count:代表获取到的客户端链接数量
-                        eg:server.getConnections(function(err,count){
-                            console.log('当前与服务器建立连接的客户端的连接数量为: %d',count);
-                        })
-                5. server.close([callback]); // 服务器拒绝新的客户端链接,保存当前现有的连接
-                    1. callback(); // 当服务器关闭时的回调函数
-                    eg:server.close(function(){
-                        console.log('服务器关闭了...'); // 回调函数和close事件作用一致
-                    })
-            2. 事件:
-                1. connection:当客户端和服务器建立连接时触发
-                    eg:server.on('connection',function(socket){
-                        console.log('有客户端链接...')
-                    }); // 和创建tcp服务器的回调函数功能一致
-                2. listening:当服务器开始监听指定端口地址的客户端链接时触发
-                    eg:server.on('listening',function(){
-                        console.log('服务器开始监听...')
-                    }); // 和listen方法的回调函数功能一致
-                3. error:当服务器监听指定端口地址时发生错误时触发,EADDRINUSE:代表服务器监听地址及端口被占用
-                    eg:server.on('error',function(err){
-                        console.log('服务器监听发生错误...')
-                    });
-                4. close:当TCP服务器关闭时触发;
-                    eg:server.on('close',function(){
-                        console.log('服务器关闭了....')
-                    }) // 和close方法的回调函数功能一致
-        2. Socket对象:可被用来读取客户端发送的流数据;
-            1. 使用net.Socket代表一个socket端口对象;
-            2. net.createServer的回调函数的参数为一个自动创建的socket端口对象;
-            3. 服务器的connection事件的回调函数的参数代表一个自动创建的socket端口对象;
-            4. 方法:
-                1. var addr = socket.address(); // 获取socket端口对象的相关信息,返回一个对象
-                    1. addr.port:代表socket端口对象的端口号
-                    2. addr.address:代表socket端口对象的地址
-                    3. addr.family:标识该socket端口对象地址的所属类型
-                    eg:var server = net.createServer(function(socket){
-                        var addr = socket.address();
-                    })
-                2. socket.setEncoding('utf8'); 设置读取的数据的编码格式
-            5. 事件:
-                1. data:每次接收到客户端发送的流数据时触发
-                    eg:server.on('connection',function(socket){
-                        socket.on('data',function(data){
-                            console.log(data);
-                        })
-                    });
-                    server.listen(3000,'localhost');
-                2. end:当客户端链接关闭时触发socket端口对象的该事件
-                    eg:socket.on('end',function(){
-                        console.log('客户端链接被关闭...');
-                    })
-            6. 属性:
-                1. socket.bytesRead; 值为该socket端口对象接收到的客户端发送的数据的字节数
-
-
-
-
-
-
-
-
-
-
-      1. 事件: 
-        data:每次接收到客户端发送的流数据时触发,
-        end:当客户端关闭socket链接时触发
-        drain:当写入数据的write方法返回false时触发,表示操作系统缓存区的数据已全部输出到目标对象中，
-              可以继续向操作系统缓存区写入数据
-        error:
-        lookup:
-        timeout:
-        connect:
-        close:
-        server.on("data",function(err,data){});回调函数的参数为一个Buffer对象,
-      2. 方法:
-        1. socket.address();用法和上面一致
-        2. socket.setEncoding("utf8");设置读取的数据的编码格式//或者使用buf.toString()
-        3. scoket.pipe(destination,[options]);将客户端发送的流数据书写到文件或其他目标对象中
-          1. destination:为一个可以写入流数据的对象
-          2. options:end:true;当数据全部被读取完毕时立即结束写操作
-          e.g:var net = require("net");
-              var fsw = require("fs").createWriteStream("./test.txt");
-              //pipe方法实践
-              var server = net.createServer();
-              server.on("connection",function(socket){
-                console.log("链接正常...");
-                socket.setEncoding("utf8");//socket对象的设置数据编码格式
-                socket.on("data",function(data){
-                  //console.log(data.toString());//调用buf.toString();
-                  console.log(data);
-                  socket.pipe(fsw);
-                });
-                socket.on("end",function(){
-                  console.log("链接关闭...");
+  1. 使用net模块实现基于TCP的数据通信
+    1. TCP服务器:
+      1. 方法:
+        1. var server = net.createServer([options],[connectionListener]); // 创建 TCP 服务器
+          1. options:参数为一个对象;
+            allowHalpOpen:值为false时,当服务器接收到客户端一个FIN包时立即回发一个FIN包,
+              值为true时,服务器接收到客户端一个FIN包时不回发FIN包,服务器可以继续向客户端发送数据,但不会继续接收客户端发送的数据,
+              需要手动调用end方法关闭连接
+              default:false;
+          2. connectionListener:指定当客户端和服务器建立连接时调用的回调函数,参数值为服务器监听端口的socket对象
+          eg:var server = net.createServer(function(socket){ // 创建一个tcp服务器
+            console.log('有客户端链接...'); // 当客户端连接服务器时输出,回调函数和connection事件作用一致
+          }); 
+        2. server.listen(); // 监听客户端链接,下面三种方法
+          2.1. server.listen(port,[host],[backlog],[callback]); 
+            1. port:指定需要监听的端口号,值为0时,由TCP服务器将自动分配一个随机端口号
+            2. host:指定需要监听的ip地址或主机名,值为null时,服务器将监听任何来自于ipv4地址的客户端链接
+            3. backlog:指定位于等待队列中的客户端链接的最大数量,超出则拒绝新的客户端的连接请求,default:511,
+            4. callback():指定listening事件触发时的回调函数,
+            eg:server.listen(3000,'192.168.2.223',200,function(){
+                console.log('服务器开始监听...');
+              }); 
+            // 服务器开始监听192.168.2.223:3000的客户端链接,最大连接数200,回调函数和listening事件作用一致
+          2.2. server.listen(path,[callback]);
+            1. path:指定需要监听的路径;
+            2. callback():指定listening事件触发时的回调函数,
+          2.3. server.listen(handle,[callback]);
+            1. handle:指定需要监听的socket句柄
+            2. callback():指定listening事件触发时的回调函数,
+        3. var addr = server.address(); // 触发listening事件后调用该方法查看监听的地址信息,返回一个对象
+          1. addr.port:TCP服务器监听的socket端口号
+          2. addr.address:TCP服务器监听的地址
+          3. addr.family:TCP服务器监听的地址类型,ipv4,ipv6
+          eg:server.on('listening',function(){
+              var addr = server.address();
+            })
+        4. server.getConnections(callback); // 查看当前与服务器建立连接的客户端的连接数量
+          1. callback(err,count);
+            1. err:错误信息对象
+            2. count:代表获取到的客户端链接数量
+            eg:server.getConnections(function(err,count){
+                console.log('当前与服务器建立连接的客户端的连接数量为: %d',count);
+              })
+        5. server.close([callback]); // 服务器拒绝新的客户端链接,保存当前现有的连接
+          1. callback(); // 当服务器关闭时的回调函数
+          eg:server.close(function(){
+              console.log('服务器关闭了...'); // 回调函数和close事件作用一致
+            })
+      2. 事件:
+        1. connection:当客户端和服务器建立连接时触发
+          eg:server.on('connection',function(socket){
+              console.log('有客户端链接...')
+            }); // 和创建tcp服务器的回调函数功能一致
+        2. listening:当服务器开始监听指定端口地址的客户端链接时触发
+          eg:server.on('listening',function(){
+              console.log('服务器开始监听...')
+            }); // 和listen方法的回调函数功能一致
+        3. error:当服务器监听指定端口地址时发生错误时触发,EADDRINUSE:代表服务器监听地址及端口被占用
+          eg:server.on('error',function(err){
+              console.log('服务器监听发生错误...')
+            });
+        4. close:当TCP服务器关闭时触发;
+          eg:server.on('close',function(){
+              console.log('服务器关闭了....')
+            }) // 和close方法的回调函数功能一致
+      3. Socket对象:可被用来读取客户端发送的流数据;
+        1. 使用net.Socket代表一个socket端口对象;
+        2. net.createServer的回调函数的参数为一个自动创建的socket端口对象;
+        3. 服务器的connection事件的回调函数的参数代表一个自动创建的socket端口对象;
+        4. 方法:
+          1. var addr = socket.address(); // 获取socket端口对象的相关信息,返回一个对象
+            1. addr.port:代表socket端口对象的端口号
+            2. addr.address:代表socket端口对象的地址
+            3. addr.family:标识该socket端口对象地址的所属类型
+            eg:var server = net.createServer(function(socket){
+                var addr = socket.address();
+              })
+          2. socket.setEncoding('utf8'); 设置读取的数据的编码格式
+          3. socket.pipe(destination,[options]); 将客户端发送的流数据书写到文件或其他对象中
+          4. socket.unpipe([destination]); 取消目标对象的写入操作
+            eg:var server = require('net').createServer();
+              var file = require('fs').createWriteStream('./message.txt');
+              server.on('connection',function(socket){
+                socket.setEncoding("utf8");
+                socket.on(data,function(data){
+                  socket.pipe(file,{end:false});
+                  setTimeout(function(){
+                    file.end('再见');
+                    socket.unpipe(file);
+                  },5000)
                 })
-              }).listen("3000","localhost");
-        4. socket.unpipe([destination]);取消目标对象的写入操作
-        5. socket.pause();暂停data事件的触发
-        6. socket.resume();恢复data事件的触发
-      3. 属性:
-        1. bytesRead:属性值为socket对象接收到的客户端发送的数据的字节数
+              })
+              server.listen(8888,'localhost');
+          5. socket.pause(); 暂停data事件的触发
+          6. socket.resume(); 恢复data事件的触发
+          7. socket.setTimeout(timeout,[callback]); 指定与该端口相链接的客户端链接的超时时间,和timeout事件的作用一致
+            1. timeout:指定客户端链接的超时时间,单位:毫秒
+            2. callback():客户端链接超时的回调函数
+        5. 事件:
+          1. data:每次接收到客户端发送的流数据时触发
+            eg:server.on('connection',function(socket){
+                socket.on('data',function(data){
+                  console.log(data);
+                })
+              });
+              server.listen(3000,'localhost');
+          2. end:当客户端链接关闭时触发socket端口对象的该事件
+            eg:socket.on('end',function(){
+                console.log('客户端链接被关闭...');
+              })
+          3. timeout:当客户端链接超时时触发
+            eg:socket.on('timeout',function(){
+                console.log('客户端链接超时...');
+              }) // 和socket.setTimeout方法的回调函数作用一致
+        6. 属性:
+          1. socket.bytesRead; 值为该socket端口对象接收到的客户端发送的数据的字节数
+    2. TCP客户端:创建一个用于连接TCP服务器的端口对象
+      1. 方法:
+        1. var net = new net.Socket([options]); // 创建一个socket端口对象
+          1. options:参数为一个对象
+            1. fd:指定一个现存的socket的文件描述符,TCP客户端用这个去和服务器连接
+            2. type:指定客户端所使用的协议,'tcp4','tcp6','unix'
+            3. allowHalfOpen:和创建tcp服务器的回调函数功能一致
+          eg:var client = new net.Socket(); // 创建一个Socket端口对象
+/**************************************************************/
+
+
+
+
+
+
+
     3. 创建TCP客户端:
       1. 只需创建一个用于连接TCP服务器的socket端口对象
         1. var net = new net.Socket([options]);
