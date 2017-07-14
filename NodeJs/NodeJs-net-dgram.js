@@ -300,53 +300,46 @@
               console.log('客户端链接被关闭...');
             })
     2.2. 实现广播和组播
-
-
-
-
-
-
-
-    2. 实现广播和组播
       1. 方法:
         1. socket.setBroadcast(flag);
             参数为 Boolean => true,则利用该socket端口对象的send方法发送广播,同时需要将send的方法的address设置为广播地址
-    3. 组播:指网络中同一业务类型主机进行逻辑上的分组,从某个socket端口发出的数据只能被该组内的主机接收
-      1. 网络中的D类地址作为组播地址:224.0.0.0 ~ 239.255.255.255
-        1. 局部组播地址:224.0.0.0 ~ 224.0.0.255;为路由协议和其他用途保留的地址
-        2. 预留组播地址:224.0.1.0 ~ 238.255.255.255;可用于全球范围或网络协议
-        3. 管理权限组播地址:239.0.0.0 ~ 239.255.255.255;可供组织内部使用,不能用于internet,可限制组播范围
-      2. 方法:
-        1. socket.addMembership(multicastAddress,[multicastInterface]);将该socket端口对象加入到组播组中
-          1. multicastAddress:String,指定socket端口对象加入的组播组地址,
-          2. multicastInterface:String,指定socket端口对象需要加入的网络接口IP地址,省略则被加入所有有效的网络接口中,       
-        2. socket.dropMembership(multicastAddress,[multicastInterface]);将该socket端口对象退出组播组
-          1. 当该socket端口或者运行该socket端口的进程被终止时，自动调用该方法
-        3. socket.setMulticastTTL(ttl);
-          1. 设置该端口进行组播时,从该端口发出的数据包在路由器废弃之前经过的路由器最大数目
-        4. socket.setMulticastLoopback(flag);default:true;指定组播数据是否允许被回送,
-        var dgram = require("dgram");
-        var client = dgram.createSocket("udp4");
-        var count = 0;
-        client.on("listening",function(){
-          client.addMembership("235.185.192.108");
-        })
-        client.on("message",function(msg,rinfo){
-          console.log("接收组播信息第%d次",++count);
-          console.log(msg.toString());
-          console.log(rinfo);
-          if(count === 10){
-            var buf = new Buffer("ok");
-            client.send(buf,0,buf.length,rinfo.port,rinfo.address,function(err,bytes){
-              if(err){
-                console.log("请求停止组播发送信息失败...");
-              }else{
-                console.log("请求停止组播信息成功!");
-                client.unref();
+      2. 组播:指网络中同一业务类型主机进行逻辑上的分组,从某个socket端口发出的数据只能被该组内的主机接收
+        1. 网络中的D类地址作为组播地址:224.0.0.0 ~ 239.255.255.255
+          1. 局部组播地址:224.0.0.0 ~ 224.0.0.255;为路由协议和其他用途保留的地址
+          2. 预留组播地址:224.0.1.0 ~ 238.255.255.255;可用于全球范围或网络协议
+          3. 管理权限组播地址:239.0.0.0 ~ 239.255.255.255;可供组织内部使用,不能用于internet,可限制组播范围
+        2. 方法:
+          1. socket.addMembership(multicastAddress,[multicastInterface]);将该socket端口对象加入到组播组中
+            1. multicastAddress:String,指定socket端口对象加入的组播组地址,
+            2. multicastInterface:String,指定socket端口对象需要加入的网络接口IP地址,省略则被加入所有有效的网络接口中,       
+          2. socket.dropMembership(multicastAddress,[multicastInterface]);将该socket端口对象退出组播组
+            1. 当该socket端口或者运行该socket端口的进程被终止时，自动调用该方法
+          3. socket.setMulticastTTL(ttl);
+            1. 设置该端口进行组播时,从该端口发出的数据包在路由器废弃之前经过的路由器最大数目
+          4. socket.setMulticastLoopback(flag);default:true;指定组播数据是否允许被回送,
+      3. 示例:    
+        eg:var dgram = require("dgram");
+            var client = dgram.createSocket("udp4");
+            var count = 0;
+            client.on("listening",function(){
+              client.addMembership("235.185.192.108");
+            })
+            client.on("message",function(msg,rinfo){
+              console.log("接收组播信息第%d次",++count);
+              console.log(msg.toString());
+              console.log(rinfo);
+              if(count === 10){
+                var buf = new Buffer("ok");
+                client.send(buf,0,buf.length,rinfo.port,rinfo.address,function(err,bytes){
+                  if(err){
+                    console.log("请求停止组播发送信息失败...");
+                  }else{
+                    console.log("请求停止组播信息成功!");
+                    client.unref();
+                  }
+                });
               }
-            });
-          }
-        })
-        client.bind(8888,"192.168.2.107");
+            })
+            client.bind(8888,"192.168.2.107");
 
 
