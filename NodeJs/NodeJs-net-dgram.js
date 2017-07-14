@@ -264,8 +264,42 @@
           eg:socket.on('error',function(err){
               console.log(err);
             })
-
-        
+      3. 示例:
+        eg:var dgram = require('dgram');
+            var server = dgram.createSocket('udp4');
+            server.on('message', function(msg, rinfo) {
+              console.log('已接收到客户端发送的数据：' + msg);
+              console.log('客户端地址信息为：%j', rinfo);
+              var buf = new Buffer('确认信息：' + msg);
+              server.setTTL(128); // 设置数据包的经过的最大路由器数
+              server.send(buf, 0, buf.length, rinfo.port, rinfo.address, function(err, bytes) {
+                console.log('服务器发送的数据字节数：%d', bytes);
+                setTimeout(function() {
+                  server.unref(); // 关闭服务器应用程序
+                }, 10000)
+              })
+            })
+            server.on('listening', function() {
+              console.log('服务器开始监听,地址信息为: %j', server.address());
+            })
+            server.bind(8888, 'localhost');
+        eg:var dgram = require('dgram');
+            var client = dgram.createSocket('udp4');
+            var buf = new Buffer('你好');
+            client.send(buf, 0, buf.length, 8888, 'localhost', function(err, bytes) {
+              console.log('向服务器发送的数据的字节数为：%d', bytes);
+            })
+            client.on('message', function(msg, rinfo) {
+              console.log('已接收到服务器发送的数据：%s', msg);
+              console.log('服务器地址信息为：%j', rinfo);
+              setTimeout(function() {
+                client.close(); // 关闭socket端口对象
+              }, 5000)
+            })
+            client.on('close', function() {
+              console.log('客户端链接被关闭...');
+            })
+    2.2. 实现广播和组播
 
 
 
