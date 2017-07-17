@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Router-动态路由匹配</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>
+            <router-link to="/user/foo?name=zhangsan&age=28">/user/foo</router-link>
+            <router-link to="/user/bar?name=lisi&age=30">/user/bar</router-link>
+            <router-link to="/user/bar/post/456?name=zhangsansan&age=288">/user/bar/post/456</router-link>
+            <router-link to="/user/bar/post/789?namge=lisisi&age=300">/user/bar/post/789</router-link>
+        </p>
+        <router-view></router-view>
+    </div>
+</body>
+<script type="text/javascript">
+var User = {
+    template: '<div><span>$route.params: </span><span> {{ $route.params.username }} </span><br><span>$route.path：</span><span>{{ $route.path }}</span><br><span>$route.query：</span><span> {{ $route.query }} </span></div>'
+}
+var router = new VueRouter({
+    routes: [
+        { path: '/user/:username', component: User },
+        { path: '/user/:username/post/:post_id', component: User }
+    ]
+})
+var app = new Vue({ router }).$mount('#app')
+</script>
+
+</html>
