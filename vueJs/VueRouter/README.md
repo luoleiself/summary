@@ -5,17 +5,7 @@
       2. mode：`String`，配置路由模式，'hash/history/abstract(NodeJs环境)'，default：'hash'
       3. linkActiveClass：`String`，全局配置 `<router-link>` 的默认激活 class 类名，default：`router-link-active`
       4. scrollBehavior：`Function`，滚动行为
-      5. routes：`Array<RouteConfig>`，路由类型定义
-          
-            `routes: [{
-                path: '/user/:id',
-                component: User,
-                children: [
-                  { path: '', component: UserHome },
-                  { path: 'profile', component: UserProfile },
-                  { path: 'posts', component: UserPosts }
-                ]
-            }]`
+      5. routes：`Array<RouteConfig>`，路由类型定义，
   2. 路由信息对象： `$route`
      1. `$route.path`：String，对应当前路由的路径，总是解析为绝对路径，如 "/foo/bar"
      2. `$route.params`：Object，一个 key/value 对象，包含了 动态片段 和 全匹配片段，如果没有路由参数，就是一个空对象
