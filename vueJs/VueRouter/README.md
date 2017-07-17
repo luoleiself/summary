@@ -15,7 +15,7 @@
                   { path: 'profile', component: UserProfile },
                   { path: 'posts', component: UserPosts }
                 ]
-             }]`
+            }]`
   2. 路由信息对象： `$route`
      1. `$route.path`：String，对应当前路由的路径，总是解析为绝对路径，如 "/foo/bar"
      2. `$route.params`：Object，一个 key/value 对象，包含了 动态片段 和 全匹配片段，如果没有路由参数，就是一个空对象
