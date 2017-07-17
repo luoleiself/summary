@@ -3,11 +3,11 @@
    1. 构造配置：`var router = new VueRouter({})`
       
         `var router = new VueRouter({
-             base:"/", // 应用基路径
-             mode:"hash", // 路由模式,'hash(浏览器环境)/history/abstract(NodeJs环境)'
-             linkActiveClass:'router-link-active', // 默认class类名
-             scrollBehavior:function(){}, // 滚动行为
-             routes: [{
+            base:"/",    // 应用基路径
+            mode:"hash", // 路由模式,'hash(浏览器环境)/history/abstract(NodeJs环境)'
+            linkActiveClass:'router-link-active', // 默认class类名
+            scrollBehavior:function(){}, // 滚动行为
+            routes: [{
                 path: '/user/:id',
                 component: User,
                 children: [
@@ -16,7 +16,7 @@
                   { path: 'posts', component: UserPosts }
                 ]
             }]
-        })`
+         })`
   2. 路由信息对象： `$route`
      1. `$route.path`：String，对应当前路由的路径，总是解析为绝对路径，如 "/foo/bar"
      2. `$route.params`：Object，一个 key/value 对象，包含了 动态片段 和 全匹配片段，如果没有路由参数，就是一个空对象
