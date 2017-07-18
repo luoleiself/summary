@@ -8,9 +8,9 @@
       5. routes：`Array<RouteConfig>`，路由类型定义，
 ```      
            const router = new VueRouter({
-               base: '/',
-               mode: 'hash',
-               linkActiveClass: 'router-link-active',
+               base: '', // default: '/'
+               mode: '', // 'hash/history(H5 HistoryAPI)/abstract(NodeJs环境)', default: 'hash'
+               linkActiveClass: '', // default: 'router-link-active'
                scrollBehavior: function(){},
                routes: [// 下面的对象就是 route record
                   {  path: '/foo', 
