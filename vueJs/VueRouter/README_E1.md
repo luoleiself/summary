@@ -63,6 +63,10 @@
       }]
    })
    var app = new Vue({ router }).$mount('#app')
+   var app = new Vue({
+      router,
+      el:'#app'
+   })
 ```   
    
    
