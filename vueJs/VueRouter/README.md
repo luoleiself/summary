@@ -6,6 +6,21 @@
       3. linkActiveClass：`String`，全局配置 `<router-link>` 的默认激活 class 类名，default：`router-link-active`
       4. scrollBehavior：`Function`，滚动行为
       5. routes：`Array<RouteConfig>`，路由类型定义，
+```      
+           const router = new VueRouter({
+               base: '/',
+               mode: 'hash',
+               linkActiveClass: 'router-link-active',
+               scrollBehavior: function(){},
+               routes: [// 下面的对象就是 route record
+                  {  path: '/foo', 
+                     component: Foo,
+                     children: [
+                        { path: 'bar', component: Bar }]// 这也是个 route record
+                  }
+               ]
+           })
+```
   2. 路由信息对象： `$route`
      1. `$route.path`：String，对应当前路由的路径，总是解析为绝对路径，如 "/foo/bar"
      2. `$route.params`：Object，一个 key/value 对象，包含了 动态片段 和 全匹配片段，如果没有路由参数，就是一个空对象
@@ -15,12 +30,6 @@
      6. `$route.name`：String，当前路由的名称，如果有的话
      7. `$route.matched`：Array，一个数组，包含当前路由的所有嵌套路径片段的 路由记录 。路由记录就是 routes 配置数组中的对象副本（还有在 children 数组）
 
-            `const router = new VueRouter({
-                routes: [// 下面的对象就是 route record
-                  { path: '/foo', component: Foo,children: [
-                    { path: 'bar', component: Bar }]// 这也是个 route record
-                  }
-                ]
-            })`
+            
 
 
