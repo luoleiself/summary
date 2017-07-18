@@ -90,7 +90,137 @@
          * router.resolve(location, current?, append?)：解析目标位置
          * router.addRoutes(routes)：动态添加更多的路由规则。参数必须是一个符合 routes 选项要求的数组
          * router.onReady(callback)
-
+6. 命名路由和命名视图：`name`，`default`，
+  
+        `// 命名路由
+        const router = new VueRouter({
+            routes: [
+              {
+                path: '/user/:userId',
+                name: 'user',
+                component: User
+              }
+            ]
+        })
+        // 命名视图
+        <div id="app">
+            <h1>Named Views</h1>
+            <router-link to="/">/</router-link>
+            <router-link to="/other">/other</router-link>
             
+            <router-view class="view one"></router-view>
+            <router-view class="view two" name="a"></router-view>
+            <router-view class="view three" name="b"></router-view>
+        </div>
+        const Foo = { template: '<div>foo</div>' }
+        const Bar = { template: '<div>bar</div>' }
+        const Baz = { template: '<div>baz</div>' }
+        const router = new VueRouter({
+            mode: 'history',
+            routes: [{ 
+                path: '/',
+                components: {
+                  default: Foo,
+                  a: Bar,
+                  b: Baz
+                }
+              },{
+                path: '/other',
+                components: {
+                  default: Baz,
+                  a: Bar,
+                  b: Foo
+                }
+            }]
+        })
+        new Vue({
+	         router,
+           el: '#app'
+        })`
+7. 重定向和别名：
+    1. 重定向： `redirect`：String | Location | Function
+        * 普通方式：从 `/a` 重定向到 `/b`
+        
+                  `const router = new VueRouter({
+                      routes: [
+                        { path: '/a', redirect: '/b' }
+                      ]
+                   })`        
+        * 命名路由方式：命名路由的重定向：
+        
+                  `const router = new VueRouter({
+                      routes: [
+                        { path: '/a', redirect: { name: 'foo' }}
+                      ]
+                   })`
+        * 方法返回值：动态返回重定向目标
+       
+                  `const router = new VueRouter({
+                      routes: [
+                        { path: '/a', redirect: to => {
+                          // 方法接收 目标路由 作为参数
+                          // return 重定向的 字符串路径/路径对象
+                         }}
+                      ]
+                   })`
+    2. 别名： `alias`： string | Array&lt;String&gt;
+          
+            ` <div id='app'>
+                  <router-link to='/home/foo'>/home/foo (renders /home/foo)</router-link>
+                  <router-link to='/home/bar-alias'>/home/bar-alias (renders /home/bar)</router-link>
+                  <router-link to='/home/baz'>/home/baz (renders /home/baz)</router-link>
+                  <router-link to='/home/baz-alias'>/home/baz-alias (renders /home/baz)</router-link>
 
+                  <router-view></router-view>
+              </div>
+              const Home = { template: '<div><h1>Home</h1><router-view></router-view></div>' }
+              const Foo = { template: '<div>foo</div>' }
+              const Bar = { template: '<div>bar</div>' }
+              const Baz = { template: '<div>baz</div>' }
+              const router = new VueRouter({
+                  mode: 'history',
+                  base: __dirname,
+                  routes: [
+                    { path: '/home', component: Home,
+                      children: [
+                        // absolute alias
+                        { path: 'foo', component: Foo, alias: '/foo' },
+                        // relative alias (alias to /home/bar-alias)
+                        { path: 'bar', component: Bar, alias: 'bar-alias' },
+                        // multiple aliases
+                        { path: 'baz', component: Baz, alias: ['/baz', 'baz-alias'] }
+                      ]
+                    }
+                  ]
+               })
+              const app = new Vue({
+                  router,
+                  el: '#app'
+              })`
+8. H5-History：需要后台配置
+    * Apache
 
+            `<IfModule mod_rewrite.c>
+                RewriteEngine On
+                RewriteBase /
+                RewriteRule ^index\.html$ - [L]
+                RewriteCond %{REQUEST_FILENAME} !-f
+                RewriteCond %{REQUEST_FILENAME} !-d
+                RewriteRule . /index.html [L]
+             </IfModule>`
+    * nginx
+
+            `location / {
+                try_files $uri $uri/ /index.html;
+             }`
+    * Node.Js(Express) [NodeJs配置](https://github.com/bripkens/connect-history-api-fallback)
+
+              `// 覆盖所有路由，指定路由渲染页面
+              const router = new VueRouter({
+                mode: 'history',
+                routes: [
+                  { path: '*', component: NotFoundComponent }
+                ]
+             })`
+    
+            
