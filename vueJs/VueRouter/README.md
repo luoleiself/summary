@@ -11,7 +11,16 @@
       * exact： Boolean，default：false，是否激活" 默认类名的依据是 inclusive match （全包含匹配）。 
                 举个例子，如果当前的路径是 /a 开头的，那么 <router-link to="/a"> 也会被设置 CSS 类名
       * events： String | Array&lt;String&gt;，default：false，声明可以用来触发导航的事件。
-                  可以是一个字符串或是一个包含字符串的数组
+
+            ` <!-- 使用 v-bind 的 JS 表达式 -->
+              <router-link v-bind:to="'home'">Home</router-link>
+              <!-- 命名的路由 -->
+              <router-link :to="{ name: 'user', params: { userId: 123 }}">User</router-link>
+              <!-- 带查询参数，下面的结果为 /register?plan=private -->
+              <router-link :to="{ path: 'register', query: { plan: 'private' }}">Register</router-link>
+              <!-- 字符串 -->
+              <router-link to="home" tag='li' replace append events='["mouseenter","mouseout"]'>Home</router-link>`
+
    2. `<router-view>`： functional 组件，渲染路径匹配到的视图组件，可以嵌套使用
       * name： String，default：'default'，如果 <router-view>设置了名称，则会渲染对应的路由配置中 components 下的相应组件
       * 可以配置 Vue 组件使用
