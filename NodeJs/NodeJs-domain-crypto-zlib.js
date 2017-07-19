@@ -1,5 +1,5 @@
-1、第十章:NodeJs中的错误处理与断言处理
-  1、使用domain模块处理错误
+10、第十章:NodeJs中的错误处理与断言处理
+  10.1、使用domain模块处理错误
     1、try...catch:只能捕获同步方法中抛出的异常,不能捕获异步方法中抛出的异常
       //同步方法可以使用try..catch方法捕获异常
       var fs = require("fs");
@@ -27,7 +27,7 @@
     4、属性:
       1、domain.name;设置或获取该domain对象的名称
       2、domain._stack;查看domain堆栈中的内容
-  2、NodeJs中的断言处理:assert模块
+  10.2、NodeJs中的断言处理:assert模块
     1、方法:
       1、assert.equal(actual,expected,[message]);判断两个值是否相等,只比较值,不比较数据类型,'=='
       2、assert.notEqual(actual,expected,[message]);判断两个值是否不相等,只比较值,不比较数据类型,'!='
@@ -52,8 +52,8 @@
         1、block;指定需要执行的代码段,
         2、error;为一个返回true或返回false的函数,如果返回false,则抛出AsertionError
         3、message;指定自定义异常信息,
-2、第十一章:加密与压缩
-  1、加密与解密:crypto模块
+11、第十一章:加密与压缩
+  11.1、加密与解密:crypto模块
     1、方法:
       1、crypto.getCiphers();Array,获取NodeJs中可以使用的所有加密算法
       2、crypto.getHashes();Array,获取NodeJs中可以使用的所有散列加密算法

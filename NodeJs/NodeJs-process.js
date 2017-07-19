@@ -1,5 +1,5 @@
-1、进程与子进程
-  1、进程
+9、进程与子进程
+  9.1、进程
     1、属性:
       1、execPath:运行应用程序的可执行文件的绝对路径,String
       2、version:值为NodeJs的版本号,String
@@ -22,11 +22,11 @@
       });
     2、方法:
       1、process.memoryUsage();Object,获取NodeJs应用程序的进程的内存使用量
-        { rss: 21995520, heapTotal: 11571200, heapUsed: 5671704 }
+        // { rss: 21995520, heapTotal: 11571200, heapUsed: 5671704 }
         1、rss:Number,值为NodeJs应用程序的进程的内存消耗量,单位为字节
         2、heapTotal:Number,值为V8所分配的内存量,单位为字节
         3、heapUsed:Number,值为V8内存的消耗量,单位为字节
-      2、process.nextTick(callback);将一个函数推迟到下一个同步方法执行完毕后者异步方法的回调函数开始执行时调用,可以实现递归遍历
+      2、process.nextTick(callback);将一个函数推迟到下一个同步方法执行完毕时或者异步方法的回调函数开始执行时调用,可以实现递归遍历
         function foo(){
           console.log("foo");
         }
@@ -39,8 +39,7 @@
         })
         1、process.maxTickDepth:默认值为1000,超过应用程序则提示采用setImmediate方法
       3、process.abort();向NodeJs应用程序的进程发出SIGABRT信号,使进程异常终止,同时产生一个核心文件
-      4、process.chdir();用于修改NodeJs应用程序中使用的当前工作目录,
-        process.chdir(directory);如果指定路径不存在,则抛出异常
+      4、process.chdir(directory);用于修改NodeJs应用程序中使用的当前工作目录,如果指定路径不存在,则抛出异常
       5、process.cwd();返回当前工作目录
         console.log("当前工作目录:"+process.cwd());
         process.chdir("../");
@@ -51,7 +50,7 @@
       9、process.getuid();返回NodeJs应用程序的进程的用户ID,该方法在winOS中无效
       10、process.setuid(id);设置NodeJs应用程序的进程的用户ID,该方法在winOS中无效
       11、process.getgroups();返回运行NodeJs应用程序的进程的所有附属组ID构成的数组,在winOS中无效
-      12、process.setgroups();设置运行NodeJs应用程序的进程的所有附属组ID,在winOS中无效
+      12、process.setgroups(groups);设置运行NodeJs应用程序的进程的所有附属组ID,在winOS中无效
       13、process.initgroups(user,extra_group);使用一个指定用户的所有归属组来初始化/etc/group组列表,在winOS中无效
       14、process.kill(pid,[signal]);向一个进程发送信号,不使用signal参数时表示中止该进程
       15、process.unmask([mask]);读取或修改运行NodeJs应用程序的进程的文件权限掩码,子进程继承父进程的文件权限掩码
@@ -61,7 +60,7 @@
       1、exit:当运行NodeJs应用程序的进程退出时触发,function(){}
       2、uncaughtException:当运行NodeJs应用程序中抛出一个未被捕捉的异常时触发,function(err){}
       3、各种信号事件
-  2、创建多进程应用程序:child_process模块:在多个子进程之间可以共享内存空间,可以通过子进程之间的互相通信实现信息的交换
+  9.2、创建多进程应用程序:child_process模块:在多个子进程之间可以共享内存空间,可以通过子进程之间的互相通信实现信息的交换
     1、使用spawn开启子进程
       1、方法
         1、child_process.spawn(command,[args],[options]);//该方法返回一个隐士创建的代表子进程的ChildProcess对象
@@ -154,7 +153,7 @@
           1、file:String,指定需要运行的可执行文件路径及文件名,
           2、args:Array:保存所有运行该文件是所需要的参数,默认为一个空数组
           3、options:Object,开启子进程时使用的选项,
-  3、在多个子进程中运行NodeJs应用程序:cluster模块
+  9.3、在多个子进程中运行NodeJs应用程序:cluster模块
     1、使用fork方法创建worker对象
       1、方法:
         1、cluster.fork([env]);//该方法返回一个隐式创建的worker对象,代表fork方法开启的子进程运行的NodeJs应用程序的实例对象
@@ -189,7 +188,7 @@
           2、signal:在主进程中关闭子进程时向子进程发送的信号的名称,
           3、disconnect:当子进程与父进程的IPC通道关闭时触发,function(){}
           4、data:
-  4、小结:
+  9.4、小结:
     1、child_process模块:用于实现在NodeJs应用程序中开启多个子进程并在各子进程中运行各种不同的命令或执行NodeJs模块文件、
         可执行文件的处理
     2、cluster模块:用于实现NodeJs应用程序中开启多个子进程,并在每个子进程中运行一个NodeJs应用程序副本的处理
