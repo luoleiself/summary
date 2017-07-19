@@ -66,11 +66,13 @@
             component?: Component;
             name?: string; // for named routes (命名路由)
             components?: { [name: string]: Component }; // for named views (命名视图组件)
-            redirect?: string | Location | Function;
-            alias?: string | Array<string>;
+            redirect?: string | Location | Function; // 重定向
+            alias?: string | Array<string>; // 别名
+            // 嵌套路由
             children?: Array<RouteConfig>; // for nested routes
-            beforeEnter?: (to: Route, from: Route, next: Function) => void;
-            meta?: any;
+            // 路由导航钩子
+            beforeEnter?: (to: Route, from: Route, next: Function) => void; 
+            meta?: any; // 路由元信息
         }
 ```
  5. Router实例：
@@ -222,5 +224,191 @@
                   { path: '*', component: NotFoundComponent }
                 ]
              })`
+9. 导航钩子：导航钩子主要用来拦截导航，让它完成跳转或取消。
+    1. 全局导航钩子：钩子是异步解析执行，此时导航在所有钩子 resolve 完之前一直处于 等待中
+       * to: Route, 即将进入的目标 路由对象
+       * from: Route, 当前导航正要离开的 路由
+       * next: Function, 一定要调用该方法来 resolve 这个钩子。执行效果依赖 next 方法的调用参数
+          * next(): 进行管道中的下一个钩子。如果全部钩子执行完了，则导航的状态就是 confirmed （确认的）
+          * next(false): 中断当前的导航。如果浏览器的 URL 改变了（可能是用户手动或者浏览器后退按钮），那么 URL 地址会重置到 from 路由对应的地址
+          * next('/') / next({path: '/'}): 跳转到一个不同的地址。当前的导航被中断，然后进行一个新的导航 
     
+                    `const router = new VueRouter({ ... })
+                        router.beforeEach((to, from, next) => {
+                        // ...
+                     })`
+    2. 某个路由独享的钩子： 方法参数和全局钩子的方法的 参数 一致
+        
+              `const router = new VueRouter({
+                  routes: [
+                    {
+                      path: '/foo',
+                      component: Foo,
+                      beforeEnter: (to, from, next) => {
+                        // ...
+                      }
+                    }
+                  ]
+               })`
+    3. 组件内的钩子： `beforeRouteEnter` `beforeRouteUpdate` `beforeRouteLeave`
+    
+              `const Foo = {
+                  template: `...`,
+                  beforeRouteEnter (to, from, next) {
+                    // 在渲染该组件的对应路由被 confirm 前调用
+                    // 不！能！获取组件实例 `this`
+                    // 因为当钩子执行前，组件实例还没被创建
+                  },
+                  beforeRouteUpdate (to, from, next) {
+                    // 在当前路由改变，但是该组件被复用时调用
+                    // 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，
+                    // 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。
+                    // 可以访问组件实例 `this`
+                  },
+                  beforeRouteLeave (to, from, next) {
+                    // 导航离开该组件的对应路由时调用
+                    // 可以访问组件实例 `this`
+                  }
+              }`
+10. 路由元信息： `meta`
+    
+        `const router = new VueRouter({
+            routes: [
+              {
+                path: '/foo',
+                component: Foo,
+                children: [
+                  {
+                    path: 'bar',
+                    component: Bar,
+                    // a meta field
+                    meta: { requiresAuth: true }
+                  }
+                ]
+              }
+            ]
+        })`
+11. 过渡动效： `<transition><router-view></router-view></transition>`
+    1. 单个路由的过渡动效：    
             
+              `const Foo = {
+                  template: `
+                    <transition name="slide">
+                      <div class="foo">...</div>
+                    </transition>
+                  `
+               }
+               const Bar = {
+                  template: `
+                    <transition name="fade">
+                      <div class="bar">...</div>
+                    </transition>
+                  `
+               }`
+    2. 基于路由的动态过渡：
+        
+              ` <!-- 使用动态的 transition name -->
+                <transition :name="transitionName">
+                    <router-view></router-view>
+                </transition>
+                // 接着在父组件内
+                // watch $route 决定使用哪种过渡
+                watch: {
+                  '$route' (to, from) {
+                    const toDepth = to.path.split('/').length
+                    const fromDepth = from.path.split('/').length
+                    this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
+                  }
+                }`
+12. 数据获取：
+    1. 导航完成之前获取： 使用 `created` 钩子函数获取数据
+        
+              `export default {
+                  data () {
+                    return {
+                      post: null,
+                      error: null
+                    }
+                  },
+                  beforeRouteEnter (to, from, next) {
+                    getPost(to.params.id, (err, post) => 
+                      if (err) {
+                        // display some global error message
+                        next(false)
+                      } else {
+                        next(vm => {
+                          vm.post = post
+                        })
+                      }
+                    })
+                  },
+                  // 路由改变前，组件就已经渲染完了
+                  // 逻辑稍稍不同
+                  watch: {
+                    $route () {
+                      this.post = null
+                      getPost(this.$route.params.id, (err, post) => {
+                        if (err) {
+                          this.error = err.toString()
+                        } else {
+                          this.post = post
+                        }
+                      })
+                    }
+                  }
+                }`
+    2. 导航完成之后获取： 使用 `beforeRouteEnter` 钩子方法和 `next` 方法
+
+              `<template>
+                <div class="post">
+                  <div class="loading" v-if="loading">
+                    Loading...
+                  </div>
+
+                  <div v-if="error" class="error">
+                    {{ error }}
+                  </div>
+
+                  <div v-if="post" class="content">
+                    <h2>{{ post.title }}</h2>
+                    <p>{{ post.body }}</p>
+                  </div>
+                </div>
+              </template>
+              export default {
+                data () {
+                  return {
+                    loading: false,
+                    post: null,
+                    error: null
+                  }
+                },
+                created () {
+                  // 组件创建完后获取数据，
+                  // 此时 data 已经被 observed 了
+                  this.fetchData()
+                },
+                watch: {
+                  // 如果路由有变化，会再次执行该方法
+                  '$route': 'fetchData'
+                },
+                methods: {
+                  fetchData () {
+                    this.error = this.post = null
+                    this.loading = true
+                    // replace getPost with your data fetching util / API wrapper
+                    getPost(this.$route.params.id, (err, post) => {
+                      this.loading = false
+                      if (err) {
+                        this.error = err.toString()
+                      } else {
+                        this.post = post
+                      }
+                    })
+                  }
+                }
+              }`
+13. 滚动行为：history 模式下可用
+14. 懒加载：
+
+  
