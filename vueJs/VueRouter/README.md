@@ -136,7 +136,7 @@
             }]
         })
         new Vue({
-	         router,
+	   router,
            el: '#app'
         })`
 7. 重定向和别名：
