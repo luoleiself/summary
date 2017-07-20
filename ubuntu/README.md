@@ -1,4 +1,10 @@
 ####  [Vim常用命令:](https://github.com/luoleiself/summary/blob/master/ubuntu/vim)
+#### 常见问题：
+  1. ubuntu提示密码认证失败：`sudo passwd` 
+  2. ubuntu启动器的位置切换：`gsettings set com.canonical.Unity.Launcher launcher-position Bottom(Left)`
+  3. ubuntu汉语拼音不能正常提示汉字:
+      1. `sudo apt-get install ibus-pinyin`
+      2. `sudo apt-get install ibus-libpinyin`
 #### 安装NodeJs配置全局环境(方式一)，缺点：版本维护麻烦
   1. 下载NodeJs安装包：`node-v8.1.2-linux-x64.tar.xz` 
   2. c => 压缩，x => 解压缩，v => 显示过程信息，f => 以包名为文件名：
@@ -51,5 +57,5 @@
              export NODE_PATH=$NODE_HOME/lib/node_modules`
   6. `source /etc/profile` 使配置文件生效，不用重新启动系统 
   7. `sudo npm i -g npm` 安装包
-  8. `npm -v` 最新版 `npm` 
+  8. `npm -v` 最新版 `npm`
 #### 安装Mysql数据库配置全局环境
