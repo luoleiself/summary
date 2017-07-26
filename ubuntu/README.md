@@ -44,13 +44,13 @@
 #### 安装NodeJs配置全局环境(方式二)：首先要先删除.npmrc配置文件，.npm文件夹
   1. 下载NodeJs安装包：`node-v8.1.2-linux-x64.tar.xz`
   2. 解压包文件，重命名为 `nodejs`
-    * `sudo mv node-v8.1.2-linux-x64/ nodejs`
-    * `sudo mv nodejs/ /usr/local/` 移动文件到指定目录
+      * `sudo mv node-v8.1.2-linux-x64/ nodejs`
+      * `sudo mv nodejs/ /usr/local/` 移动文件到指定目录
   3. `sudo ln -s /usr/local/nodejs/bin/node /usr/bin/node` 创建 `node` 符号链接
   4. `sudo ln -s /usr/local/nodejs/bin/npm /usr/bin/npm` 创建 `npm` 符号链接
   5. 修改系统环境变量
-    * `sudo cp /etc/profile /etc/profile.bak` 备份配置文件
-    * `sudo vim + /etc/profile` 文件末尾追加内容，保存并退出
+      * `sudo cp /etc/profile /etc/profile.bak` 备份配置文件
+      * `sudo vim + /etc/profile` 文件末尾追加内容，保存并退出
         
             `export NODE_HOME=/usr/local/nodejs
              export PATH=$PATH:$NODE_HOME/bin
