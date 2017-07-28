@@ -50,3 +50,15 @@ app.post('/index.html', function (req, res) {
     console.log('客户端数据读取完毕...');
   });
 })
+// app.put 请求:
+app.put('/index.html', function (req, res) {
+  req.on('data', function (data) {
+    console.log(JSON.parse(data.toString())); // { name:'haha', age: 27 }
+  })
+})
+// 处理所有请求
+app.all('/index.html', function (req, res, next) {
+  req.on('data', function (data) {
+    console.log(data);
+  })
+})

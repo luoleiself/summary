@@ -76,3 +76,9 @@ app.post('/index.html', function (req, res) {
     console.log('客户端数据读取完毕...');
   });
 })
+/**
+ *  put 请求、delete 请求、all 请求: app.put/delete/all(path,callback);
+ */
+/**
+ * 中间件的使用:
+ */
