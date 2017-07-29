@@ -11,6 +11,7 @@
 3. 设置路由:
     1. :  ?  (\\d+)正则表达式 : 设置路由
        ```
+          app.get(path, [callback...], callback);
           app.get('/:id(\\d+)?',function(req,res,next){
             // http://localhost:3000/11/?uid=001&name=james
             console.log(req.params); // 获取路由参数
@@ -46,4 +47,22 @@
           })
        ```
        
-5. 中间件:
+5. 中间件: 一个中间件为一个处理客户端请求的函数   
+    1.  定义中间件:
+        ```
+           var setHeaher = function(){
+             return function(req,res,next){
+                res.statusCode = 200;
+                res.header = {'Content-Type':'text/html'};
+                res.head = '<head><meta charset=utf-8></head>';
+                next();
+             }
+           }
+           exports.setHeader = setHeader;
+        ```
+    2. 使用中间件: app.use([path], function)
+       ```
+          var middleWare = require('./middleWare');
+          app.use('/static', middleWare.setHeader());
+       ```
+
