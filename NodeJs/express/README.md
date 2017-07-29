@@ -22,7 +22,7 @@
     2. 请求方式: get/post/put/delete/all(接收所有请求)
        ```
           app.all('/index.html',function(req,res,next){
-            next(); // 调用下一个请求方法
+            next(); // 调用下一个使用该相同路由的请求方法
           })
        ```
 4. express 实例方法:
