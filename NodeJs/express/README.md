@@ -19,12 +19,13 @@
             // { uid: 001, name: james }
           })
        ```
-    2. 请求方式: get/post/put/delete/all(接收所有请求)
+    2. 请求方式: get/post/put/delete/all(接收所有请求)  
        ```
           app.all('/index.html',function(req,res,next){
-            next(); // 调用下一个使用该相同路由的请求方法
-          })
-       ```
+              next(); // 调用下一个使用该相同路由的请求方法  
+          }) 
+       ```
+        
 4. express 实例方法:
     1. res.send(param);  // express 框架为 http.ServerResponse 对象提供的方法,代替 writeHead、setHead、end 方法
        ```
@@ -44,4 +45,5 @@
             res.sendFile(__dirname + '/index.html'); // 可以替换上面的发送文件方法
           })
        ```
+       
 5. 中间件:
