@@ -65,4 +65,5 @@
           var middleWare = require('./middleWare');
           app.use('/static', middleWare.setHeader());
        ```
-
+    3. express 框架提供的中间件:  
+        *  basicAuth: 网站身份认证功能
