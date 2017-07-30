@@ -82,3 +82,30 @@ app.post('/index.html', function (req, res) {
 /**
  * 中间件的使用:
  */
+// 定义中间件
+var setHeader = function(){
+  return function(req,res,next){
+    res.statusCode = 200;
+    res.header = {'Content-Type':'text/html'};
+    res.head = '<head><meta charset=utf-6></head>'
+    next(); // 调用下一个相同路由的方法
+  } 
+}
+exports.setHeader = setHeader;
+// 使用中间件
+var middleWare = require('./middleWare');
+app.use('/static',middleWare.setHeader());
+/**
+*  express 框架提供的中间件
+*/
+// cookie-parser: 获取客户端发送的 cookie
+npm i -g cookie-parser // 安装中间件,express 4.x以后不在内置中间件,只保留express.static
+var cookieParser = require('cookie-parser');
+app.use(cookieParser());
+app.get('/index.html', function(req,res){
+  for(var key in req.cookies){
+    console.log(key);
+    console.log(req.cookies[key]);
+  }
+  res.end();
+})
