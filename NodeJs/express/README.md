@@ -1,3 +1,4 @@
+#### [express在线文档](http://www.expressjs.com.cn/)
 1. 创建 `express` 服务器: 
     *  `var app = require('express')();`
     *  使用 NodeJs 提供的 http/https 模块创建 express:
@@ -66,4 +67,4 @@
           app.use('/static', middleWare.setHeader());
        ```
     3. express 框架提供的中间件:  
-        *  basicAuth: 网站身份认证功能
+        *  cookie-parser: 接收客户端请求的cookie
