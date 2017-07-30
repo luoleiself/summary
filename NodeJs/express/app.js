@@ -62,3 +62,27 @@ app.all('/index.html', function (req, res, next) {
     console.log(data);
   })
 })
+// 使用中间件:
+var express = require('express');
+var fs = require('fs');
+var cookieParser = require('cookie-parser');
+var app = express();
+// var middleWare = require('./middleWare')
+app.listen(3000, 'localhost');
+/*app.get('/', middleWare.setHeader(), function(req, res, next) {
+    res.writeHead(res.statusCode, res.header);
+    res.write(res.head);
+    res.end('Hello World...');
+})*/
+app.use(cookieParser());
+app.get('/index.html', function(req, res, next) {
+    res.sendFile(__dirname + '/index.html');
+})
+app.post('/index.html', function(req, res, next) {
+    console.log(req.cookies);
+    for (var key in req.cookies) {
+        res.write('cookie名: ' + key);
+        res.write(', cookie值为: ' + req.cookies[key] + '<br>');
+    }
+    res.end();
+})
