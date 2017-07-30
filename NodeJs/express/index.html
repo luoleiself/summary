@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script type='text/javascript'>
+        function cookieTest() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('post', 'index.html', true);
+            document.cookie = 'firstName = Hello World...';
+            document.cookie = 'secondName = Hello Express...';
+            xhr.onload = function(e) {
+                if (this.status == 200) {
+                    document.getElementById('result').innerHTML = this.response;
+                }
+            }
+            xhr.send();
+        }
+    </script>
+</head>
+
+<body>
+    <form id="form1" method='post' action='index.html'>
+        <input type="button" value='提交cookie' onclick="cookieTest()">
+    </form>
+    <output id='result' name="" for=""></output>
+</body>
+
+</html>
