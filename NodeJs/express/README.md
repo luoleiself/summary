@@ -66,5 +66,5 @@
           var middleWare = require('./middleWare');
           app.use('/static', middleWare.setHeader());
        ```
-    3. express 框架提供的中间件:  
-        *  cookie-parser: 接收客户端请求的cookie
+    3. express 框架提供的中间件:  http://www.expressjs.com.cn/resources/middleware.html
+       
