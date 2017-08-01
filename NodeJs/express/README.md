@@ -64,7 +64,13 @@
     2. 使用中间件: app.use([path], function)
        ```
           var middleWare = require('./middleWare');
-          app.use('/static', middleWare.setHeader());
-       ```
+          app.use('/static', middleWare.setHeader(),function(req,res,next){
+            res.send('Hello world');
+          });
+       ```    
 6. express 框架提供的中间件:  http://www.expressjs.com.cn/resources/middleware.html
-       
+    * cookie-parser: 处理客户端请求中的 cookie;
+    * body-parser: 处理客户端请求中的 请求体,不能处理 文件上传;
+    * multer: 处理客户端请求中的 文件上传;
+    * directory: 列出网站某个目录下的子目录及文件;
+     
