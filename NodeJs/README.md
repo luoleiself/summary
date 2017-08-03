@@ -16,7 +16,9 @@
 * npm outdated                    //检测模块是否过时
 * npm ls -g --depth 0          //查看安装的模块
 * npm init        //初始化项目，创建package.json文件，保存安装包的信息
-* npm help        //查看某条命令的详细帮助 
+* npm info package // 查看该模块的基本信息
+* npm help        //查看某条命令的详细帮助
+* npm home package // 浏览器打开该模块的首页
 * npm root  -g  //查看系统包的安装路径
 * npm config  list  -l  //查看config配置列表详情
 * npm start       //启动模块
