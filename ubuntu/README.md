@@ -1,4 +1,5 @@
-####  [Vim常用命令:](https://github.com/luoleiself/summary/blob/master/ubuntu/vim)
+####  [Ubuntu中文Wiki](http://wiki.ubuntu.org.cn)
+####  [Vim常用命令:](https://github.com/luoleiself/summary/blob/master/ubuntu/vim)
 #### 常见问题：
   1. ubuntu提示密码认证失败：`sudo passwd` 
   2. ubuntu启动器的位置切换：`gsettings set com.canonical.Unity.Launcher launcher-position Bottom(Left)`
