@@ -1,11 +1,21 @@
 1.Promise的含义:简单说就是一个容器，里面保存着某个未来才会结束的事件(通常是一个异步操作)的结果,从语法上说,Promise 是一个对象,从它可以获取异步操作的消息,Promise 提供统一的 API,各种异步操作都可以用同样的方法进行处理
-  1.特点:
-    1.对象的状态不受外界影响:pending(进行中)、resolve(完成)、rejected(失败)
-    2.一旦状态改变,就不会再变,任何时候都可以得到这个结果
-  2.缺点:
-    1.无法取消:一旦新建对象就会立即执行,无法中途取消
-    2.如果不设置回调函数,Promise内部抛出的错误,不会反应到外部
-    3.当处于Pending状态时,无法得知当前进展到哪一个阶段
+  1. 特点:
+    1. 对象的状态不受外界影响:Pending(进行中)、Fullfilled/Resolved(已成功)、Rejected(已失败)
+    2. 一旦状态改变,就不会再变,任何时候都可以得到这个结果
+  2. 缺点:
+    1. 无法取消:一旦新建对象就会立即执行,无法中途取消
+    2. 如果不设置回调函数,Promise内部抛出的错误,不会反应到外部
+    3. 当处于Pending状态时,无法得知当前进展到哪一个阶段
+  3. 方法:
+    1. Promise(); // 构造函数
+    2. Promise.prototype.then(callback,callback); // 原型对象方法,实例状态改变时的方法
+    3. Promise.prototype.catch(callback); // 原型对象方法,实例状态为Rejected的方法
+    4. Promise.all(); // 类方法,只有其中的promise实例状态全部为Fullfilled才为Fullfilled,否则为Rejected
+    5. Promise.race(); // 类方法,只要其中一个promise实例发生变化即可
+    6. Promise.resolve(); // 将现有对象转为Promise对象,
+    7. Promise.reject(); // 将现有对象转为Promise对象,该状态为Rejected
+    8. done(); // 需要自己实现
+    9. finally(); // 需要自己实现
 2.基本用法:
   var promise = new Promise(function(resolve,reject){
      true ? resolve(value) : reject(value);
