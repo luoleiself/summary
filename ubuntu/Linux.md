@@ -9,7 +9,23 @@
     * / 进入系统根目录
     * .. 返回上一级目录
     * ~ 返回到上次打开的目录
-3. chmod [-cfvR] [--help] [--version] mode file  // 用于改变文件或目录的访问权限，用它控制文件或目录的访问权限。
+3. pwd [options] 查看'当前工作目录'的完整路径,默认是链接路径  // pwd
+    * -P 输出物理路径  pwd -P => /etc/rc.d/init.d
+    * -L 输出链接路径  pwd -L => /etc/init.d
+4. mkdir [options] [dirname] 创建指定名称的目录 
+    * -m，--mode=模式 设定权限  // mkdir -m 744 /test1 
+    * -p，--parents 递归创建多个目录(如果目录不存在)  // mkdir -p /test11/test111/test1111 
+    * -v，--verbose 创建目录时显示信息 // mkdir -v /test2 
+    * --version 输出版本信息并退出 
+    * --help 显示帮助信息并退出  
+5. rm [options] [filename/dirname]  删除指定文件和目录
+    * -f，--force 忽略不存在的文件，从不给出提示 // rm -f /test1
+    * -i，--interactive 进行交互式删除 // rm -i /test1
+    * -r，-R，--recursive 递归删除全部目录及子目录 // rm -r /test11
+    * -v，--verbose 删除目录时显示信息 // rm -v /test2
+    * --version 输出版本信息并退出 
+    * --help 显示帮助信息并退出 
+6. chmod [-cfvR] [--help] [--version] mode file  // 用于改变文件或目录的访问权限，用它控制文件或目录的访问权限。
     * -c 当发生改变时，报告处理信息
     * -f 错误信息不输出
     * -R(recursive) 处理指定目录以及其子目录下的所有文件(递归修改)
