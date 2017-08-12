@@ -25,7 +25,38 @@
     * -v，--verbose 删除目录时显示信息 // rm -v /test2
     * --version 输出版本信息并退出 
     * --help 显示帮助信息并退出 
-6. chmod [-cfvR] [--help] [--version] mode file  // 用于改变文件或目录的访问权限，用它控制文件或目录的访问权限。
+6. rmdir [options] [dirname] 删除指定空目录 
+    * -p 递归删除指定空目录 // rmdir -p /test11
+    * -v，--verbose 显示指令执行过程 // rmdir -v /test3
+7. mv [options] [sourceFilename/sourceDirname] [newFilename/newDirname] 移动文件或将文件改名  
+    * -b 若需覆盖文件，则覆盖前先行备份 // mv -b test1.log /test1/test1.log
+    * -f，--force 如果目标文件已存在则直接覆盖 // mv -f test1.log /test1/test1.log
+    * -i 如果目标文件已经存在，会提示是否覆盖 // mv -i test1.log /test1/test1.log
+    * -u 如果目标文件已经存在，且比源文件版本低时，才会更新 // mv -u test1.log /test1/test1.log
+    * -t， --target-directory=DIRECTORY move all SOURCE arguments into DIRECTORY 指定目标目录，移动多个源文件到一个目标目录中 
+8. cp [options] [sourceDirname] [newDirname] 复制指定的源文件或源目录到目标文件或目标目录中 
+    * -a，--archive == -dR --preserve=all 复制目录中的所有项目 // cp -a /test1/ /test2/
+    * -b 为已存在的目标文件创建备份 // cp -b test1.log /test1/test1.log 
+    * -d == --no-dereference --preserve=links 
+    * -f，--force (当 -n 存在时不需要此项)
+    * -i，--interactive 覆盖前询问(使前面的 -n 失效)  
+    * -H 跟随源文件中的命令符号连接 
+    * -l，--link 链接文件而不复制 
+    * -L，--dereference 总是跟随符号连接 
+    * -n，--no-clobber 不要覆盖已存在的文件(使前面的 -i 失效) 
+    * -P，--no-dereference 不跟随源文件中的符号连接 
+    * -p == --preserve=模式、所有权、时间戳 
+    * --preserve=[属性列表 保持指定的属性(默认:模式、所有权、时间戳)，可附加属性 
+    * -R，-r，--recursive 复制目录及目录内的所有项目 
+9. touch [options] [filename] 修改文件时间或者创建新文件 
+    * -a，--time=atime，--time=access，--time=use 只更改存取时间 
+    * -c，--no-create 如果该文件不存在，则不创建文档 
+    * -d 使用指定的日期时间，而非现在的时间 
+    * -f 忽略不予处理 
+    * -m，--time=modify，--time=mtime 只更改变动时间 
+    * -r 把指定文件或目录的日期时间，统统设定和参考文档或目录的日期时间相同 // touch -r test1.log test2.log
+    * -t 使用指定的日期时间，而非现在的时间
+10. chmod [-cfvR] [--help] [--version] mode file  // 用于改变文件或目录的访问权限，用它控制文件或目录的访问权限。
     * -c 当发生改变时，报告处理信息
     * -f 错误信息不输出
     * -R(recursive) 处理指定目录以及其子目录下的所有文件(递归修改)
