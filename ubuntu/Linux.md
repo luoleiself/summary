@@ -56,7 +56,18 @@
     * -m，--time=modify，--time=mtime 只更改变动时间 
     * -r 把指定文件或目录的日期时间，统统设定和参考文档或目录的日期时间相同 // touch -r test1.log test2.log
     * -t 使用指定的日期时间，而非现在的时间
-10. chmod [-cfvR] [--help] [--version] mode file  // 用于改变文件或目录的访问权限，用它控制文件或目录的访问权限。
+10. cat [options] [filename] 显示文件内容 
+    * -A，--show-all == -vET 
+    * -b，--number-nonblank 对非空输出行编号 
+    * -e == -vE 
+    * -E，--show-ends 在每行结束处显示 $ 
+    * -n，--number 对输出的所有行编号，由 1 开始 
+    * -s, --squeeze-blank 有连续两行的空白行，替换为一行的空白行 
+    * -t == -vT 
+    * -T，--show-tabs 将跳格字符显示为 ^I 
+    * -u (被忽略) 
+    * -v, --show-nonprinting 使用 ^ 和 M- 引用，除了 LFD 和 TAB 之外 
+11. chmod [-cfvR] [--help] [--version] mode file  // 用于改变文件或目录的访问权限，用它控制文件或目录的访问权限。
     * -c 当发生改变时，报告处理信息
     * -f 错误信息不输出
     * -R(recursive) 处理指定目录以及其子目录下的所有文件(递归修改)
