@@ -112,7 +112,21 @@
     * [enter] 滚动一页 
     * [pageDown] 向下翻动一页 
     * [pageUp] 向上翻动一页
-14. chmod [-cfvR] [--help] [--version] mode file  // 用于改变文件或目录的访问权限，用它控制文件或目录的访问权限。
+14. head [options] filename 显示档案的开头到标准输出中,默认显示 10 行 
+    * -q 隐藏文件名 
+    * -v 显示文件名 
+    * -c <number> 显示指定的字节数 
+    * -n <number> 显示指定的行数 
+15. tail [options][filename] 显示指定文件末尾内容,不指定文件时,作输入信息处理 
+    * -f 循环读取 
+    * -q 不显示处理信息 
+    * -v 显示详细的处理信息 
+    * -c <number> 显示指定的字节数 
+    * -n <number> 显示指定的行数 
+    * --pid=PID 与-f合用,表示在进程ID,PID死掉之后结束 
+    * -q, --quiet, --silent 从不输出给出文件名的首部  
+    * -s, --sleep-interval=S 与-f合用,表示在每次反复的间隔休眠S秒 
+16. chmod [-cfvR] [--help] [--version] mode file  // 用于改变文件或目录的访问权限，用它控制文件或目录的访问权限。
     * -c 当发生改变时，报告处理信息
     * -f 错误信息不输出
     * -R(recursive) 处理指定目录以及其子目录下的所有文件(递归修改)
