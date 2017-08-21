@@ -100,9 +100,10 @@
   eg:function foo() {}
     foo.name // "foo"
 6.箭头函数:
-  1.如果没有参数或者不需要参数,使用小括号代替参数部分
+  1.如果没有参数或者不需要参数,使用 ()/'_' 代替参数部分
     eg:var f = () => 5;
       // 等同于
+      var f = _ => {return 5}
       var f = function () { return 5 };
       var sum = (num1, num2) => num1 + num2;
       // 等同于
