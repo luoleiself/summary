@@ -508,4 +508,21 @@
     * -t 显示终端和CPU的信息
     * -x 显示详细信息
     * -V 显示版本信息
+40. watch [参数] [命令] 监测一个命令的运行结果,将命令的输出结果输出到标准输出设备,多用于周期性执行命令/定时执行命令 // watch -n 10 'cat /proc/loadavg'
+    * -n, --interval  watch缺省每2秒运行一下程序，可以用-n或-interval来指定间隔的时间。 // watch -n 1 -d 'pstree|grep http'
+    * -d, --differences  用-d或--differences 选项watch 会高亮显示变化的区域。 而-d=cumulative选项会把变动过的地方(不管最近的那次有没有变动)都高亮显示出来。 // watch -n 2 -d netstat -ant
+    * -t, -no-title  会关闭watch命令在顶部的时间间隔,命令，当前时间的输出。
+    * -h, --help 查看帮助文档
+41. at [参数] [时间] 在一个指定的时间执行一个指定任务，只能执行一次，且需要开启atd进程 // /etc/init.d/atd start /etc/init.d/atd restart
+    * -m 当指定的任务被完成之后，将给用户发送邮件，即使没有标准输出
+    * -I atq的别名
+    * -d atrm的别名
+    * -v 显示任务将被执行的时间
+    * -c 打印任务的内容到标准输出
+    * -V 显示版本信息
+    * -q<列队> 使用指定的列队
+    * -f<文件> 从指定文件读入任务而不是从标准输入读入
+    * -t<时间参数> 以时间参数的形式提交要运行的任务 
+
+
 
