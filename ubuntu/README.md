@@ -60,3 +60,8 @@
   7. `sudo npm i -g npm` 安装包
   8. `npm -v` 最新版 `npm`
 #### 安装Mysql数据库配置全局环境
+#### 插件
+   * banner toilet figlet  
+   * cmatrix
+   
+   
