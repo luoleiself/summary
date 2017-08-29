@@ -665,3 +665,51 @@
     * -A, --query=QUERY, --socket=QUERY QUERY := {all|inet|tcp|udp|raw|unix|packet|netlink}[,QUERY]
     * -D, --diag=FILE     将原始TCP套接字（sockets）信息转储到文件
     * -F, --filter=FILE   从文件中都去过滤器信息 FILTER := [ state TCP-STATE ] [ EXPRESSION ]
+50. telnet [参数] [主机] 开启终端机阶段作业，并登入远端主机  // telnet 192.168.120.206 // service xinetd restart 
+    * -8 允许使用8位字符资料，包括输入与输出。
+    * -a 尝试自动登入远端系统。
+    * -b<主机别名> 使用别名指定远端主机名称。
+    * -c 不读取用户专属目录里的.telnetrc文件。
+    * -d 启动排错模式。
+    * -e<脱离字符> 设置脱离字符。
+    * -E 滤除脱离字符。
+    * -f 此参数的效果和指定"-F"参数相同。
+    * -F 使用Kerberos V5认证时，加上此参数可把本地主机的认证数据上传到远端主机。
+    * -k<域名> 使用Kerberos认证时，加上此参数让远端主机采用指定的领域名，而非该主机的域名。
+    * -K 不自动登入远端主机。
+    * -l<用户名称> 指定要登入远端主机的用户名称。
+    * -L 允许输出8位字符资料。
+    * -n<记录文件> 指定文件记录相关信息。
+    * -r 使用类似rlogin指令的用户界面。
+    * -S<服务类型> 设置telnet连线所需的IP TOS信息。
+    * -x 假设主机有支持数据加密的功能，就使用它。
+    * -X<认证形态> 关闭指定的认证形态。
+51. rcp [参数] [源文件] [目标文件] 用在远端复制文件或目录，如同时指定两个以上的文件或目录，且最后的目的地是一个已经存在的目录，则它会把前面指定的所有文件或目录复制到该目录中。 // rcp test1 webserver1:/home/root/test3
+    * -r 递归地把源目录中的所有内容拷贝到目的目录中。要使用这个选项，目的必须是一个目录。
+    * -p 试图保留源文件的修改时间和模式，忽略umask。
+    * -k 请求rcp获得在指定区域内的远程主机的Kerberos 许可，而不是获得由krb_relmofhost⑶确定的远程主机区域内的远程主机的Kerberos许可。
+    * -x 为传送的所有数据打开DES加密。这会影响响应时间和CPU利用率，但是可以提高安全性。如果在文件名中指定的路径不是完整的路径名，那么这个路径被解释为相对远程机上同名用户的主目录。如果没有给出远程用户名，就使用当前用户名。如果远程机上的路径包含特殊shell字符，需要用反斜线（\\）、双引号（”）或单引号（’）括起来，使所有的shell元字符都能被远程地解释。需要说明的是，rcp不提示输入口令，它通过rsh命令来执行拷贝。
+    * directory 每个文件或目录参数既可以是远程文件名也可以是本地文件名。远程文件名具有如下形式：rname@rhost：path，其中rname是远程用户名，rhost是远程计算机名，path是这个文件的路径。
+52. scp [参数] [原路径] [目标路径] (secure copy) secure copy的缩写, scp是linux系统下基于ssh登陆进行安全的远程文件拷贝命令。linux的scp命令可以在linux服务器之间复制文件和目录。 // scp root@192.168.120.204:/opt/soft/nginx-0.5.38.tar.gz /opt/soft/
+    * -1  强制scp命令使用协议ssh1  // scp /opt/soft/nginx-0.5.38.tar.gz root@192.168.120.204:/opt/soft/scptest
+    * -2  强制scp命令使用协议ssh2  
+    * -4  强制scp命令只使用IPv4寻址  
+    * -6  强制scp命令只使用IPv6寻址  
+    * -B  使用批处理模式（传输过程中不询问传输口令或短语）  
+    * -C  允许压缩。（将-C标志传递给ssh，从而打开压缩功能）  
+    * -p 保留原文件的修改时间，访问时间和访问权限。  
+    * -q  不显示传输进度条。  
+    * -r  递归复制整个目录。  // scp -r root@192.168.120.204:/opt/soft/mongodb /opt/soft/
+    * -v 详细方式显示输出。scp和ssh(1)会显示出整个过程的调试信息。这些信息用于调试连接，验证和配置问题。   
+    * -c cipher  以cipher将数据传输进行加密，这个选项将直接传递给ssh。   
+    * -F ssh_config  指定一个替代的ssh配置文件，此参数直接传递给ssh。  
+    * -i identity_file  从指定文件中读取传输时使用的密钥文件，此参数直接传递给ssh。    
+    * -l limit  限定用户所能使用的带宽，以Kbit/s为单位。     
+    * -o ssh_option  如果习惯于使用ssh_config(5)中的参数传递方式，   
+    * -P port  注意是大写的P, port是指定数据传输用到的端口号   
+    * -S program  指定加密传输时所使用的程序。此程序必须能够理解ssh(1)的选项。
+53. wget [参数] [URL地址] 用于从网络上下载资源，没有指定目录，下载资源回默认为当前目录。// wget -b http://www.minjieren.com/wordpress-3.1-zh_CN.zip
+    * -h, –help 打印语法帮助
+54. adduser
+55. deluser
+
