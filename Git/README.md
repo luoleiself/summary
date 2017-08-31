@@ -76,6 +76,7 @@
   * git push [remote] [branch]    # 上传本地指定分支到远程仓库
   * git push [remote] --force    # 强行推送当前分支到远程仓库，即使有冲突
   * git push [remote] --all    # 推送所有分支到远程仓库
+  * git push origin local_branch:origin_branch   # 推送本地分支到远程分支,如果远程分支不存在则新建
 ### 撤销
   * git checkout [file]    # 恢复暂存区的指定文件到工作区
   * git checkout [commit] [file]    # 恢复某个 `commit` 的指定文件到工作区
