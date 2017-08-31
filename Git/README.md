@@ -10,6 +10,7 @@
   * git config [--global] user.email '[email address]'  # 设置提交代码时的用户信息-邮箱
   * git config --global alias.co checkout  # 配置 `checkout` 快捷键
   * git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"  # 配置 `log` 快捷键和显示历史颜色 
+  * git remote rm origin  # 修改remote
 ### 增加/删除文件
   * git add [file1] [file2] ...   # 添加到指定文件到暂存区
   * git add [dir]   # 添加指定目录到暂存区，包括子目录
@@ -28,7 +29,7 @@
   * git commit --amend -m 'message'   # 如果代码没有任何新变化，则用来改写上一次 `commit` 的提交信息   
   * git commit --amend [file1] [file2] ...    # 重做上一次 `commit`，并包括指定文件的新变化                                
 ### 分支
-  * git branch    # 列出本地所有分支
+  * git branch    # 列出本地所有分支
   * git branch -r    # 列出所有远程分支
   * git branch -a    # 列出所有本地分支和远程分支
   * git branch [branch-name]    # 新建一个分支，但依然停留在当前分支
@@ -38,12 +39,13 @@
   * git branch --track [branch] [remote-branch]    # 新建一个分支，与指定的远程分支建立追踪关系
   * git checkout [branch-name]    # 切换到指定分支，并更新工作区
   * git branch --set-upstream [branch] [remote-branch]   # 建立追踪关系，在现有分支与指定的远程分支之间
-  * git merge [branch]    # 合并指定分支到当前分支
   * git cherry-pick [commit]    # 选择一个 `commit`，合并进当前分支
   * git branch -d [branch-name]    # 删除分支
   * git branch -D [branch-name]    # 强制删除分支
   * git branch -dr [remote/branch]    # 删除远程分支
   * git push origin --delete [branch-name]    # 删除远程分支
+  * git merge [branch-name]   # 合并指定分支到当前分支, 外形看似多条线段合并
+  * git rebase [branch-name]   # 合并指定分支到当前分支, 外形看似一条直线
 ### 标签 
   * git tag    # 列出所有tag
   * git tag [tag]    # 新建一个 `tag`，在当前 `commit` 上
@@ -54,9 +56,10 @@
   * git checkout -b [branch] [tag]    # 新建一个分支，指向某个 `tag`
 ### 查看信息
   * git status    # 显示有变更的文件
-  * git log    # 显示当前分支的历史版本
+  * git log     # 显示当前分支的历史版本
   * git log --stat    # 显示 `commit` 历史，以及每次 `commit` 发生变更的文件
   * git log --follow [file]    # 显示某个文件的版本历史，包括文件改名
+  * git log --stat --summary  # 查看每个版本变动的档案和行数
   * git whatchanged [file]    # 显示某个文件的版本历史，包括文件改名
   * git log -p [file]    # 显示指定文件相关的每一次 `diff`
   * git blame [file]    # 显示指定文件是什么人什么时候修改过   
@@ -64,6 +67,9 @@
   * git diff --cached [file]    # 显示暂存区和上一个 `commit` 的差异   
   * git diff HEAD    # 显示工作区与当前分支最新 `commit` 之间的差异
   * git diff [first-branch] ... [second-branch]    # 显示两次提交之间的差异
+  * git diff --staged   # 比较暂存区和版本库差异 
+  * git diff --stat    # 仅仅比较统计信息
+  * git diff --check   # 它将会找到可能的空白错误并将它们为你列出来
   * git show [commit]    # 显示某次提交的元数据和内容变化
   * git show --name-only [commit]    # 显示某次提交发生变化的文件
   * git show [commit]:[filename]    # 显示某次提交时，某个文件的内容
@@ -73,10 +79,11 @@
   * git remote -v    # 显示所有远程仓库
   * git remote show [remote]    # 显示某个远程仓库的信息 
   * git remote add [shortname] [url]    # 增加一个新的远程仓库，并命名
-  * git pull origin origin_branch:local_branch   # 拉取远程分支到本地分支, 如果本地分支不存在, 则新建
+  * git pull origin origin_branch:local_branch   # 拉取远程分支到本地分支, 如果本地分支不存在, 则新建
   * git push origin local_branch:origin_branch   # 推送本地分支到远程分支, 如果远程分支不存在, 则新建
-  * git push origin --force    # 强行推送当前分支到远程仓库，即使有冲突
+  * git push origin --force    # 强行推送当前分支到远程仓库，即使有冲突
   * git push origin --all    # 推送所有分支到远程仓库
+  * git push origin --delete [branch-name]    # 删除远程分支
 ### 撤销
   * git checkout [file]    # 恢复暂存区的指定文件到工作区
   * git checkout [commit] [file]    # 恢复某个 `commit` 的指定文件到工作区
@@ -94,11 +101,12 @@
   * git revert [commit]    # 后者的所有变化都将被前者抵消，并且应用到当前分支
   * git revert HEAD    # 回到前一此 `commit` 的状态
   * git revert HEAD^    # 回到上上一次的状态
+### 暂存
+  * git stash   # 放进暂存区
+  * git stash list  # 列出暂存区的文件
+  * git stash pop  # 取出最新的一笔，并移除
+  * git stash apply # 取出但不移除
+  * git stash clear # 清除暂存区
 ### 其他
   * git archive    # 生成一个可供发布的压缩包
-  * git stash #放进暂存区
-  * git stash list #列出暂存区的文件
-  * git stash pop #取出最新的一笔，并移除
-  * git stash apply #取出但不移除
-  * git stash clear #清除暂存区
-
+  
