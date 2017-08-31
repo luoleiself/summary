@@ -13,7 +13,8 @@
 ### 增加/删除文件
   * git add [file1] [file2] ...   # 添加到指定文件到暂存区
   * git add [dir]   # 添加指定目录到暂存区，包括子目录
-  * git add . == git add -A/--all   #  添加当前目录的所有文件到暂存区
+  * git add .       #  添加当前目录的所有文件到暂存区
+  * git add -A/--all   #  添加当前目录的所有文件到暂存区
   * git add -i   # 进入互动模式
   * git rm [file1] [file2] ...   # 删除工作区文件，并将这次删除操作添加到暂存区
   * git rm --cached [file]    # 停止追踪指定文件，但该文件会保留在工作区
@@ -41,8 +42,8 @@
   * git cherry-pick [commit]    # 选择一个 `commit`，合并进当前分支
   * git branch -d [branch-name]    # 删除分支
   * git branch -D [branch-name]    # 强制删除分支
-  * git push origin --delete [branch-name]    # 删除远程分支
   * git branch -dr [remote/branch]    # 删除远程分支
+  * git push origin --delete [branch-name]    # 删除远程分支
 ### 标签 
   * git tag    # 列出所有tag
   * git tag [tag]    # 新建一个 `tag`，在当前 `commit` 上
@@ -72,11 +73,10 @@
   * git remote -v    # 显示所有远程仓库
   * git remote show [remote]    # 显示某个远程仓库的信息 
   * git remote add [shortname] [url]    # 增加一个新的远程仓库，并命名
-  * git pull [remote] [branch]    # 取回远程仓库的变化，并与本地分支合并
-  * git push [remote] [branch]    # 上传本地指定分支到远程仓库
-  * git push [remote] --force    # 强行推送当前分支到远程仓库，即使有冲突
-  * git push [remote] --all    # 推送所有分支到远程仓库
-  * git push origin local_branch:origin_branch   # 推送本地分支到远程分支,如果远程分支不存在则新建
+  * git pull origin origin_branch:local_branch   # 拉取远程分支到本地分支, 如果本地分支不存在, 则新建
+  * git push origin local_branch:origin_branch   # 推送本地分支到远程分支, 如果远程分支不存在, 则新建
+  * git push origin --force    # 强行推送当前分支到远程仓库，即使有冲突
+  * git push origin --all    # 推送所有分支到远程仓库
 ### 撤销
   * git checkout [file]    # 恢复暂存区的指定文件到工作区
   * git checkout [commit] [file]    # 恢复某个 `commit` 的指定文件到工作区
