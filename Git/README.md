@@ -36,9 +36,9 @@
   * git branch [branch-name] [master]    # 
   * git checkout -b [branch]    # 新建一个分支，并切换到新分支
   * git branch [branch] [commit]    # 新建一个分支，指向指定 `commit`
-  * git branch --track [branch] [remote-branch]    # 新建一个分支，与指定的远程分支建立追踪关系
+  * git branch --track [local-branch] [remote-branch]    # 新建一个分支，与指定的远程分支建立追踪关系
   * git checkout [branch-name]    # 切换到指定分支，并更新工作区
-  * git branch --set-upstream [local-branch] [remote-branch]   # 建立追踪关系，在现有分支与指定的远程分支之间
+  * git branch --set-upstream [local-branch] [remote-branch]   # 手动建立追踪关系，在现有分支与指定的远程分支之间
   * git cherry-pick [commit]    # 选择一个 `commit`，合并进当前分支
   * git branch -d [branch-name]    # 删除分支
   * git branch -D [branch-name]    # 强制删除分支
