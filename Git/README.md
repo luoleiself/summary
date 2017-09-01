@@ -122,4 +122,6 @@
   * git grep [options]   # 查找功能 
   * git gc    # 压缩历史消息节约空间 
   * git fsck   # 对仓库进行检查 
-  
+  * git bisect  # 查找问题 
+  * git blame   # 查找问题 
+
