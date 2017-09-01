@@ -52,7 +52,8 @@
   * git merge -m 'message' [branch-name]   # 合并指定分支到当前分支, 外形看似多条线段合并, 并提交注释信息 
   * git rebase [branch-name]   # 合并指定分支到当前分支, 外形看似一条直线
   * git rebase --continue  # 解决冲突之后继续合并分支, 之前只需要执行命令 git add -all
-  * git rebase --abort    # 终止 rebase 的操作, 并返回到 rebase 之前的状态
+  * git rebase --abort    # 终止 rebase 的操作, 并返回到 rebase 之前的状态 
+  * git rebase -i  brach-name    # 使用交互式命令执行合并分支 
 ### 标签 
   * git tag    # 列出所有tag
   * git tag [tag]    # 新建一个 `tag`，在当前 `commit` 上
@@ -117,5 +118,8 @@
   * git stash apply # 取出但不移除
   * git stash clear # 清除暂存区
 ### 其他
-  * git archive    # 生成一个可供发布的压缩包
-  
+  * git archive    # 生成一个可供发布的压缩包 
+  * git grep [options]   # 查找功能 
+  * git gc    # 压缩历史消息节约空间 
+  * git fsck   # 对仓库进行检查 
+  
