@@ -38,7 +38,7 @@
   * git branch [branch] [commit]    # 新建一个分支，指向指定 `commit`
   * git branch --track [branch] [remote-branch]    # 新建一个分支，与指定的远程分支建立追踪关系
   * git checkout [branch-name]    # 切换到指定分支，并更新工作区
-  * git branch --set-upstream [branch] [remote-branch]   # 建立追踪关系，在现有分支与指定的远程分支之间
+  * git branch --set-upstream [local-branch] [remote-branch]   # 建立追踪关系，在现有分支与指定的远程分支之间
   * git cherry-pick [commit]    # 选择一个 `commit`，合并进当前分支
   * git branch -d [branch-name]    # 删除分支
   * git branch -D [branch-name]    # 强制删除分支
@@ -75,8 +75,10 @@
   * git show [commit]:[filename]    # 显示某次提交时，某个文件的内容
   * git reflog    # 显示当前分支的最近几次提交                      
 ### 远程同步
-  * git fetch [remote]    # 下载远程仓库的所有变动
-  * git remote -v    # 显示所有远程仓库
+  * git fetch origin    # 拉取远程仓库的所有分支的更新
+  * git fetch origin [branch-name]  # 拉取远程仓库指定分支上的更新, 读取更新时使用 'origin/branch-name'
+  * git fetch origin + pu：pu maint：tmp  # 拉取远程仓库的 pu 和 maint 分支 到本地的 pu 和 tmp 分支上, 只有 pu 分支会被更新即使没有变动
+  * git remote -v    # 显示所有远程仓库
   * git remote show [remote]    # 显示某个远程仓库的信息 
   * git remote add [shortname] [url]    # 增加一个新的远程仓库，并命名
   * git pull origin origin_branch:local_branch   # 拉取远程分支到本地分支, 如果本地分支不存在, 则新建
