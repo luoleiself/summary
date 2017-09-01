@@ -10,7 +10,12 @@
   * git config [--global] user.email '[email address]'  # 设置提交代码时的用户信息-邮箱
   * git config --global alias.co checkout  # 配置 `checkout` 快捷键
   * git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"  # 配置 `log` 快捷键和显示历史颜色 
-  * git remote rm origin  # 修改remote
+  * git remote rm origin  # 修改remote 
+  * git remote   # 显示远程仓库 
+  * git remote -v   # 显示远程仓库详细配置信息 
+  * git remote add name url    # 添加远程仓库 
+  * git remote remove name    # 删除远程仓库 
+  * git remote rename old-name new-name    # 修改仓库名称
 ### 增加/删除文件
   * git add [file1] [file2] ...   # 添加到指定文件到暂存区
   * git add [dir]   # 添加指定目录到暂存区，包括子目录
