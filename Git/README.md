@@ -42,8 +42,8 @@
   * git cherry-pick [commit]    # 选择一个 `commit`，合并进当前分支
   * git branch -d [branch-name]    # 删除分支
   * git branch -D [branch-name]    # 强制删除分支
-  * git branch -dr [remote/branch]    # 删除远程分支
-  * git push origin --delete [branch-name]    # 删除远程分支
+  * git branch -dr [remote/branch]    # 删除远程分支, 建议使用 git push origin --delete [branch-name]
+  * git push origin --delete [branch-name]    # 删除远程分支
   * git merge [branch-name]   # 合并指定分支到当前分支, 外形看似多条线段合并
   * git rebase [branch-name]   # 合并指定分支到当前分支, 外形看似一条直线
 ### 标签 
@@ -85,7 +85,7 @@
   * git push origin local_branch:origin_branch   # 推送本地分支到远程分支, 如果远程分支不存在, 则新建
   * git push origin --force    # 强行推送当前分支到远程仓库，即使有冲突
   * git push origin --all    # 推送所有分支到远程仓库
-  * git push origin --delete [branch-name]    # 删除远程分支
+  * git push origin --delete [branch-name]    # 删除远程分支,
 ### 撤销
   * git checkout [file]    # 恢复暂存区的指定文件到工作区
   * git checkout [commit] [file]    # 恢复某个 `commit` 的指定文件到工作区
