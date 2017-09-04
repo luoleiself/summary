@@ -90,6 +90,7 @@
   * git remote show [remote]    # 显示某个远程仓库的信息 
   * git remote add [shortname] [url]    # 增加一个新的远程仓库，并命名
   * git pull origin origin_branch:local_branch   # 拉取远程分支到本地分支, 如果本地分支不存在, 则新建
+  * git pull origin master --allow-unrelated-histories   # 允许合并远程仓库和本地仓库无关的历史,一般用在关联两个仓库更新版本历史问题
   * git push origin local_branch:origin_branch   # 推送本地分支到远程分支, 如果远程分支不存在, 则新建
   * git push origin --force    # 强行推送当前分支到远程仓库，即使有冲突
   * git push origin --all    # 推送所有分支到远程仓库
