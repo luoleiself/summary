@@ -1,7 +1,7 @@
 // 修改历史记录阻止后退功能
-$(document).ready(function() {
+$(document).ready(function () {
   if (window.history && window.history.pushState) {
-    $(window).on('popstate', function() {
+    $(window).on('popstate', function () {
       window.history.pushState('forward', null, '');
       window.history.forward(1);
     });
@@ -17,10 +17,10 @@ var canvas = document.querySelector('canvas');
 navigator.mediaDevices.getUserMedia({
   // audio: true,
   video: true
-}, function(mediaStream) { // 成功时回调函数
+}, function (mediaStream) { // 成功时回调函数
   video.src = window.URL.createObjectURL(mediaStream);
   video.play();
-}, function(error) { // 失败时回调函数
+}, function (error) { // 失败时回调函数
   alert('video error: ' + err);
 });
 var context = canvas.getContext('2d');
@@ -31,9 +31,16 @@ function captureAndSaveFrame() {
 }
 //定时捕获
 function timer(delta) {
-  setTimeout(function() {
+  setTimeout(function () {
     captureAndSaveFrame();
     timer(delta)
   }, delta || 500);
 }
 timer();
+
+
+// js 模拟 $选择器
+window.$ = HTMLElement.prototype.$ = function (selector) {
+  var r = (this == window ? document : this).querySelectorAll(selector);
+  return r.length == 0 ? null : r.length == 1 ? r[0] : r;
+}
