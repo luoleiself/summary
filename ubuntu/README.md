@@ -1,3 +1,4 @@
+####  [install.md](https://github.com/luoleiself/summary/blob/master/ubuntu/install.md)
 ####  [Ubuntu中文Wiki](http://wiki.ubuntu.org.cn)
 ####  [Vim常用命令:](https://github.com/luoleiself/summary/blob/master/ubuntu/vim)
 #### 常见问题：
