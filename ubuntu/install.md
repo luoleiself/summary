@@ -10,7 +10,7 @@
     * man umake  # 用man（手册manuel的缩写）命令来查看umake用法
     * info umake  # umake的信息（info）页面
     * umake 大类 小类
-    * umake android android-studio
+    * umake ide eclipse-jee   # 安装javaEE开发工具
 ### GNOME Tweaks(优化GNOME3高级设置)
     * 启动应用程序中心，搜索 GNOME Tweaks，并安装
     * 在Dock中搜索Tweaks并启动，做相应设置
