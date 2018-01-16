@@ -7,7 +7,7 @@
   3. ubuntu汉语拼音不能正常提示汉字:
       1. `sudo apt-get install ibus-pinyin`
       2. `sudo apt-get install ibus-libpinyin`
-#### 安装NodeJs配置全局环境(方式一)，缺点：版本维护麻烦
+#### 安装NodeJs配置全局环境(方式一)，缺点：版本维护麻烦，该方式已废弃，可参见install.md
   1. 下载NodeJs安装包：`node-v8.1.2-linux-x64.tar.xz` 
   2. c => 压缩，x => 解压缩，v => 显示过程信息，f => 以包名为文件名：
       * `sudo tar -Jxvf node-v8.1.2-linux-x64.tar.xz` => 解压 `xz` 压缩包    
@@ -43,7 +43,7 @@
       2. `ll usr/local/node-v8.1.2-linux-x64/node_global/lib/node_modules` => 显示所有文件
       3. `anywhere --help` => 显示帮助命令表示配置成功
       4. `anywhere: 未找到命令` => 表示系统环境配置错误，请检查 `8.2` 的配置路径是否正确
-#### 安装NodeJs配置全局环境(方式二)：首先要先删除.npmrc配置文件，.npm文件夹
+#### 安装NodeJs配置全局环境(方式二)：首先要先删除.npmrc配置文件，.npm文件夹,该方式已废弃，可参见install.md
   1. 下载NodeJs安装包：`node-v8.1.2-linux-x64.tar.xz`
   2. 解压包文件，重命名为 `nodejs`
       * `sudo mv node-v8.1.2-linux-x64/ nodejs`
