@@ -115,9 +115,10 @@
   * git revert HEAD^    # 回到上上一次的状态
 ### 暂存
   * git stash   # 放进暂存区
-  * git stash list  # 列出暂存区的文件
-  * git stash pop  # 取出最新的一笔，并移除
-  * git stash apply # 取出但不移除
+  * git stash list  # 列出暂存区的文件 
+  * git stash pop [stash@{0}]   # 取出暂存区指定的stash并移出暂存区,不指定则取出最新的stash并移出暂存区
+  * git stash apply [stash@{0}]  # 取出暂存区指定的stash不移出暂存区,不指定则取出最新的stash不移出暂存区
+  * git stash drop [stash@{0}]   # 移出暂存区指定的stash,配合apply使用
   * git stash clear # 清除暂存区
 ### 其他
   * git archive    # 生成一个可供发布的压缩包 
