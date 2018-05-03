@@ -62,7 +62,9 @@
   * git show [tag]    # 查看 `tag` 信息
   * git push [remote] [tag]    # 提交指定 `tag`
   * git push [remote] --tags    # 提交所有 `tag`
-  * git checkout -b [branch] [tag]    # 新建一个分支，指向某个 `tag`
+  * git tag -d [tagname]   # 删除一个本地标签
+  * git push origin :refs/tags/[tagname]  # 删除远程仓库的指定标签
+  * git checkout -b [branch] [tag]    # 新建一个分支，指向某个 `tag`
 ### 查看信息
   * git status    # 显示有变更的文件
   * git log     # 显示当前分支的历史版本
