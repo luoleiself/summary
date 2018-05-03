@@ -97,8 +97,8 @@
   * git push origin --all    # 推送所有分支到远程仓库
   * git push origin --delete [branch-name]    # 删除远程分支,
 ### 撤销
-  * git checkout [file]    # 恢复暂存区的指定文件到工作区
-  * git checkout [commit] [file]    # 恢复某个 `commit` 的指定文件到工作区
+  * git checkout -- [file]    # 撤销工作区指定文件的修改
+  * git checkout [commit] [file]    # 恢复某个 `commit` 的指定文件到工作区
   * git checkout .    # 恢复上一个 `commit` 的所有文件到工作区
   * git reset [file]    # 重置暂存区的指定文件，与上一次 `commit` 保持一致，但工作区不变
   * git reset --hard    # 重置暂存区和工作区，与上一次 `commit` 保持一致
