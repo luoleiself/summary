@@ -5,6 +5,8 @@ vim常用命令:
       vi +n filename ：打开文件，并将光标置于第n行首 
       vi + filename ：打开文件，并将光标置于最后一行首 
       vi +/pattern filename：打开文件，并将光标置于第一个与pattern匹配的串处 
+      vi -O filename1 filename2: 垂直分割窗口打开多个文件 
+      vi -o filenaem1 filename2: 水平分割窗口打开多个文件 --- ctrl+w w 在各窗口之间进行切换
     2. 命令行：
       [[/gg  => 移动到文件头
       ]]/G(upper) => 移动到文件尾
@@ -13,6 +15,12 @@ vim常用命令:
       :q! => 强制退出并忽略所有更改
       :e! => 放弃所有修改，并打开原来文件。
       :read fileName => 读取指定文件
+      :n  切换到下一个文件
+      :N  切换到上一个文件
+      :e  newfile => 不会分割窗口
+      :sp  newfile => 将会水平分割窗口
+      :vsp  newfile => 将会垂直分割窗口
+      :shell 切换到shell，此时vim在后台运行, exit => 退出 shell 切换回 vim
   2. 内容操作：
     1. 插入：
       i(lower) => 在当前位置前插入
