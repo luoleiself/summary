@@ -68,11 +68,12 @@
 ### 查看信息
   * git status    # 显示有变更的文件
   * git log     # 显示当前分支的历史版本
+  * git log origin/master   # 查看远程分支的历史记录
   * git log --stat    # 显示 `commit` 历史，以及每次 `commit` 发生变更的文件
   * git log --follow [file]    # 显示某个文件的版本历史，包括文件改名
   * git log --stat --summary  # 查看每个版本变动的档案和行数
-  * git whatchanged [file]    # 显示某个文件的版本历史，包括文件改名
   * git log -p [file]    # 显示指定文件相关的每一次 `diff`
+  * git whatchanged [file]    # 显示某个文件的版本历史，包括文件改名
   * git blame [file]    # 显示指定文件是什么人什么时候修改过   
   * git diff    # 显示暂存区和工作区的差异
   * git diff --cached [file]    # 显示暂存区和上一个 `commit` 的差异   
