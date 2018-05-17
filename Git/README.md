@@ -55,6 +55,7 @@
   * git rebase --continue  # 解决冲突之后继续合并分支, 之前只需要执行命令 git add -all
   * git rebase --abort    # 终止 rebase 的操作, 并返回到 rebase 之前的状态 
   * git rebase -i  brach-name    # 使用交互式命令执行合并分支 
+  * git rebase -i [commit]  # 修改commit的注释信息
 ### 标签 
   * git tag    # 列出所有tag
   * git tag [tag]    # 新建一个 `tag`，在当前 `commit` 上
