@@ -14,3 +14,11 @@
 ### GNOME Tweaks(优化GNOME3高级设置)
     * 启动应用程序中心，搜索 GNOME Tweaks，并安装
     * 在Dock中搜索Tweaks并启动，做相应设置
+### SSH
+    * sudo apt-get install openssh-server # 安装ssh服务
+    * ps -e | grep ssh  # 查看ssh服务是否启动
+    * netstat -tlp | grep ssh # 查看ssh服务是否启动
+    * sudo /etc/init.d/ssh start # 启动ssh服务
+    * sudo /etc/init.d/ssh stop  # 停止ssh服务
+    * sudo /etc/init.d/ssh resart   # 重启ssh服务
+    * ssh-keygen  # 一路回车即可,设置公钥和私钥
