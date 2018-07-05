@@ -21,4 +21,5 @@
     * sudo /etc/init.d/ssh start # 启动ssh服务
     * sudo /etc/init.d/ssh stop  # 停止ssh服务
     * sudo /etc/init.d/ssh resart   # 重启ssh服务
-    * ssh-keygen  # 一路回车即可,设置公钥和私钥
+### Nginx
+    * 
