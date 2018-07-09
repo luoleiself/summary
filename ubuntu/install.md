@@ -21,6 +21,8 @@
     * sudo /etc/init.d/ssh start # 启动ssh服务
     * sudo /etc/init.d/ssh stop  # 停止ssh服务
     * sudo /etc/init.d/ssh resart   # 重启ssh服务
+    * warning: remote host identificatino has changed!
+    * 删除本地 ~/.ssh/known_hosts 中指定的主机那一行
 ### Nginx
     * sudo apt update   # 第一步安装
     * sudo apt install nginx
