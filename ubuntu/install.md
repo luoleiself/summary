@@ -42,6 +42,7 @@
     * sudo systemctl reload nginx  # 简单更改配置,重新加载不丢失连接
     * sudo systemctl disable nginx   # 禁止服务引导时启动
     * sudo systemctl enable nginx   # 重新启用服务在引导时启动
+    * curl -I <url>  # 测试nginx是否正常启动,I 只显示响应头, i 包含所有内容
     * 第五步配置服务器块
     * sudo nginx -t  # 测试nginx文件的语法错误
     * /var/www/html  # 默认情况下的Nginx项目目录
