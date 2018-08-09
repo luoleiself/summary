@@ -101,7 +101,8 @@
   * git push origin local_branch:origin_branch   # 推送本地分支到远程分支, 如果远程分支不存在, 则新建
   * git push origin --force    # 强行推送当前分支到远程仓库，即使有冲突
   * git push origin --all    # 推送所有分支到远程仓库
-  * git push origin --delete [branch-name]    # 删除远程分支,
+  * git push origin --delete [remote_branch_name]    # 删除远程分支,功能同下
+  * git push origin :[remote_branch_name]   # 删除远程分支,功能同上
 ### 撤销
   * git checkout -- [file]    # 撤销工作区指定文件的修改
   * git checkout [commit] [file]    # 恢复某个 `commit` 的指定文件到工作区
