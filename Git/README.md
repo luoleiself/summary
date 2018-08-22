@@ -50,8 +50,8 @@
   * git cherry-pick [commit]    # 选择一个 `commit`，合并进当前分支
   * git branch -d [branch-name]    # 删除分支
   * git branch -D [branch-name]    # 强制删除分支
-  * git branch -dr [remote/branch]    # 删除远程分支, 建议使用 git push origin --delete [branch-name]
-  * git push origin --delete [branch-name]    # 删除远程分支
+  * git branch -dr [remote/branch]    # 删除远程分支, 建议使用 git push origin --delete [remote_branch_name]
+  * git push origin --delete [remote_branch_name]    # 删除远程分支
   * git merge -m 'message' [branch-name]   # 合并指定分支到当前分支, 外形看似多条线段合并, 并提交注释信息 
   * git rebase [branch-name]   # 合并指定分支到当前分支, 外形看似一条直线
   * git rebase --continue  # 解决冲突之后继续合并分支, 之前只需要执行命令 git add -all
@@ -98,7 +98,7 @@
   * git remote add [shortname] [url]    # 增加一个新的远程仓库，并命名
   * git pull origin origin_branch:local_branch   # 拉取远程分支到本地分支, 如果本地分支不存在, 则新建
   * git pull origin master --allow-unrelated-histories   # 允许合并远程仓库和本地仓库无关的历史,一般用在关联两个仓库更新版本历史问题
-  * git push origin local_branch:origin_branch   # 推送本地分支到远程分支, 如果远程分支不存在, 则新建
+  * git push origin local_branch_name:remote_branch_name   # 推送本地分支到远程分支, 如果远程分支不存在, 则新建
   * git push origin --force    # 强行推送当前分支到远程仓库，即使有冲突
   * git push origin --all    # 推送所有分支到远程仓库
   * git push origin --delete [remote_branch_name]    # 删除远程分支,功能同下
