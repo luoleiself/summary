@@ -1,13 +1,14 @@
-####  [install.md](https://github.com/luoleiself/summary/blob/master/ubuntu/install.md)
 ####  [Ubuntu中文Wiki](http://wiki.ubuntu.org.cn)
-####  [Vim常用命令:](https://github.com/luoleiself/summary/blob/master/ubuntu/vim)
+####  [install.md](https://github.com/luoleiself/summary/blob/master/ubuntu/install.md)
+####  [Vim命令](https://github.com/luoleiself/summary/blob/master/ubuntu/vim.md)
+####  [Linux命令](https://github.com/luoleiself/summary/blob/master/ubuntu/Linux.md) 
 #### 常见问题：
   1. ubuntu提示密码认证失败：`sudo passwd` 
   2. ubuntu启动器的位置切换：`gsettings set com.canonical.Unity.Launcher launcher-position Bottom(Left)`
   3. ubuntu汉语拼音不能正常提示汉字:
       1. `sudo apt-get install ibus-pinyin`
       2. `sudo apt-get install ibus-libpinyin`
-#### 安装NodeJs配置全局环境(方式一)，缺点：版本维护麻烦，该方式已废弃，可参见install.md
+#### 安装NodeJs配置全局环境，该方式已废弃，可参见install.md
   1. 下载NodeJs安装包：`node-v8.1.2-linux-x64.tar.xz` 
   2. c => 压缩，x => 解压缩，v => 显示过程信息，f => 以包名为文件名：
       * `sudo tar -Jxvf node-v8.1.2-linux-x64.tar.xz` => 解压 `xz` 压缩包    
@@ -43,23 +44,6 @@
       2. `ll usr/local/node-v8.1.2-linux-x64/node_global/lib/node_modules` => 显示所有文件
       3. `anywhere --help` => 显示帮助命令表示配置成功
       4. `anywhere: 未找到命令` => 表示系统环境配置错误，请检查 `8.2` 的配置路径是否正确
-#### 安装NodeJs配置全局环境(方式二)：首先要先删除.npmrc配置文件，.npm文件夹,该方式已废弃，可参见install.md
-  1. 下载NodeJs安装包：`node-v8.1.2-linux-x64.tar.xz`
-  2. 解压包文件，重命名为 `nodejs`
-      * `sudo mv node-v8.1.2-linux-x64/ nodejs`
-      * `sudo mv nodejs/ /usr/local/` 移动文件到指定目录
-  3. `sudo ln -s /usr/local/nodejs/bin/node /usr/bin/node` 创建 `node` 符号链接
-  4. `sudo ln -s /usr/local/nodejs/bin/npm /usr/bin/npm` 创建 `npm` 符号链接
-  5. 修改系统环境变量
-      * `sudo cp /etc/profile /etc/profile.bak` 备份配置文件
-      * `sudo vim + /etc/profile` 文件末尾追加内容，保存并退出
-        
-            `export NODE_HOME=/usr/local/nodejs
-             export PATH=$PATH:$NODE_HOME/bin
-             export NODE_PATH=$NODE_HOME/lib/node_modules`
-  6. `source /etc/profile` 使配置文件生效，不用重新启动系统 
-  7. `sudo npm i -g npm` 安装包
-  8. `npm -v` 最新版 `npm`
 #### 安装Mysql数据库配置全局环境
 #### 插件
    * banner toilet figlet  
