@@ -1,6 +1,6 @@
 ####  [Ubuntu中文Wiki](http://wiki.ubuntu.org.cn)
 ####  [install.md](https://github.com/luoleiself/summary/blob/master/ubuntu/install.md)
-####  [Vim命令](https://github.com/luoleiself/summary/blob/master/ubuntu/vim.md)
+####  [Vim命令](https://github.com/luoleiself/summary/blob/master/ubuntu/vim)
 ####  [Linux命令](https://github.com/luoleiself/summary/blob/master/ubuntu/Linux.md) 
 #### 常见问题：
   1. ubuntu提示密码认证失败：`sudo passwd` 
