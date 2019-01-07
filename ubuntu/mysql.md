@@ -26,10 +26,9 @@
 	14. sudo service restart  // 重启数据库服务
 	15. // 再次执行9.和12.查看服务器编码
 #### windows配置mysql:
-	1. // 下载mysql压缩包
-	2. // 解压到指定目录
-	3. // 在目录中创建data目录和my.ini文件
-	4. // 编辑my.ini文件
+	1. // 下载mysql压缩包,并解压
+	2. // 在目录中创建data目录和my.ini文件
+	3. // 编辑my.ini文件
 		```
 		[client]
 		port=3306
@@ -37,18 +36,23 @@
 
 		[mysqld] 
 		# 设置为自己MYSQL的安装目录 
-		basedir=D:\Mysql\mysql-5.7.19-winx64
+		basedir=D:\mysql-5.7.19-winx64 # mysql解压目录
 		# 设置为MYSQL的数据目录 
-		datadir=D:\Mysql\mysql-5.7.19-winx64\data
+		datadir=D:\mysql-5.7.19-winx64\data # mysql init 目录
 		port=3306
 		character_set_server=utf8
 		sql_mode=NO_ENGINE_SUBSTITUTION,NO_AUTO_CREATE_USER
 		#开启查询缓存
 		explicit_defaults_for_timestamp=true
-		skip-grant-tables
+		#skip-grant-tables
 		```
-	5. // 在系统环境变量中添加刚才解压的bin所在绝对路径
-	6. // 进入bin目录下,以管理员权限打开cmd窗口,执行：mysqld –initialize-insecure # 初始化data目录下的mysql配置文件
-	7. mysqld install # 在系统服务中添加mysql服务
-	8. net start mysql # 启用mysql服务
-	9. set password for root@localhost = password('*****'); # 修改mysql密码,如果需要
+	4. mysqld –initialize # 管理员模式下,初始化mysql配置文件并写入data目录中
+	5. mysqld --install # 在系统服务中添加mysql服务
+	6. mysqld --remove # 在系统服务中卸载mysql服务
+	7. net start mysql # 启用mysql服务
+	8. net stop mysql # 停用mysql服务
+	9. set password for root@localhost = password('123456'); # 修改mysql密码,如果需要
+	10. alter user user() identified by '123456'; # 修改当前登陆用户的密码,mysql 5.7以上推荐使用，首次登陆失败时查看data/user.err文件查找初始密码
+	11. alter user user() identified by '123456' password expire never; # 设置密码永不过期
+	12. alter user user() identified by '123456' password expire default; # 设置默认过期时间
+	13. alter user user() identified by '123456' password expire interval 90 day; # 设置过期间隔
