@@ -46,7 +46,7 @@
 		explicit_defaults_for_timestamp=true
 		#skip-grant-tables
 		```
-	4. mysqld –initialize # 管理员模式下,初始化mysql配置文件并写入data目录中
+	4. mysqld --initialize # 管理员模式下,初始化mysql配置文件并写入data目录中
 	5. mysqld --install # 在系统服务中添加mysql服务
 	6. mysqld --remove # 在系统服务中卸载mysql服务
 	7. net start mysql # 启用mysql服务
