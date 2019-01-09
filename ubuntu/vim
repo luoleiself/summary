@@ -24,6 +24,12 @@ vim常用命令:
       :/string => 使用正则匹配内容
       :set number/nonumber => 临时显示/隐藏行号
       :set hlsearch/nohlsearch => 临时显示/隐藏高亮匹配
+      :[range]s/from/to/[flags] => 把from指定的字符串替换成to指定的字符串，from可以是正则表达式
+         => [range]: 1,$ => 从第一行到最后一行
+         => [flags]: 
+            g => 对指定范围内的所有匹配项进行替换
+            c => 再替换前请求用户确认
+            e => 忽略执行过程的错误
   2. 内容操作：
     1. 插入：
       i(lower) => 在当前位置前插入
