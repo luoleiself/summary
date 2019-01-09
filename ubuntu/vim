@@ -21,6 +21,9 @@ vim常用命令:
       :sp  newfile => 将会水平分割窗口
       :vsp  newfile => 将会垂直分割窗口
       :shell 切换到shell，此时vim在后台运行, exit => 退出 shell 切换回 vim
+      :/string => 使用正则匹配内容
+      :set number/nonumber => 临时显示/隐藏行号
+      :set hlsearch/nohlsearch => 临时显示/隐藏高亮匹配
   2. 内容操作：
     1. 插入：
       i(lower) => 在当前位置前插入
@@ -71,3 +74,8 @@ vim常用命令:
     7. 撤销：
       u(lower) => 撤销（Undo）
       U(upper) => 撤销对整行的操作p
+    8. 移动：
+      h => 向左移动光标
+      j => 向下移动光标
+      k => 向上移动光标
+      l => 向右移动光标
