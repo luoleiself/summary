@@ -15,6 +15,8 @@
   * git config --global --unset name  # 删除已配置的命令
   * git config --global http.proxy  # 查询到当前是否设置了代理
   * git config --global --unset http.proxy  # 取消代理
+  * git config --global -l  # 显示全局配置
+  * git config --local -l  # 显示本地配置
   * git remote rm origin  # 修改remote 
   * git remote   # 显示远程仓库 
   * git remote -v   # 显示远程仓库详细配置信息 
