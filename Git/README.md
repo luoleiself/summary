@@ -41,6 +41,7 @@
   * git commit --amend -m 'message'   # 如果代码没有任何新变化，则用来改写上一次 `commit` 的提交信息   
   * git commit --amend [file1] [file2] ...    # 重做上一次 `commit`，并包括指定文件的新变化                                
 ### 分支
+  * git branch -vv    # 列出分支的信息 
   * git branch    # 列出本地所有分支
   * git branch -r    # 列出所有远程分支
   * git branch -a    # 列出所有本地分支和远程分支
