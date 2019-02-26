@@ -41,19 +41,20 @@
   * git commit --amend -m 'message'   # 如果代码没有任何新变化，则用来改写上一次 `commit` 的提交信息   
   * git commit --amend [file1] [file2] ...    # 重做上一次 `commit`，并包括指定文件的新变化                                
 ### 分支
-  * git branch -vv    # 列出分支的信息 
-  * git branch    # 列出本地所有分支
+  * git branch -vv   # 列出分支的信息 
+  * git branch -l    # 列出本地所有分支
   * git branch -r    # 列出所有远程分支
   * git branch -a    # 列出所有本地分支和远程分支
-  * git branch [branch-name]    # 新建一个分支，但依然停留在当前分支
-  * git branch [branch-name] [master]    # 
+  * git branch -d [branch-name]     # 删除分支
+  * git branch -m old_branch_name new_branch_name   # 分支重命名
+  * git branch [branch-name]     # 新建一个分支，但依然停留在当前分支
+  * git branch [branch-name] [master]    # 基于某指定分支新建分支
   * git checkout -b [branch]    # 新建一个分支，并切换到新分支
   * git branch [branch] [commit]    # 新建一个分支，指向指定 `commit`
   * git branch --track [local-branch] [remote-branch]    # 新建一个分支，与指定的远程分支建立追踪关系
   * git checkout [branch-name]    # 切换到指定分支，并更新工作区
   * git branch --set-upstream [local-branch] [remote-branch]   # 手动建立追踪关系，在现有分支与指定的远程分支之间
   * git cherry-pick [commit]    # 选择一个 `commit`，合并进当前分支
-  * git branch -d [branch-name]    # 删除分支
   * git branch -D [branch-name]    # 强制删除分支
   * git branch -dr [remote/branch]    # 删除远程分支, 建议使用 git push origin --delete [remote_branch_name]
   * git push origin --delete [remote_branch_name]    # 删除远程分支
