@@ -19,7 +19,7 @@
 		# --serviceName 在系统服务中的名字
 		# --serviceDisplayName 在系统服务中显示的名字,开启多个服务实例时需要使用该参数
 		```
-	4. net start serviceName
-	5. net stop serviceName
+	4. net start serviceName | sc start serviceName
+	5. net stop serviceName | sc stop serviceName
     6. mongo -u userName --authenticationDatabase dbName // 权限分配指定用户名登陆指定数据库
     
