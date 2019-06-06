@@ -17,6 +17,7 @@
   * git config --global --unset http.proxy  # 取消代理
   * git config --global -l  # 显示全局配置
   * git config --local -l  # 显示本地配置
+  *
   * git remote rm origin  # 修改remote 
   * git remote   # 显示远程仓库 
   * git remote -v   # 显示远程仓库详细配置信息 
@@ -49,14 +50,16 @@
   * git branch -m old_branch_name new_branch_name   # 分支重命名
   * git branch [branch-name]     # 新建一个分支，但依然停留在当前分支
   * git branch [branch-name] [master]    # 基于某指定分支新建分支
-  * git checkout -b [branch]    # 新建一个分支，并切换到新分支
+  * git branch -D [branch-name]    # 强制删除分支
+  * git branch -dr [remote/branch]    # 删除远程分支, 建议使用 git push origin --delete [remote_branch_name]
+  *
   * git branch [branch] [commit]    # 新建一个分支，指向指定 `commit`
   * git branch --track [local-branch] [remote-branch]    # 新建一个分支，与指定的远程分支建立追踪关系
   * git branch --set-upstream-to=[remote-branch] [local-branch]   # 手动建立追踪关系，在现有分支与指定的远程分支之间
+  * git checkout -b [branch]    # 新建一个分支，并切换到新分支
   * git checkout [branch-name]    # 切换到指定分支，并更新工作区
   * git cherry-pick [commit]    # 选择一个 `commit`，合并进当前分支
-  * git branch -D [branch-name]    # 强制删除分支
-  * git branch -dr [remote/branch]    # 删除远程分支, 建议使用 git push origin --delete [remote_branch_name]
+  *
   * git push origin --delete [remote_branch_name]    # 删除远程分支
   * git merge -m 'message' [branch-name]   # 合并指定分支到当前分支, 外形看似多条线段合并, 并提交注释信息 
   * git rebase [branch-name]   # 合并指定分支到当前分支, 外形看似一条直线
@@ -76,14 +79,15 @@
   * git checkout -b [branch] [tag]    # 新建一个分支，指向某个 `tag`
 ### 查看信息
   * git status    # 显示有变更的文件
+  *
   * git log     # 显示当前分支的历史版本
   * git log origin/master   # 查看远程分支的历史记录
   * git log --stat    # 显示 `commit` 历史，以及每次 `commit` 发生变更的文件
   * git log --follow [file]    # 显示某个文件的版本历史，包括文件改名
   * git log --stat --summary  # 查看每个版本变动的档案和行数
   * git log -p [commit] [file]    # 显示指定版本号指定文件的修改详情
-  * git whatchanged [file]   # 显示某个文件的版本历史，包括文件改名
-  * git blame [file]    # 显示指定文件是什么人什么时候修改过   
+  *
+  * git diff [options] [commit [commit]] [--] [path...]  # 比较指定文件的指定版本之间的不同
   * git diff    # 显示暂存区和工作区的差异
   * git diff --cached [file]    # 显示暂存区和上一个 `commit` 的差异   
   * git diff HEAD    # 显示工作区与当前分支最新 `commit` 之间的差异
@@ -91,6 +95,9 @@
   * git diff --staged   # 比较暂存区和版本库差异 
   * git diff --stat    # 仅仅比较统计信息
   * git diff --check   # 它将会找到可能的空白错误并将它们为你列出来
+  *
+  * git whatchanged [file]   # 显示某个文件的版本历史，包括文件改名
+  * git blame [file]    # 显示指定文件是什么人什么时候修改过   
   * git show [commit]    # 显示某次提交的元数据和内容变化
   * git show --name-only [commit]    # 显示某次提交发生变化的文件
   * git show [commit]:[filename]    # 显示某次提交时，某个文件的内容
