@@ -58,7 +58,7 @@
   * git branch --set-upstream-to=[remote-branch] [local-branch]   # 手动建立追踪关系，在现有分支与指定的远程分支之间
   * git checkout -b [branch]    # 新建一个分支，并切换到新分支
   * git checkout [branch-name]    # 切换到指定分支，并更新工作区
-  * git cherry-pick [commit]    # 选择一个 `commit`，合并进当前分支
+  * git cherry-pick --no-commit/-n <commit-ish>    # 选择一个或者多个commit，合并进当前分支,手动commit,
   *
   * git push origin --delete [remote_branch_name]    # 删除远程分支
   * git merge -m 'message' [branch-name]   # 合并指定分支到当前分支, 外形看似多条线段合并, 并提交注释信息 
@@ -120,6 +120,7 @@
   * git checkout -- [file]    # 撤销工作区指定文件的修改
   * git checkout [commit] [file]    # 恢复某个 `commit` 的指定文件到工作区
   * git checkout .    # 恢复上一个 `commit` 的所有文件到工作区
+  * 
   * git reset [file]    # 重置暂存区的指定文件，与上一次 `commit` 保持一致，但工作区不变
   * git reset --hard    # 重置暂存区和工作区，与上一次 `commit` 保持一致
   * git reset [commit]    # 重置当前分支的指针为指定 `commit` ，同时重置暂存区，但工作区不变
@@ -128,11 +129,9 @@
   * git reset --soft HEAD^    # 还原版本库到上一个版本  
   * git reset --mixed HEAD^    # default,还原版本库、暂存区到上一个版本  
   * git reset -–hard HEAD^    # 还原版本库、暂存区、工作区到上一个版本  
-  * git reset -–hard HEAD~3    # 还原到第三个版本  
-  * git revert [commit]    # 新建一个 `commit`，用来撤销指定 `commit`
-  * git revert [commit]    # 后者的所有变化都将被前者抵消，并且应用到当前分支
-  * git revert HEAD    # 回到前一此 `commit` 的状态
-  * git revert HEAD^    # 回到上上一次的状态
+  * git reset -–hard HEAD~3    # 还原到第三个版本
+  *
+  * git revert --no-commit/-n <commit-ish>    # 新建一个commit撤销一个或多个commit,手动commit
 ### 暂存
   * git stash   # 放进暂存区
   * git stash list  # 列出暂存区的文件 
