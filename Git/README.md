@@ -59,6 +59,8 @@
   * git checkout -b [branch]    # 新建一个分支，并切换到新分支
   * git checkout [branch-name]    # 切换到指定分支，并更新工作区
   * git cherry-pick --no-commit/-n <commit-ish>    # 选择一个或者多个commit，合并进当前分支,手动commit,
+  * git cherry-pick [options] commit1...commitN    # 选择commit区间合并, 含尾不含头
+  * git cherry-pick [options] commit1^...commitN   # 选择commit区间合并, 包含头和尾
   *
   * git push origin --delete [remote_branch_name]    # 删除远程分支
   * git merge -m 'message' [branch-name]   # 合并指定分支到当前分支, 外形看似多条线段合并, 并提交注释信息 
@@ -131,6 +133,7 @@
   * git reset -–hard HEAD^    # 还原版本库、暂存区、工作区到上一个版本  
   * git reset -–hard HEAD~3    # 还原到第三个版本
   *
+  * git revert [options] commit-ish...   #撤销一个或多个commit操作
   * git revert --no-commit/-n <commit-ish>    # 新建一个commit撤销一个或多个commit,手动commit
 ### 暂存
   * git stash   # 放进暂存区
