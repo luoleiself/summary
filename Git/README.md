@@ -38,8 +38,7 @@
   * git commit [file1] [file2] ... -m 'message'   # 提交暂存区的指定文件到仓库区
   * git commit -a    # 提交工作区自上次 `commit` 之后的变化，直接到仓库区
   * git commit -v    # 提交时显示所有 `diff` 信息
-  * git commit --amend -m 'message'   # 使用一次新的 `commit`，替代上一次提交
-  * git commit --amend -m 'message'   # 如果代码没有任何新变化，则用来改写上一次 `commit` 的提交信息   
+  * git commit --amend -m 'message'   # 使用一次新的 `commit`，替代上一次提交, 如果代码没有任何新变化，则用来改写上一次 `commit` 的提交信息 
   * git commit --amend [file1] [file2] ...    # 重做上一次 `commit`，并包括指定文件的新变化                                
 ### 分支
   * git branch -vv   # 列出分支的信息 
@@ -105,14 +104,27 @@
   * git show [commit]:[filename]    # 显示某次提交时，某个文件的内容
   * git reflog    # 显示当前分支的最近几次提交                      
 ### 远程同步
-  * git fetch origin    # 拉取远程仓库的所有分支的更新
-  * git fetch origin [branch-name]  # 拉取远程仓库指定分支上的更新, 读取更新时使用 'origin/branch-name'
+  * git fetch origin [<remote_branch_name>[:<local_branch_name>]] # 拉取远程分支
+  * git fetch origin # 拉取所有远程分支信息
+  * git fetch origin remote_branch_name # 拉取指定远程分支信息到本地
+  * git fetch origin remote_branch_name:local_branch_name # 拉取指定远程分支到本地指定分支上
+  * 1. 如果 local_branch_name 与当前工作分支名相同, 则提示 fatal: Refusing to fetch into current branch refs/heads/master of non-bare repository. 
+  * 2. 如果 本地已存在 local_branch_name, 则提示 ! [rejected]  remote_branch_name -> local_branch_name  (non-fast-forward)  
+  * 3. 否则在本地创建 local_branch_name, 并切换到 local_branch_name 上                              
   * git fetch origin + pu：pu maint：tmp  # 拉取远程仓库的 pu 和 maint 分支 到本地的 pu 和 tmp 分支上, 只有 pu 分支会被更新即使没有变动
+  * 
   * git remote -v    # 显示所有远程仓库
   * git remote show [remote]    # 显示某个远程仓库的信息 
   * git remote add [shortname] [url]    # 增加一个新的远程仓库，并命名
-  * git pull origin origin_branch:local_branch   # 拉取远程分支到本地分支, 如果本地分支不存在, 则新建
-  * git pull origin master --allow-unrelated-histories   # 允许合并远程仓库和本地仓库无关的历史,一般用在关联两个仓库更新版本历史问题
+  * 
+  * git pull origin [<remote_branch_name>[:<local_branch_name>]] # 拉取远程分支并快速合并, --set-upstream-to 参数有影响
+  * git pull origin # 拉取所有远程分支信息并快速合并
+  * git pull origin remote_branch_name # 拉取指定远程分支信息到本地当前工作分支上,并执行快速合并
+  * git pull origin remote_branch_name:local_branch_name # 拉取指定远程分支信息到本地指定分支,并快速合并到当前工作分支上
+  * 1. 如果 local_branch_name 已存在, 则提示  ! [rejected] remote_branch_name -> local_branch_name  (non-fast-forward)
+  * 2. 如果 local_branch_name 不存在, 则创建新分支 local_branch_name, 并快速合并到当前工作分支上,不会自动切换分支
+  * git pull origin master --allow-unrelated-histories   # 允许合并远程仓库和本地仓库无关的历史,一般用在关联两个仓库更新版本历史问题
+  * 
   * git push origin local_branch_name:remote_branch_name   # 推送本地分支到远程分支, 如果远程分支不存在, 则新建
   * git push origin --force    # 强行推送当前分支到远程仓库，即使有冲突
   * git push origin --all    # 推送所有分支到远程仓库
