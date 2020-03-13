@@ -17,8 +17,7 @@ vim常用命令:
     :e  newfile => 不会分割窗口
     :sp  newfile => 将会水平分割窗口
     :vsp  newfile => 将会垂直分割窗口
-    :shell 切换到shell，此时vim在后台运行, exit => 退出 shell 切换回 vim
-    :/string => 使用正则匹配内容
+    :!shell 切换到shell命令执行，此时vim在后台运行, exit => 退出 shell 切换回 vim
     :syntax on => 开启语法高亮
     :set number => 显示行号
     :set tabstop=4 => 设置 Tab 键宽度
@@ -28,12 +27,17 @@ vim常用命令:
     :set autoindent => 开启自动缩进，通常用于编写程序
     :set number/nonumber => 临时显示/隐藏行号
     :set hlsearch/nohlsearch => 临时显示/隐藏高亮匹配
-    :[range]s/from/to/[flags] => 把from指定的字符串替换成to指定的字符串，from可以是正则表达式
-         => [range]: 1,$ => 从第一行到最后一行
+    /string => 正则[向后]匹配内容
+    ?string => 正则[向前]匹配内容
+    :[range]s/old/new/[flags] => 把old指定的字符串替换成new指定的字符串，old可以是正则表达式
+         => [range]: 
+            1,$ => 从第一行到最后一行
+            %   => 全局匹配
          => [flags]: 
             g => 对指定范围内的所有匹配项进行替换
             c => 再替换前请求用户确认
             e => 忽略执行过程的错误
+            d => 删除操作
   3. 命令模式：
     1. 插入：
       i(lower) => 在当前位置前插入
@@ -96,4 +100,4 @@ vim常用命令:
       V(upper) => 进入可视模式，移动光标选择多行;
     9. 撤销：
       u(lower) => 撤销（Undo）
-      U(upper) => 撤销对整行的操作p
+      U(upper) => 撤销对整行的操作
