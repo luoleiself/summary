@@ -7,6 +7,65 @@
 - unset 删除变量
 - local 声明局部变量,一般用于函数内部
 
+## 流程控制
+
+### 条件语句
+
+```bash
+if []
+then
+  echo 'hello then'
+else
+  echo 'hello else'
+fi
+if []
+then
+  echo 'hello then'
+elif []
+then
+  echo 'hello elif'
+else
+  echo 'hello else'
+fi
+```
+
+### 分支语句
+
+```bash
+case value in
+reg1)
+  echo 'reg1 matched...'
+reg2)
+  echo 'reg2 matched...'
+*)
+  echo 'default matched...'
+esac
+```
+
+### 循环语句
+
+#### for
+
+```bash
+for $var in value_list
+do
+  echo "$val"
+done
+for (( i=1; i < 10;i++))
+do
+  echo "${i}"
+done
+```
+
+#### while
+
+```bash
+while condition
+do
+  echo 'hello while'
+done
+```
+
 ## 运算符
 
 ### []
@@ -14,6 +73,8 @@
 - 必须在左括号的右侧和右括号的左侧各加一个空格
 
 - 关系运算符必须要转义
+
+### [ ] | [[ ]] 运算表达式两边必须要有空格
 
 ### \${} 用于变量替换，便于理解
 
@@ -62,7 +123,7 @@ echo $[$a+$b*$c]
 |          -gt          |                >                 |   greater than 的缩写，表示大于    |  [ ${a} -gt ${b} ] \| [[ ${a} > ${b}]] \| ((${a} > ${b}))   |
 |          -ge          |                >=                | greater equal 的缩写，表示大于等于 |  [ ${a} -ge ${b} ] \| [[ ${a} >= ${b} ]]\|((${a} >= ${b}))  |
 |          -lt          |                <                 |    least than 的缩写，表示小于     |  [ ${a} -lt ${b} ] \| [[ ${a} < ${b} ]] \| ((${a} < ${b}))  |
-|          -le          |                <=                |  least equal 的缩写，表示小于等于  | [ ${a} -le ${b} ] \| [[ ${a} <= ${b} ]]\|((${a} <= ${b}>))  |
+|          -le          |                <=                |  least equal 的缩写，表示小于等于  |  [ ${a} -le ${b} ] \| [[ ${a} <= ${b} ]]\|((${a} <= ${b}))  |
 
 ```bash
 if [ $string -ne 'abc' ]
@@ -103,6 +164,15 @@ echo "Or(-o) expr result is true"
 else
 echo "Or(-o) expr result is false"
 fi
+[ 10 -eq 10 -a 5 -eq 5 ]
+echo $?
+0
+[[ 10 == 10 && 5 == 5 ]]
+echo $?
+0
+((10 == 10 && 5 == 5))
+echo $?
+0
 ```
 
 - 字符串运算符，[ ] 字符串运算不需要转义
