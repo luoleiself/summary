@@ -1,44 +1,56 @@
 vim常用命令:
   1. 打开文件：
-    sudo vi fileName ->打开文件
-    vi +n filename ：打开文件，并将光标置于第n行首 
-    vi + filename ：打开文件，并将光标置于最后一行首 
-    vi +/pattern filename：打开文件，并将光标置于第一个与pattern匹配的串处 
-    vi -O filename1 filename2: 垂直分割窗口打开多个文件 
-    vi -o filenaem1 filename2: 水平分割窗口打开多个文件 --- ctrl+w w 在各窗口之间进行切换
+    sudo vi fileName => 打开文件
+    vi +n filename => 打开文件，并将光标置于第n行首 
+    vi + filename => 打开文件，并将光标置于最后一行首 
+    vi +/pattern filename => 打开文件，并将光标置于第一个与 pattern 匹配的串处 
+    vi -O filename1 filename2 => 垂直分割窗口打开多个文件 
+    vi -o filenaem1 filename2 => 水平分割窗口打开多个文件
+    
+    vim -p filename => 已创建标签方式打开多个文件
   2. 命令行模式:
-    :wq => 保存并退出
-    ZZ  => 保存并退出
-    :q! => 强制退出并忽略所有更改
-    :e! => 放弃所有修改，并打开原来文件
-    :read fileName => 读取指定文件
-    :n  切换到下一个文件
-    :N  切换到上一个文件
-    :e  filename => 打开新文件
-    :sp  newfile => 将会水平分割窗口
-    :vsp  newfile => 将会垂直分割窗口
-    :!shell 切换到shell命令执行，此时vim在后台运行, exit => 退出 shell 切换回 vim
-    :syntax on => 开启语法高亮
-    :set number => 显示行号
-    :set tabstop=4 => 设置 Tab 键宽度
-    :set expandtab => 使用空格替代 Tab
-    :set softtabstop=4 => 设置软件 Tab (自动Tab)宽度为 4
-    :set shiftwidth=4 => 设置自动缩进宽度为 4
-    :set autoindent => 开启自动缩进，通常用于编写程序
-    :set number/nonumber => 临时显示/隐藏行号
-    :set hlsearch/nohlsearch => 临时显示/隐藏高亮匹配
-
-    /string => 正则[向后]匹配内容
-    ?string => 正则[向前]匹配内容
-    :[range]s/old/new/[flags] => 把old指定的字符串替换成new指定的字符串，old可以是正则表达式
-          => [range]: 
-            1,$ => 从第一行到最后一行
-            %   => 全局匹配
-          => [flags]: 
-            g => 对指定范围内的所有匹配项进行替换
-            c => 再替换前请求用户确认
-            e => 忽略执行过程的错误
-            d => 删除操作
+    1. 文件操作
+      :wq => 保存并退出
+      ZZ  => 保存并退出
+      :q! => 强制退出并忽略所有更改
+      :e! => 放弃所有修改，并打开原来文件
+      :read fileName => 读取指定文件
+      :n  切换到下一个文件
+      :N  切换到上一个文件
+      :e  filename => 打开新文件
+      :sp  newfile => 将会水平分割窗口
+      :vsp  newfile => 将会垂直分割窗口
+      :!shell 切换到shell命令执行，此时vim在后台运行, exit => 退出 shell 切换回 vim
+      :syntax on => 开启语法高亮
+      :set number => 显示行号
+      :set tabstop=4 => 设置 Tab 键宽度
+      :set expandtab => 使用空格替代 Tab
+      :set softtabstop=4 => 设置软件 Tab (自动Tab)宽度为 4
+      :set shiftwidth=4 => 设置自动缩进宽度为 4
+      :set autoindent => 开启自动缩进，通常用于编写程序
+      :set number/nonumber => 临时显示/隐藏行号
+      :set hlsearch/nohlsearch => 临时显示/隐藏高亮匹配
+    2. 正则表达式
+      /string => 正则[向后]匹配内容
+      ?string => 正则[向前]匹配内容
+      :[range]s/old/new/[flags] => 把old指定的字符串替换成new指定的字符串，old可以是正则表达式
+            => [range]: 
+              1,$ => 从第一行到最后一行
+              %   => 全局匹配
+            => [flags]: 
+              g => 对指定范围内的所有匹配项进行替换
+              c => 再替换前请求用户确认
+              e => 忽略执行过程的错误
+              d => 删除操作
+    3. 标签操作
+      :tabs => 列出所有的标签页
+      :tabn => 切换到下一个标签, 以 -p 方式打开的多个文件
+      :tabp => 切换到上一个标签, 以 -p 方式打开的多个文件
+      {n}gt => 切换到第 n 个标签页
+      :tabc[lose] => 关闭当前的标签页
+      :tabo[nly] => 关闭其他的标签页
+      :tabm[ove] n => 移动当前标签页到 n 的位置
+      :tab split => 将缓冲区的内容在新标签页中打开
   3. 命令模式：
     1. 插入：
       i => 在当前位置前插入
@@ -128,6 +140,8 @@ vim常用命令:
     7. 撤销：
       u(lower) => 撤销（Undo）
       U(upper) => 撤销对整行的操作
+    8. 反转
+      ~ => 反转光标所在字符的大小写, (配合 v 可视模式, 批量转换大小写)
   4. 窗口操作
     :split [filename] 水平分割窗口, 并打开文件
     :vsplit [filename] 垂直分割窗口, 并打开文件
