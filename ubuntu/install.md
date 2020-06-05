@@ -46,6 +46,10 @@
     * 第五步配置服务器块
     * sudo nginx -t  # 测试nginx文件的语法错误
     * /var/www/html  # 默认情况下的Nginx项目目录
+    * /usr/sbin/nginx
+    * /usr/lib/nginx
+    * /usr/share/nginx
+    * /usr/share/man/man8/nginx
     * /etc/nginx  # Nginx配置目录
     * /etc/nginx/nginx.conf # Nginx的主要配置文件
     * /etc/nginx/sites-available/  # 可存储每个站点服务器块的目录
@@ -56,4 +60,3 @@
     * /etc/nginx/fastcgi_params  # cgi配置相关，fastcgi | 配置文件
     * /etc/nginx/scgi_params 
     * /etc/nginx/uwsgi_params
-    
