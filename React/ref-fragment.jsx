@@ -14,13 +14,52 @@ const FancyButton = React.forwardRef((props, ref) => (
 ));
 
 // 你可以直接获取 DOM button 的 ref：
-const ref = React.createRef();
-<FancyButton ref={ref}>Click me!</FancyButton>;
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.ref = React.createRef();
+  }
+
+  render() {
+    return <FancyButton ref={this.ref}>Click me!</FancyButton>;
+  }
+}
+/* HOC */
+function logProps(Component) {
+  class LogProps extends React.Component {
+    componentDidUpdate(prevProps) {
+      console.log('old props:', prevProps);
+      console.log('new props:', this.props);
+    }
+
+    render() {
+      const { forwardedRef, ...rest } = this.props;
+
+      // 将自定义的 prop 属性 “forwardedRef” 定义为 ref
+      return (
+        <React.Fragment>
+          <h1>高阶组件中使用 React.forwardRef</h1>
+          <p>HOC and React.forwardRef</p>
+          <hr />
+          <Component ref={forwardedRef} {...rest} />
+        </React.Fragment>
+      );
+    }
+  }
+
+  // 注意 React.forwardRef 回调的第二个参数 “ref”。
+  // 我们可以将其作为常规 prop 属性传递给 LogProps，例如 “forwardedRef”
+  // 然后它就可以被挂载到被 LogProps 包裹的子组件上。
+  return React.forwardRef((props, ref) => {
+    return <LogProps {...props} forwardedRef={ref} />;
+  });
+}
 /***********************************************/
 /**
  * Fragments 允许将子列表分组，而无需向 DOM 添加额外节点
- * <React.Fragment> </React.Fragment>
- * <> </>
+ * 使用方式:
+ *  <React.Fragment> </React.Fragment>
+ *  <> </> 空标签不支持 key 或者 属性
  */
 class List extends React.Component {
   constructor(props) {
