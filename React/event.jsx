@@ -1,3 +1,6 @@
+/**
+ * 阻止事件冒泡: e.preventDefault();
+ */
 // 事件绑定: 第一种方式
 class Toggle extends React.Component {
   constructor(props) {
