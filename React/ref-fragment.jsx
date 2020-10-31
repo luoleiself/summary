@@ -1,6 +1,13 @@
 /**
+ * ref:  对该节点的引用可以在 ref 的 current 属性中被访问.
+ *  使用场景
+ *    1. 管理焦点，文本或媒体播放.
+ *    2. 触发强制动画.
+ *    3. 继承第三方 DOM 库.
+ *  注意: 
+ *    1. 不能在函数组件上使用 ref 属性，因为它们没有实例(可以使用 forwardRef 或者 useImperativeHandle 结合使用).
+ * 
  * 以下是对上述示例发生情况的逐步解释：
- *
  *  1. 我们通过调用 React.createRef 创建了一个 React ref 并将其赋值给 ref 变量.
  *  2. 我们通过指定 ref 为 JSX 属性，将其向下传递给 <FancyButton ref={ref}>.
  *  3. React 传递 ref 给 forwardRef 内函数 (props, ref) => ...，作为其第二个参数. (第二个参数 ref 只在使用 React.forwardRef 定义组件时存在。常规函数和 class 组件不接收 ref 参数，且 props 中也不存在 ref)
