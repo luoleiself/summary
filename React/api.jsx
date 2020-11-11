@@ -1,6 +1,9 @@
 /**
  * React
  */
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 /* 使用 ES6 classes 方式定义 React 组件的基类 */
 React.Component;
 /* 作用同 React.Component 在提高性能优化方便可用，shouldComponentUpdate 仅作对象的浅层比较 */
@@ -46,6 +49,26 @@ const Context = React.lazy(() => import('./context.jsx'));
  */
 /**
  * 在 container 容器里面渲染一个 React 元素，并返回该组件的引用
- * 如果React 元素之前已经在 container 中渲染过，将会执行更行操作
+ * 如果React 元素之前已经在 container 中渲染过，将会执行更新操作
+ * 回调函数在组件被渲染或更新之后执行
+ * 注意：
+ *  1. 首次渲染时，container 中的所有 DOM 元素都会被替换，后续的调用则会使用 React 的 DOM 差分算法(DOM diffing)进行高效的更新
+ *  2. 不会修改容器节点，只会修改容器的子节点
+ *  3. 目前会返回对根组件 ReactComponent 实例的引用，应尽量避免使用返回的引用
+ *  4. 对服务器端渲染容器进行 hydrate 操作的方式已经被废弃，使用 hydrate() 代替
  */
 ReactDOM.render(element, container, [callback]);
+/* 作用和 ReactDOM.render() 相同，用在 ReactDOMServer 渲染 */
+ReactDOM.hydrate(element, container, [callback]);
+/* 从 DOM 中卸载组件，会将其事件处理器和 state 一并删除，如果组件被移除则返回 true, 否则返回 false */
+ReactDOM.unmountComponentAtNode(container);
+/**
+ * 返回浏览器中相应的原生 DOM 元素
+ * 注意：
+ *  1. 应急方案，不建议使用，会破坏组件的抽象结构，严格模式下该方法已废弃
+ *  2. 只能用在已挂载的组件上，未挂载的组件上将会引发异常
+ *  3. 不能用于函数组件
+ */
+ReactDOM.findDOMNode(component);
+/* 创建 portal, 将子节点渲染到 DOM 组件的层次结构之外 */
+ReactDOM.createPortal(child, container);
