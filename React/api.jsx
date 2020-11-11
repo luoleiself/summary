@@ -1,3 +1,6 @@
+/**
+ * React
+ */
 /* 使用 ES6 classes 方式定义 React 组件的基类 */
 React.Component;
 /* 作用同 React.Component 在提高性能优化方便可用，shouldComponentUpdate 仅作对象的浅层比较 */
@@ -37,3 +40,12 @@ const Context = React.lazy(() => import('./context.jsx'));
 <React.Suspense fallback={<div>正在加载中...</div>}>
   <Context />
 </React.Suspense>;
+
+/**
+ * ReactDOM
+ */
+/**
+ * 在 container 容器里面渲染一个 React 元素，并返回该组件的引用
+ * 如果React 元素之前已经在 container 中渲染过，将会执行更行操作
+ */
+ReactDOM.render(element, container, [callback]);

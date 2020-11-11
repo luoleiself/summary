@@ -64,20 +64,4 @@ class LoggingButton extends React.Component {
   }
 }
 
-// 事件传参方式
-class LoggingButton extends React.Component {
-  deleteRow(id) {
-    console.log(id);
-  }
-
-  render() {
-    let id = Math.floor(Math.random() * 10);
-    return (
-      // 方式1：<button onClick={(e) => this.deleteRow(id, e)}>Delete Row</button> // 使用箭头函数，需要显示传递事件对象
-      // 方式2： // 使用bind绑定,事件方法可以不使用1,2写法
-      <button onClick={this.deleteRow.bind(this, id)}>Delete Row</button>
-    );
-  }
-}
-
 ReactDOM.render(<Toggle />, document.getElementById('root'));

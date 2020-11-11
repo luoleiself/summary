@@ -148,3 +148,72 @@ false, null, undefined, and true 是合法的子元素。但它们并不会被�
 
 <div>{true}</div>
 ```
+
+## React.Component
+
+### 组件的生命周期
+
+#### 挂载
+
+- constructor(props)
+  - 初始化内部 state，只能在构造函数中直接为 state 赋值，其他方法中应使用 this.setState()
+  - 为事件处理函数绑定实例
+- static getDerivedStateFromProps(props, state)
+- render() class 组件中唯一必须实现的方法, 返回以下类型之一
+  - React 元素
+  - 数组或者 Fragments
+  - Portals
+  - 字符串或者数值类型
+  - 布尔类型或者 null,什么都不渲染
+- componentDidMount()
+  - 组件挂载后立即调，DOM 节点的初始化应该放在这里
+
+#### 更新
+
+- static getDerivedStateFromProps(props, state)
+  - 在 render() 方法执行前调用, 初始化挂载及后续更新都会被调用
+  - 返回一个对象来更新 state, 如果返回 null, 则不更新任何内容
+  - 无法访问组件实例
+- shouldComponentUpdate(nextProps, nextState)
+  - 返回值影响组件是否会重新渲染
+  - 默认返回值为 true
+  - 首次渲染或者使用 forceUpdate() 时不会调用该方法
+  - 返回 false 不会调用 render() 和 componentDidUpdate() 方法
+- render()
+- getSnapshotBeforeUpdate(prevProps, prevState)
+  - 在最近一次渲染输出(提交到 DOM 节点)之前调用
+  - 返回值作为 componentDidUpdate 方法的第三个参数 snapshot 传递,否则此参数为 undefined
+- componentDidUpdate(prevProps, prevState, snapshot)
+
+#### 卸载
+
+- componentWillUnmount() 组件卸载及销毁之前直接调用,此方法中不应该使用 setState() 方法,组件不会被重新渲染
+
+#### 错误处理
+
+- static getDerivedStateFromError(error)
+  - 接收一个后代组件抛出错误作为参数并被调用
+  - 返回一个值更新 state
+- componentDidCatch(error, info)
+
+- 其中任何一个方法都可以将组件变成 Error Boundaries 组件
+
+#### 其他 APIs
+
+- setState(updater, [callback])
+  - updater 可以为函数
+    - (state, props) => ({})
+- forceUpdate(callback)
+  - 此方法会跳过组件的 shouldComponentUpdate() 方法，其子组件可正常触发此方法
+
+#### class 属性
+
+- defaultProps
+  - 为 Class 组件添加默认 props
+- displayName 用于调试信息展示
+
+#### 实例属性
+
+- props
+  - props.children JSX 表达式中的子组件组成
+- state
