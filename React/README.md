@@ -274,3 +274,243 @@ title type useMap value width wmode wrap
 ```
 
 - 自定义属性，属性名需要全小写
+
+## 合成事件
+
+### SyntheticEvent 事件包装器
+
+#### 属性
+
+> 事件处理函数返回 false 不再阻止事件冒泡，需要手动调用 e.stopPropagation() 或者 e.preventDefault()
+
+- boolean bubbles
+- boolean cancelable
+- DOMEventTarget currentTarget
+- boolean defaultPrevented
+- number eventPhase
+- boolean isTrusted
+- DOMEvent nativeEvent 浏览器底层事件
+- void preventDefault()
+- boolean isDefaultPrevented()
+- void stopPropagation()
+- boolean isPropagationStopped()
+- void persist()
+- DOMEventTarget target
+- number timeStamp
+- string type
+
+#### 事件池
+
+> SyntheticEvent 是合成事件，事件回调函数被调用后，所有属性都会失效，异步访问事件无效，解决方案：需要在事件上调用 e.persist(), 此方法会从池中移除合成事件，允许保留对事件的引用
+
+```jsx
+function onClick(event) {
+  console.log(event); // => nullified object.
+  console.log(event.type); // => "click"
+  const eventType = event.type; // => "click"
+
+  setTimeout(function () {
+    console.log(event.type); // => null
+    console.log(eventType); // => "click"
+  }, 0);
+
+  // 不起作用，this.state.clickEvent 的值将会只包含 null
+  this.setState({ clickEvent: event });
+
+  // 你仍然可以导出事件属性
+  this.setState({ eventType: event.type });
+}
+```
+
+#### 支持的事件
+
+> 默认的事件处理函数在冒泡阶段触发，如果需要在捕获阶段触发，需要为事件名添加 Capture
+
+```jsx
+onClick => // 冒泡阶段触发
+onClickCapture => // 捕获阶段触发
+```
+
+##### 剪贴板事件
+
+- 事件名
+  - onCopy onCut onPast
+- 属性
+  - DOMDataTransfer clipboardData
+
+##### 复合事件
+
+- 事件名
+  - onCompositionEnd onCompositionStart onCompositionUpdate
+- 属性
+  - string data
+
+##### 键盘事件
+
+- 事件名
+  - onKeyDown onKeyPress onKeyUp
+- 属性
+  - boolean altKey
+  - number charCode
+  - boolean ctrlKey
+  - boolean getModifierState(key)
+  - string key
+  - number keyCode
+  - string locale
+  - number location
+  - boolean metaKey
+  - boolean repeat
+  - boolean shiftKey
+  - number which
+
+##### 焦点事件
+
+- 事件名
+  - onFocus onBlur
+- 属性
+  - DOMEventTarget relatedTarget
+
+##### 表单事件
+
+- 事件名
+  - onChange onInput onInvalid onReset onSubmit
+
+##### 通用事件
+
+- 事件名
+  - onError onLoad
+
+##### Mouse Event
+
+- 事件名
+  - onClick
+  - onContextMenu
+  - onDoubleClick
+  - onDrag
+  - onDragEnd
+  - onDragEnter
+  - onDragExit
+  - onDragLeave
+  - onDragOver
+  - onDragStart
+  - onDrop
+  - onMouseDown
+  - onMouseEnter
+  - onMouseLeave
+  - onMouseMove
+  - onMouseOut
+  - onMouseOver
+  - onMouseUp
+- 属性
+  - boolean altKey
+  - number button
+  - number buttons
+  - number clientX
+  - number clientY
+  - boolean ctrlKey
+  - boolean getModifierState(key)
+  - boolean metaKey
+  - number pageX
+  - number pageY
+  - DOMEventTarget relatedTarget
+  - number screenX
+  - number screenY
+  - boolean shiftKey
+
+##### 指针事件
+
+- 事件名
+  - onPointerDown
+  - onPointerMove
+  - onPointerUp
+  - onPointerCancel
+  - onGotPointerCapture
+  - onLostPointerCapture
+  - onPointerEnter
+  - onPointerLeave
+  - onPointerOver
+  - onPointerOut
+- 属性
+  - number pointerId
+  - number width
+  - number height
+  - number pressure
+  - number tangentialPressure
+  - number tiltX
+  - number tiltY
+  - number twist
+  - string pointerType
+  - boolean isPrimary
+
+##### 选择事件
+
+- 事件名
+  - onSelect
+
+##### 触摸事件
+
+- 事件名
+  - onTouchCancel onTouchEnd onTouchMove onTouchStart
+- 属性
+  - boolean altKey
+  - DOMTouchList changedTouches
+  - boolean ctrlKey
+  - boolean getModifierState(key)
+  - boolean metaKey
+  - boolean shiftKey
+  - DOMTouchList targetTouches
+  - DOMTouchList touches
+
+##### UI 事件
+
+- 事件名
+  - onScroll
+- 属性
+  - number detail
+  - DOMAbstractView view
+
+##### 滚轮事件
+
+- 事件名
+  - onWheel
+- 属性
+  - number deltaMode
+  - number deltaX
+  - number deltaY
+  - number deltaZ
+
+##### 媒体事件
+
+- 事件名
+  - onAbort onCanPlay onCanPlayThrough onDurationChange onEmptied onEncrypted
+    onEnded onError onLoadedData onLoadedMetadata onLoadStart onPause onPlay
+    onPlaying onProgress onRateChange onSeeked onSeeking onStalled onSuspend
+    onTimeUpdate onVolumeChange onWaiting
+
+##### 图像事件
+
+- 事件名
+  - onLoad onError
+
+##### 动画事件
+
+- 事件名
+  - onAnimationStart onAnimationEnd onAnimationIteration
+- 属性
+  - string animationName
+  - string pseudoElement
+  - float elapsedTime
+
+##### 过渡事件
+
+- 事件名
+  - onTransitionEnd
+- 属性
+  - string propertyName
+  - string pseudoElement
+  - float elapsedTime
+
+##### 其他事件
+
+- 事件名
+  - onToggle
