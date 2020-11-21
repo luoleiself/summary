@@ -1,6 +1,6 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 
-import ReduxThunk from 'redux-thunk'; // 改造 store.dispatch() 支持函数作为参数
+import ReduxThunk from 'redux-thunk'; // 改造 store.dispatch() 支持函数作为参数 内部方法接收两个 store 的方法：dispatch, getState
 import ReduxPromise from 'redux-promise'; // 改造 store.dispatch() 支持 Promise 对象作为参数
 
 import { connect, Provider } from 'react-redux';
@@ -25,7 +25,7 @@ const store = createStore(reducer, [defaultState], [applyMiddleware(ReduxThunk, 
 // 对当前数据生成快照
 const state = store.getState();
 
-const reducer = function (state, action) {
+const reducer = function (state = {}, action) {
   return {};
 };
 
