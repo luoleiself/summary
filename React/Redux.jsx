@@ -5,6 +5,8 @@ import ReduxPromise from 'redux-promise'; // 改造 store.dispatch() 支持 Prom
 
 import { connect, Provider } from 'react-redux';
 
+import { createAction, createActions, handleActions, combineActions } from 'redux-actions';
+
 /**
  * Store 的职责
  *  1. 维持应用的 state
@@ -21,7 +23,7 @@ import { connect, Provider } from 'react-redux';
  * defaultState 整个应用的默认初始状态值，如果提供会覆盖 Reducer 函数的默认初始值
  * applyMiddleware 混合中间件方法
  */
-const store = createStore(reducer, [defaultState], [applyMiddleware(ReduxThunk, ReduxPromise, ...middleWare)]);
+const store = createStore(reducer, [defaultState], [applyMiddleware(ReduxThunk, ReduxPromise)]);
 // 对当前数据生成快照
 const state = store.getState();
 
@@ -34,8 +36,6 @@ const reducer = function (state = {}, action) {
  * 然后这个生成的函数再将 reducer 的结果合并成一个大的对象
  */
 const reducer = combineReducers({});
-
-/***********************************************************************/
 /**
  * 两个方法完全等价
  */
@@ -51,8 +51,8 @@ function reducer(state = {}, action) {
     c: c(state.c, action),
   };
 }
-/***********************************************************************/
-
+/***********************************************************************************************/
+// redux-thunk  redux-promise
 // 更新 state
 store.dispatch({ type: 'ADD_TODO', payload: { name: 'hello world', age: 18 } });
 
@@ -97,7 +97,104 @@ class AsyncApp extends Component {
     );
   }
 }
-
+/***********************************************************************************************/
+// redux-actions
+/**
+ * type: action type
+ * payloadCreator: function|undefined|null, is undefined or null, the identify function is used.
+ * metaCreator: metadata for payload, if it is undefined or not an function, the meta field is omitted.
+ */
+createAction(type, [payloadCreator, [metaCreator]]);
+const updateAdminUser = createAction(
+  'UPDATE_ADMIN_USER',
+  (updates) => updates,
+  () => ({ admin: true })
+);
+updateAdminUser({ name: 'Foo' });
+// {
+//   type: 'UPDATE_ADMIN_USER',
+//   payload: { name: 'Foo' },
+//   meta: { admin: true },
+// }
+/**
+ * actionMap: is an object which can optionally have a recursive data structure. with action types as keys.
+ *  and whose values must be either.
+ *    1. a function, which is the payload creator for that action
+ *    2. an array with payload and meta functions in that order
+ *    3. an actionMap
+ * identityActions: is an optional list of positional string arguments that are action type strings.
+ * options: prefix each action type bu passing a configuration object as the last argument.
+ */
+createActions(actionMap, ...identityActions, [options]);
+// one param
+const actionCreators = createActions({
+  APP: {
+    COUNTER: {
+      INCREMENT: [(amount) => ({ amount }), (amount) => ({ key: 'value', amount })],
+      DECREMENT: (amount) => ({ amount: -amount }),
+      SET: undefined, // given undefined, the identity function will be used
+    },
+    NOTIFY: [
+      (username, message) => ({ message: `${username}: ${message}` }),
+      (username, message) => ({ username, message }),
+    ],
+  },
+});
+expect(actionCreators.app.counter.increment(1)).to.deep.equal({
+  type: 'APP/COUNTER/INCREMENT',
+  payload: { amount: 1 },
+  meta: { key: 'value', amount: 1 },
+});
+expect(actionCreators.app.counter.decrement(1)).to.deep.equal({
+  type: 'APP/COUNTER/DECREMENT',
+  payload: { amount: -1 },
+});
+expect(actionCreators.app.counter.set(100)).to.deep.equal({ type: 'APP/COUNTER/SET', payload: 100 });
+expect(actionCreators.app.notify('yangmillstheory', 'Hello World')).to.deep.equal({
+  type: 'APP/NOTIFY',
+  payload: { message: 'yangmillstheory: Hello World' },
+  meta: { username: 'yangmillstheory', message: 'Hello World' },
+});
+// two params
+const { actionOne, actionTwo, actionThree } = createActions(
+  {
+    // function form; payload creator defined inline
+    ACTION_ONE: (key, value) => ({ [key]: value }),
+    // array form
+    ACTION_TWO: [
+      (first) => [first], // payload
+      (first, second) => ({ second }), // meta
+    ],
+    // trailing action type string form; payload creator is the identity
+  },
+  'ACTION_THREE'
+);
+expect(actionOne('key', 1)).to.deep.equal({
+  type: 'ACTION_ONE',
+  payload: { key: 1 },
+});
+expect(actionTwo('first', 'second')).to.deep.equal({
+  type: 'ACTION_TWO',
+  payload: ['first'],
+  meta: { second: 'second' },
+});
+expect(actionThree(3)).to.deep.equal({ type: 'ACTION_THREE', payload: 3 });
+// other params
+createActions(
+  {
+    NOTIFY: [
+      (username, message) => ({ message: `${username}: ${message}` }),
+      (username, message) => ({ username, message }),
+    ],
+  },
+  'INCREMENT',
+  {
+    prefix: 'counter', // String used to prefix each type
+    namespace: '--', // Separator between prefix and type.  Default: `/`
+  }
+);
+// counter--NOTIFY
+// counter-INCREMENT
 /**********************************************************************************************/
 // React-Redux
 const ComponentName = connect([mapStateToProps], [mapDispatchToProps], [mergeProps], [options])(componentName); // 将两种(UI/容器)组件建立关系
