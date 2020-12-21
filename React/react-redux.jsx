@@ -1,4 +1,4 @@
-import { connect, Provider } from 'react-redux';
+import { connect, Provider, connectAdvanced, batch} from 'react-redux';
 
 // React-Redux
 const ComponentName = connect([mapStateToProps], [mapDispatchToProps], [mergeProps], [options])(componentName); // 将两种(UI/容器)组件建立关系
