@@ -49,6 +49,12 @@ const mergeProps = function (stateProps, dispatchProps, ownProps) {
  * options 可以定制 connector 的行为
  */
 const options = {
-  pure: true, // connector 将执行 shouldComponentUpdate 并且浅对比 mergeProps 的结果，避免不必要的更新
+  context?: Object,
+  pure?: boolean,  // connector 将执行 shouldComponentUpdate 并且浅对比 mergeProps 的结果，避免不必要的更新
+  areStatesEqual?: Function,
+  areOwnPropsEqual?: Function,
+  areStatePropsEqual?: Function,
+  areMergedPropsEqual?: Function,
+  forwardRef?: boolean,
   withRef: false, // connector 会保存一个对被包装组件实例的引用，该引用通过 getWrappedInstance() 方法获得
 };
