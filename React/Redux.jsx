@@ -3,7 +3,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk'; // 改造 store.dispatch() 支持函数作为参数 内部方法接收两个 store 的方法：dispatch, getState
 import ReduxPromise from 'redux-promise'; // 改造 store.dispatch() 支持 Promise 对象作为参数
 
-import { createAction, createActions, handleActions, combineActions } from 'redux-actions';
+import { createAction, createActions, handleAction, handleActions, combineActions } from 'redux-actions';
 
 /**
  * Store 的职责
@@ -96,13 +96,14 @@ class AsyncApp extends Component {
   }
 }
 /***********************************************************************************************/
-// redux-actions
+// redux-actions: Flux Standard Action utilities for the Redux
+/* const actions = */ createAction(type, [payloadCreator, [metaCreator]]);
 /**
  * type: action type
  * payloadCreator: function|undefined|null, is undefined or null, the identify function is used.
  * metaCreator: metadata for payload, if it is undefined or not an function, the meta field is omitted.
  */
-createAction(type, [payloadCreator, [metaCreator]]);
+// eg:
 const updateAdminUser = createAction(
   'UPDATE_ADMIN_USER',
   (updates) => updates,
@@ -114,6 +115,7 @@ updateAdminUser({ name: 'Foo' });
 //   payload: { name: 'Foo' },
 //   meta: { admin: true },
 // }
+/* const actions = */ createActions(actionMap, ...identityActions, [options]);
 /**
  * actionMap: is an object which can optionally have a recursive data structure. with action types as keys.
  *  and whose values must be either.
@@ -123,8 +125,7 @@ updateAdminUser({ name: 'Foo' });
  * identityActions: is an optional list of positional string arguments that are action type strings.
  * options: prefix each action type bu passing a configuration object as the last argument.
  */
-createActions(actionMap, ...identityActions, [options]);
-// one param
+// eg1:
 const actionCreators = createActions({
   APP: {
     COUNTER: {
@@ -153,7 +154,7 @@ expect(actionCreators.app.notify('yangmillstheory', 'Hello World')).to.deep.equa
   payload: { message: 'yangmillstheory: Hello World' },
   meta: { username: 'yangmillstheory', message: 'Hello World' },
 });
-// two params
+// eg2:
 const { actionOne, actionTwo, actionThree } = createActions(
   {
     // function form; payload creator defined inline
@@ -177,8 +178,8 @@ expect(actionTwo('first', 'second')).to.deep.equal({
   meta: { second: 'second' },
 });
 expect(actionThree(3)).to.deep.equal({ type: 'ACTION_THREE', payload: 3 });
-// other params
-createActions(
+// eg3:
+/* const actions =*/ createActions(
   {
     NOTIFY: [
       (username, message) => ({ message: `${username}: ${message}` }),
@@ -193,3 +194,44 @@ createActions(
 );
 // counter--NOTIFY
 // counter-INCREMENT
+/***********************/
+// handleAction(type, reducer, defaultState)
+/**
+ * type: action type.
+ * reducer: 如果该参数被略过，将会同时处理正常和失败的action.
+ * defaultState: 第三个参数是必须的，当undefined传给reducer时使用
+ */
+handleAction(
+  'APP/COUNTER/INCREMENT',
+  (state, action) => ({
+    counter: state.counter + action.payload.amount,
+  }),
+  defaultState
+);
+// handleAction(type, reducerMap, defaultState)
+handleAction(
+  'FETCH_DATA',
+  {
+    next(state, action) {},
+    throw(state, action) {},
+  },
+  defaultState
+);
+// handleActions(reducerMap, defaultState[, options])
+/**
+ * defaultState: 此参数为必需，当且仅当 undefined 传给 reducer时使用
+ * options: 可配置action的前缀和分隔符
+ */
+const reducer = handleActions(
+  {
+    INCREMENT: (state, action) => ({
+      counter: state.counter + action.payload,
+    }),
+
+    DECREMENT: (state, action) => ({
+      counter: state.counter - action.payload,
+    }),
+  },
+  { counter: 0 },
+  { prefix: 'gg', namespace: '--' }
+);
