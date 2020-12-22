@@ -16,7 +16,7 @@ const mapStateToProps = (state, ownProps) => {
 /**
  * mapDispatchToProps 用来建立 UI 组件的参数到 store.dispatch 方法的映射, 返回一个对象，定义了 UI 组件的响应行文
  *  1. 是一个函数, 接收 dispatch 和 ownProps 两个参数,
- *  2. 是一个对象,
+ *  2. 是一个对象, 对象所定义的方法名将作为属性名, 每个方法将返回一个新的函数.
  */
 // 1.
 const mapDispatchToProps = (dispatch, ownProps) => {
