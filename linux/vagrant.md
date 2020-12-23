@@ -9,6 +9,7 @@
 - vagrant up // 启动虚拟机
 - vagrant ssh // ssh 登录虚拟机
 - vagrant suspend // 挂起虚拟机
+- vagrant resume // 恢复挂起的虚拟机
 - vagrant reload // 重启虚拟机
 - vagrant halt // 关闭虚拟机
 - vagrant global-status // 虚拟机状态
