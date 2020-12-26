@@ -37,6 +37,7 @@ const mapDispatchToProps = {
   }),
 };
 /**
+ * 作用：过滤 mapStateToProps 和 mapDispatchToProps 的返回结果并传递给组件的 props
  * mergeProps  mapStateToProps() 与 mapDispatchToProps() 的执行结果和组件自身的 props 将传入到这个回调函数中。
  * 该回调函数返回的对象将作为 props 传递到被包装的组件中。
  * 你也许可以用这个回调函数，根据组件的 props 来筛选部分的 state 数据，
