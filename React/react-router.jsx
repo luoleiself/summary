@@ -1,7 +1,18 @@
 // npm install react-router-dom
 
 import React, { Component } from 'react';
-import { BrowserRouter, HashRouter, MemoryRouter, Router, Route, Link, NavLink, Redirect } from 'react-router-dom';
+import { StaticRouter, generatePath, matchPath, withRouter } from 'react-router';
+import {
+  BrowserRouter,
+  HashRouter,
+  MemoryRouter,
+  Router,
+  Route,
+  Link,
+  NavLink,
+  Redirect,
+  Switch,
+} from 'react-router-dom';
 
 /**
  * basename: string, app served the sub-directory
@@ -62,9 +73,19 @@ import { BrowserRouter, HashRouter, MemoryRouter, Router, Route, Link, NavLink, 
   <App />
 </MemoryRouter>;
 /**
+ * server-side rendering
+ * basename: string,
+ * location: string,
+ *           object, { pathname, search, hash, state }
+ * context: object, A plain JavaScript object. Components can add properties to the object to store information about the render.
+ * children: node, A child element to render
+ */
+<StaticRouter basename='/app' location={req.url} context={{ name: 'hello world', age: 18 }}>
+  <Link to='/home' /> // renders <a href='/app/home'></a>
+</StaticRouter>;
+/**
  * to: string, A string representation of the Link location
- *     object,
- *        pathname, search, hash, state
+ *     object, { pathname, search, hash, state }
  *     function, A function to which current location is passed as an argument
  * replace: bool, Clicking the link will replace the current entry in the history stack instead of adding a new one
  * innerRef: function, underlying ref of the component
@@ -92,7 +113,7 @@ import { BrowserRouter, HashRouter, MemoryRouter, Router, Route, Link, NavLink, 
  * exact: bool, class/style will only be applied if the location is matched exactly
  * strict: bool, the trailing slash on a location’s pathname
  * isActive: function, Add extra logic for determining whether the link is active
- * location: object,
+ * location: object, { pathname, search, hash, state }
  * aria-current: string, default page
  *    page, step, location, date, time, true, false
  */
@@ -108,7 +129,7 @@ import { BrowserRouter, HashRouter, MemoryRouter, Router, Route, Link, NavLink, 
 ></NavLink>;
 /**
  * to: string,
- *     object,
+ *     object, { pathname, search, hash, state }
  * push: bool, Redirecting will push a new entry onto the history stack
  * from: string, A pathname to redirect from. Rendering <Redirect /> inside of <Switch />
  * exact: bool, Match from exactly; equivalent to Route.exact. Rendering <Redirect /> inside of <Switch />
@@ -131,3 +152,75 @@ import { BrowserRouter, HashRouter, MemoryRouter, Router, Route, Link, NavLink, 
  * Re-exported from core Prompt
  */
 <Prompt />;
+/**
+ * Render some UI when its path matches the current URL
+ * Route Render Methods:
+ *  component, <Route component> takes precedence(优先权) over <Route render> so don’t use both in the same <Route>.
+ *  render,
+ *  children, <Route children> takes precedence(优先权) over both <Route component> and <Route render> so don’t use more than one in the same <Route>.
+ * path: string | string[], Any valid URL path or array of paths
+ * exact: bool,
+ * strict: bool,
+ * location: object, { pathname, search, hash, state }
+ * sensitive: bool,
+ * sensitive: bool,
+ */
+<Route
+  path={['/users/:id', '/profile/:id']}
+  component={User}
+  render={() => <div>Home</div>}
+  children={({ match }) => (
+    <li className={match ? 'active' : ''}>
+      <Link to={to} {...rest} />
+    </li>
+  )}
+></Route>;
+/**
+ * The common low-level interface for all router components. Typically apps will use one of the high-level routers instead:
+ * <BrowserRouter>
+ * <HashRouter>
+ * <MemoryRouter>
+ * <NativeRouter>
+ * <StaticRouter>
+ * history: object, A history object to use for navigation.
+ * children: node, A child element to render
+ */
+<Router history={createBrowserHistory()}></Router>;
+/**
+ * location: object, { pathname, search, hash, state }
+ * children: node, Only the first child to match the current location
+ */
+<Switch></Switch>;
+/**
+ * generate URLs to the routes.
+ * pattern: string, The first one is a pattern provided as a path attribute to the Route component.
+ * params: object, The second argument is an object with corresponding params for the pattern to use.
+ */
+const result = generatePath('/user/:id/:entity(posts|comments)', {
+  id: 1,
+  entity: 'posts',
+}); // Will return /user/1/posts
+/**
+ * pathname: string, If you’re using this on the server with Node.js, it would be req.path.
+ * props: Object, { path, strict, exact }
+ * returns
+ *  It returns an object when provided pathname does match path prop.
+ *  It returns null when provided pathname does not match path prop.
+ */
+matchPath('/users/2', {
+  path: '/users/:id',
+  exact: true,
+  strict: true,
+});
+//  {
+//    isExact: true
+//    params: {
+//        id: "2"
+//    }
+//    path: "/users/:id"
+//    url: "/users/2"
+//  }
+/**
+ * It will pass updated match, location, and history props to the wrapped component whenever it renders.
+ */
+withRouter();
