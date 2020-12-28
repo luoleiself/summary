@@ -224,3 +224,17 @@ matchPath('/users/2', {
  * It will pass updated match, location, and history props to the wrapped component whenever it renders.
  */
 withRouter();
+/*********************************************************************************************/
+location;
+// Route component as this.props.location
+// Route render as ({ location }) => ()
+// Route children as ({ location }) => ()
+// withRouter as this.props.location
+history;
+match; // {params, isExact, path, url}
+// Route component as this.props.match
+// Route render as ({ match }) => ()
+// Route children as ({ match }) => ()
+// withRouter as this.props.match
+// matchPath as the return value
+// useRouteMatch as the return value
