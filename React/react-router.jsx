@@ -12,6 +12,8 @@ import {
   NavLink,
   Redirect,
   Switch,
+  useParams,
+  useRouteMatch,
 } from 'react-router-dom';
 
 /**
@@ -168,13 +170,15 @@ import {
 <Route
   path={['/users/:id', '/profile/:id']}
   component={User}
-  render={() => <div>Home</div>}
-  children={({ match }) => (
+  render={({ match, location, history }) => <div>Home</div>}
+  children={({ match, location, history }) => (
     <li className={match ? 'active' : ''}>
       <Link to={to} {...rest} />
     </li>
   )}
-></Route>;
+>
+  <div>example</div>
+</Route>;
 /**
  * The common low-level interface for all router components. Typically apps will use one of the high-level routers instead:
  * <BrowserRouter>
@@ -187,6 +191,7 @@ import {
  */
 <Router history={createBrowserHistory()}></Router>;
 /**
+ * Renders the first child <Route> or <Redirect> that matches the location
  * location: object, { pathname, search, hash, state }
  * children: node, Only the first child to match the current location
  */
@@ -227,14 +232,139 @@ withRouter();
 /*********************************************************************************************/
 location;
 // Route component as this.props.location
-// Route render as ({ location }) => ()
-// Route children as ({ location }) => ()
+// Route render as ({ location, match, history }) => ()
+// Route children as ({ location, match, history }) => ()
 // withRouter as this.props.location
 history;
 match; // {params, isExact, path, url}
 // Route component as this.props.match
-// Route render as ({ match }) => ()
-// Route children as ({ match }) => ()
+// Route render as ({ match, location, history }) => ()
+// Route children as ({ match, location, history }) => ()
 // withRouter as this.props.match
 // matchPath as the return value
 // useRouteMatch as the return value
+/*********************************************************************************************/
+export function Nesting() {
+  return (
+    <Router>
+      <ul>
+        <li>
+          <Link to={{ pathname: '/home' }}>首页</Link>
+        </li>
+        <li>
+          <Link to={{ pathname: '/news', search: { name: 'hello', age: 18 } }}>新闻</Link>
+        </li>
+        <li>
+          <Link to='/about'>关于</Link>
+        </li>
+        <li>
+          <Link to='/login'>登陆</Link>
+        </li>
+      </ul>
+      <div>
+        <Switch>
+          <Route path='/home'>
+            <div>这是首页</div>
+          </Route>
+          <Route path='/news' component={<News />}></Route>
+          <Route path='/about' render={({ match, location, history }) => <div>这是关于页</div>}></Route>
+          <Route path='/login' children={({ match, location, history }) => <div>这是登陆页</div>}></Route>
+        </Switch>
+      </div>
+    </Router>
+  );
+}
+
+function News(props) {
+  let { path, url } = useRouteMatch();
+  let { topicId } = useParams();
+  return (
+    <div>
+      <h2>News</h2>
+      <ul>
+        <li>
+          <Link to={`${url}/rendering`}>Rendering with React</Link>
+        </li>
+        <li>
+          <Link to={{ pathname: `${url}/components` }}>Components</Link>
+        </li>
+        <li>
+          <Link to={{ pathname: `${url}/props-v-state` }}>Props v. State</Link>
+        </li>
+      </ul>
+      <Switch>
+        <Route exact path={path}>
+          <h3>Please select a news.</h3>
+        </Route>
+        <Route path={`${path}/:topicId`} children={({ match, location, history }) => <h3>{topicId}</h3>}></Route>
+      </Switch>
+    </div>
+  );
+}
+/*********************************************************************************************/
+export function SideBar() {
+  const routes = [
+    {
+      path: '/',
+      exact: true,
+      sidebar: () => <div>sideBar--home!</div>,
+      main: () => <h2>main--Home</h2>,
+    },
+    {
+      path: '/bubblegum',
+      sidebar: () => <div>sideBar--bubblegum!</div>,
+      main: () => <h2>main--Bubblegum</h2>,
+    },
+    {
+      path: '/shoelaces',
+      sidebar: () => <div>sideBar--shoelaces!</div>,
+      main: () => <h2>main--Shoelaces</h2>,
+    },
+  ];
+  return (
+    <Router>
+      <div style={{ display: 'flex' }}>
+        <div
+          style={{
+            padding: '10px',
+            width: '40%',
+            background: '#f0f0f0',
+          }}
+        >
+          <ul style={{ listStyleType: 'none', padding: 0 }}>
+            <li>
+              <Link to='/'>Home</Link>
+            </li>
+            <li>
+              <Link to='/bubblegum'>Bubblegum</Link>
+            </li>
+            <li>
+              <Link to='/shoelaces'>Shoelaces</Link>
+            </li>
+          </ul>
+          <Switch>
+            {routes.map((route, index) => (
+              // You can render a <Route> in as many places
+              // as you want in your app. It will render along
+              // with any other <Route>s that also match the URL.
+              // So, a sidebar or breadcrumbs or anything else
+              // that requires you to render multiple things
+              // in multiple places at the same URL is nothing
+              // more than multiple <Route>s.
+              <Route key={index} path={route.path} exact={route.exact} children={<route.sidebar />} />
+            ))}
+          </Switch>
+        </div>
+        <div style={{ flex: 1, padding: '10px' }}>
+          <Switch>
+            {routes.map((route, index) => (
+              // Render more <Route>s with the same paths as
+              // above, but different components this time.
+              <Route key={index} path={route.path} exact={route.exact} children={<route.main />} />
+            ))}
+          </Switch>
+        </div>
+      </div>
+    </Router>
+  );
+}
