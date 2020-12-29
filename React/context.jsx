@@ -4,7 +4,7 @@
  * 总结:
  *  1. 如果需要使用 defaultValue 时,则不需要使用 $c.Provider 组件.
  *  2. 如果使用了 $c.Provider 组件时,必须提供其 value 属性. 即使 undefined 值也会导致 defaultValue 不生效
- *  3. 如果使用了 $c.Consumer 组件时,则需要在 $c.Consumer 组件内部提供回调函数,参数为 context.
+ *  3. 如果使用了 $c.Consumer 组件时,则需要在 $c.Consumer 组件内部提供回调函数,参数为 context. 不需要在组件内部获取 context
  *  4. 如果不使用 $c.Consumer 组件时,则需要将渲染组件的 contextType 属性设置为 $c, 在渲染组件内部使用 this.context 获取 $c.
  */
 const defaultValue = {
@@ -35,7 +35,7 @@ class Content extends React.Component {
     // const ctx = this.context; // way2
     return (
       <React.Fragment>
-        <MyContext.Consumer>{(ctx) => ctx.name}</MyContext.Consumer>
+        <MyContext.Consumer>{(ctx) => ctx.name}</MyContext.Consumer> // 使用 Consumer 时不需要在组件内部获取 context
       </React.Fragment>
     );
   }
