@@ -23,7 +23,7 @@
       )
     }
     console.log(Redux, ReactDOM);
-    const { createStore, applyMiddleware, combineReducers } = Redux;
+    const { createStore, applyMiddleware, combineReducers, compose } = Redux;
     const ReduxThunk = window.ReduxThunk.default;
   
     function generateID() {
@@ -112,7 +112,7 @@
     )
   }
   console.log(Redux, ReactDOM);
-  const { createStore, applyMiddleware, combineReducers } = Redux;
+  const { createStore, applyMiddleware, combineReducers, compose } = Redux;
   const ReduxThunk = window.ReduxThunk.default;
 
   function generateID() {

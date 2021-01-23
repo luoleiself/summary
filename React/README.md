@@ -539,6 +539,31 @@ onClickCapture => // 捕获阶段触发
 
 ## Hook
 
-> Hook 是 React16.8 的新增特性，可以在不编写 Class 的情况下使用 State 以及其他的 React 特性
+- React 16.8 新增
 
-###
+- 可以在函数组件内"钩入" React State 及生命周期等特性的函数
+
+- 不能在 class 组件中使用
+
+### 使用规则
+
+- 只能在函数最外层调用 Hook, 不要在循环、条件判断或者子函数中调用
+- 只能在 React 的函数组件中调用 Hook, 不要在其他 JavaScript 函数中调用
+
+### 内置 Hook
+
+#### State Hook
+
+- useState 返回的更新状态函数使用时不会把新的 state 和旧的 state 进行合并
+
+- 初始 state 参数只在第一次渲染时会被用到
+
+```jsx
+const [count, setCount] = useState(0);
+const [fruit, setFruit] = useState('banana');
+const [todos, setTodos] = useState([{ text: 'learn React Hooks' }]);
+```
+
+#### Effect Hook
+
+### 自定义 Hook
