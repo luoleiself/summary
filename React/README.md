@@ -540,12 +540,10 @@ onClickCapture => // 捕获阶段触发
 ## Hook
 
 - React 16.8 新增
-
 - 可以在函数组件内"钩入" React State 及生命周期等特性的函数
-
 - 不能在 class 组件中使用
 
-### 使用规则
+### Hooks 规则
 
 - 只能在函数最外层调用 Hook, 不要在循环、条件判断或者子函数中调用
 - 只能在 React 的函数组件中调用 Hook, 不要在其他 JavaScript 函数中调用
@@ -555,15 +553,30 @@ onClickCapture => // 捕获阶段触发
 #### State Hook
 
 - useState 返回的更新状态函数使用时不会把新的 state 和旧的 state 进行合并
-
 - 初始 state 参数只在第一次渲染时会被用到
 
 ```jsx
 const [count, setCount] = useState(0);
 const [fruit, setFruit] = useState('banana');
 const [todos, setTodos] = useState([{ text: 'learn React Hooks' }]);
+setTodos([...todos, { text: 'Hello setTodos' }]); // 和 this.setState 的区别: 不会进行 state 合并
 ```
 
 #### Effect Hook
+
+- 每次渲染会生成新的 effect
+- 默认情况下，它在第一次渲染之后和每次更新之后都会执行
+- 异步执行，不会阻塞浏览器更新
+- useEffect 每次在调用一个新的 effect 之前对前一个 effect 进行清理，防止内存泄漏或崩溃的问题
+- 第二个参数控制执行 effect 的时机
+
+```jsx
+useEffect(() => {
+  // ...
+  return () => {}; // 组件卸载时调用, 可选
+  // effect 会比较数组中所有参数是否和前一次的参数全等，如果有一个不相等则执行 effect
+  // 数组为空，只执行一次 effect
+}, [count]); // 仅在 count 更改时更新
+```
 
 ### 自定义 Hook
