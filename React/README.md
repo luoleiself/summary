@@ -543,9 +543,9 @@ onClickCapture => // 捕获阶段触发
 - 可以在函数组件内"钩入" React State 及生命周期等特性的函数
 - 不能在 class 组件中使用
 
-### Hooks 规则
+### Hook 规则
 
-- 只能在函数最外层调用 Hook, 不要在循环、条件判断或者子函数中调用
+- 只能在函数最顶层调用 Hook, 不要在循环、条件判断或者子函数中调用
 - 只能在 React 的函数组件中调用 Hook, 不要在其他 JavaScript 函数中调用
 
 ### 内置 Hook
@@ -560,6 +560,24 @@ const [count, setCount] = useState(0);
 const [fruit, setFruit] = useState('banana');
 const [todos, setTodos] = useState([{ text: 'learn React Hooks' }]);
 setTodos([...todos, { text: 'Hello setTodos' }]); // 和 this.setState 的区别: 不会进行 state 合并
+```
+
+```jsx
+// useState 实现原理
+let _state = []; // 把 state 存储在外面
+let index = 0;
+
+function useState(initialValue) {
+  const currentIndex = index;
+  index += 1;
+  _state[currentIndex] = _state[currentIndex] || initialValue;
+  _state = _state || initialValue;
+  function setState(newState) {
+    _state[currentIndex] = newState;
+    ReactDom.render(<App />, document.getElementById('app'));
+  }
+  return [_state[currentIndex], setState];
+}
 ```
 
 #### Effect Hook

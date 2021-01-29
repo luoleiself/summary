@@ -80,7 +80,6 @@ const fetchPosts = (dispatch, postTitle) =>
     }));
   });
 // 写法二：Action 的 payload 属性是一个 Promise 对象，需要借助 redux-actions 模块中的 createActions 方法
-import { createAction } from 'redux-actions';
 class AsyncApp extends Component {
   componentDidMount() {
     const { dispatch, selectedPost } = this.props;
