@@ -810,5 +810,14 @@ useDebugValue(value， fn);
 - 名称以 use 开头, 函数内部可以调用其他的 Hook
 
 ```jsx
-
+function useDemo(prop) {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    // 执行订阅
+    return () => {
+      // 执行取消订阅
+    };
+  });
+  return count;
+}
 ```
