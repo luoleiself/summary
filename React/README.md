@@ -552,16 +552,6 @@ onClickCapture => // 捕获阶段触发
 
 #### State Hook
 
-- useState 返回的更新状态函数使用时不会把新的 state 和旧的 state 进行合并
-- 初始 state 参数只在第一次渲染时会被用到
-
-```jsx
-const [count, setCount] = useState(0);
-const [fruit, setFruit] = useState('banana');
-const [todos, setTodos] = useState([{ text: 'learn React Hooks' }]);
-setTodos([...todos, { text: 'Hello setTodos' }]); // 和 this.setState 的区别: 不会进行 state 合并
-```
-
 ```jsx
 // useState 实现原理
 let _state = []; // 把 state 存储在外面
@@ -580,26 +570,245 @@ function useState(initialValue) {
 }
 ```
 
+- useState 返回的更新状态函数使用时不会把新的 state 和旧的 state 进行合并
+- 初始 state 参数只在第一次渲染时会被用到
+
+  ```jsx
+  const [count, setCount] = useState(0);
+  const [fruit, setFruit] = useState('banana');
+  const [todos, setTodos] = useState([{ text: 'learn React Hooks' }]);
+  setTodos([...todos, { text: 'Hello setTodos' }]); // 和 this.setState 的区别: 不会进行 state 合并
+  ```
+
+- 函数式更新
+
+  > 新的 state 需要通过之前的 state 计算得出
+
+  ```jsx
+  setCount((prevCount) => prevCount - 1);
+  <button onClick={setCount.bind(null, (prevCount) => prevCount + 1)}>+</button>;
+  ```
+
+- 和当前的 state 合并更新
+
+  > 如果更新函数返回值和当前 state 完全相同，则重渲染会被跳过
+
+  ```jsx
+  setState((prevState) => {
+    return { ...prevState, ...updateValues };
+  });
+  ```
+
+- 惰性初始 state
+
+  > 初始 state 需要通过复杂计算获得, 可以使用回调函数返回计算后的初始 state
+
+  ```jsx
+  const [count, setCount] = useState(() => {
+    // ... 初始 state 的复杂计算
+    return initialState;
+  });
+  ```
+
 #### Effect Hook
 
 - 每次渲染会生成新的 effect
 - 默认情况下，它在第一次渲染之后和每次更新之后都会执行
 - 异步执行，不会阻塞浏览器更新
 - useEffect 每次在调用一个新的 effect 之前对前一个 effect 进行清理，防止内存泄漏或崩溃的问题
-- 第二个参数控制执行 effect 的时机
+- 第二个参数控制 effect 的执行时机
 
 ```jsx
 useEffect(() => {
   // ...
-  return () => {}; // 组件卸载时调用, 可选
+  return () => {
+    // 组件卸载时调用, 可选
+    // ...
+  };
   // effect 会比较数组中所有参数是否和前一次的参数全等，如果有一个不相等则执行 effect
-  // 数组为空，只执行一次 effect
+  // 依赖项数组为空，只执行一次 effect
 }, [count]); // 仅在 count 更改时更新
+```
+
+#### Context Hook
+
+- 接收一个 context 对象(React.createContext 的返回值)并返回该 context 的当前值
+- 仍需要在上层组件树中使用 Provider 提供 context
+
+```jsx
+const themes = {
+  light: {
+    height: '30px',
+    color: '#0088ff',
+    background: '#eeeeee',
+  },
+  dark: {
+    height: '30px',
+    color: '#ffffff',
+    background: '#222222',
+  },
+};
+const ThemeContext = createContext(themes);
+function UseContextDemo() {
+  const [theme, setTheme] = useState('dark');
+  return (
+    <ThemeContext.Provider value={themes[theme]}>
+      <h2>useContextDemo</h2>
+      <p>current theme: {theme}</p>
+      <ThemeButton onClick={setTheme.bind(null, (prevState) => (prevState === 'dark' ? 'light' : 'dark'))} />
+    </ThemeContext.Provider>
+  );
+}
+function ThemeButton(props) {
+  // 使用 useContext 代替 ThemeContext.consumer 消费组件
+  const theme = useContext(ThemeContext);
+  const { onClick } = props;
+  return (
+    <button onClick={onClick} style={{ ...theme }}>
+      useContext button
+    </button>
+  );
+}
+```
+
+#### Reducer Hook
+
+> const [state, dispatch] = useReducer(reducer, initialArg, init);
+
+```jsx
+// 计数器 Demo
+const initialState = { count: 0 };
+function reducer(state, action) {
+  switch (action.type) {
+    case 'increment':
+      return { count: state.count + 1 };
+    case 'decrement':
+      return { count: state.count - 1 };
+    default:
+      throw new Error();
+  }
+}
+function Counter() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  return (
+    <>
+      Count: {state.count}
+      <button onClick={() => dispatch({ type: 'decrement' })}>-</button>
+      <button onClick={() => dispatch({ type: 'increment' })}>+</button>
+    </>
+  );
+}
+```
+
+- 指定初始 state
+
+  > (redux 的参数约定)将初始 state 作为第二个参数传入 useReducer,可传入 undefined.
+
+  > 如果 Reducer Hook 的返回值和当前 state 相同, React 将跳过子组件的渲染及副作用的执行
+
+- 惰性初始化
+
+  > useReducer 的第三个参数, initialArg 将作为 init 函数的参数并返回新的 state
+
+  ```jsx
+  const initialState = { count: 0 };
+  function init(initialState) {
+    return { ...initialState };
+  }
+  function reducer(state, action) {
+    return { ...state };
+  }
+  function Counter({ initialState }) {
+    const [state, dispatch] = useReducer(reducer, initialState, init);
+    return <>{...state}</>;
+  }
+  ```
+
+#### useCallback
+
+> 把内联回调函数及依赖项数组作为参数传入 useCallback，它将返回该回调函数的 memoized 版本，该回调函数仅在某个依赖项改变时才会更新
+
+```jsx
+const memoizedCallback = useCallback(() => {
+  doSomething(a, b);
+}, [a, b]);
+```
+
+#### useMemo
+
+> 把“创建”函数和依赖项数组作为参数传入 useMemo，它仅会在某个依赖项改变时才重新计算 memoized 值
+
+- 传入 useMemo 的函数会在渲染期间执行
+- 如果没有提供依赖项数组, 默认在每次渲染时都会计算新的值
+
+```jsx
+const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
+```
+
+#### useRef
+
+- 返回一个可变的 ref 对象,其 .current 属性被初始化为传入的参数(initialValue), 返回的 ref 对象在组件的整个生命周期内保持不变
+
+  ```jsx
+  const refContainer = useRef(initialValue);
+  ```
+
+  ```jsx
+  function TextInputWithFocusButton() {
+    const inputEl = useRef(null);
+    const onButtonClick = () => {
+      // `current` 指向已挂载到 DOM 上的文本输入元素
+      inputEl.current.focus();
+    };
+    return (
+      <>
+        <input ref={inputEl} type='text' />
+        <button onClick={onButtonClick}>Focus the input</button>
+      </>
+    );
+  }
+  ```
+
+#### useImperativeHandle
+
+> useImperativeHandle 应当和 forwardRef 一起使用
+
+- 使用 ref 时自定义暴露给父组件的实例值
+
+  ```jsx
+  useImperativeHandle(ref, createHandle, [deps]);
+  ```
+
+  ```jsx
+  function FancyInput(props, ref) {
+  const inputRef = useRef();
+  useImperativeHandle(ref, () => ({
+    focus: () => {
+      inputRef.current.focus();
+    }
+  }));
+  return <input ref={inputRef} ... />;
+  }
+  FancyInput = forwardRef(FancyInput);
+  ```
+
+#### useLayoutEffect
+
+- 它会在所有的 DOM 变更之后同步调用 effect, 可以使用它来读取 DOM 布局并同步触发重渲染
+
+#### useDebugValue
+
+> 可用于在 React 开发者工具中显示自定义 hook 的标签
+
+```jsx
+// 第二个可选参数 只有在Hook被检查时才会被调用，接收debug值作为参数，并返回一个格式化的显示值
+useDebugValue(value， fn);
 ```
 
 ### 自定义 Hook
 
 - 名称以 use 开头, 函数内部可以调用其他的 Hook
+
 ```jsx
 
 ```
