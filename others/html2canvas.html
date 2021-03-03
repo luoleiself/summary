@@ -19,29 +19,53 @@
       height: 40px;
       line-height: 20px;
     }
+    .container{
+      display: flex;
+    }
   </style>
 </head>
 
 <body>
-  <div>
-    <h2>html2Canvas</h2>
-    <button onclick="btnClick()">Click Me</button>
+  <div class="container">
+    <div>
+      <h2>html2Canvas</h2>
+      <button onclick="btnClick()">Click Me</button>
+    </div>
+    <textarea rows="9" cols="100" readonly>
+      // 调用方法
+      renderDom2Canvas({ 
+        title: '雷克萨斯UX 2019款 260h F SPORT全驱版 国VI', // 车型名称
+        price1: '价格', // 第一个显示价格
+        price2: '价格2', // 第二个显示价格
+      }, function (base64) { // 转换完成回调函数, 参数为 base64 图片
+        $('body').append('<img src="' + base64 + '" alt=""/>');
+      });
+    </textarea>
   </div>
 </body>
 <script>
   function btnClick() {
-    Math.random
+    var price1 = (Math.random() * 1000).toFixed(2) + '-' + '-' + (Math.random() * 10000).toFixed(2) + '万';
+    var price2 = (Math.random() * 1000).toFixed(2) + '-' + '-' + (Math.random() * 10000).toFixed(2) + '万';
     renderDom2Canvas({
-      title: '雷克萨斯UX 2019款 260h F 国VI',
-      price1: '1000.06-1001.33万',
-      price2: '1001.65-1002.59万',
+      title: '雷克萨斯UX 2019款 260h F SPORT全驱版 国VI',
+      price1,
+      price2
     }, function (base64) {
-      console.log(base64);
       $('body').append('<img src="' + base64 + '" alt=""/>');
     });
   }
-
+</script>
+<script>
   ; (function () {
+    /**
+     * @description 默认配置对象, 最下面有返回，可以不使用该对象
+     * @object o 内置配置对象,
+     * @property html 数据源
+     * @property canvasParams html2Canvas配置参数
+     * @property type 转换的图片类型, 默认为 jpeg
+     * @method render 内置渲染模板，生成数据源
+     */
     var o = {
       html: '',
       canvasParams: {
@@ -49,7 +73,10 @@
         backgroundColor: "null",
         useCORS: true
       },
-      imgType: 'image/jpg',
+      imgConf: {
+        type: 'jpeg',
+        quality: 0.92,
+      },
       render: function (params) {
         var title = params.title,
           price1 = params.price1,
@@ -62,13 +89,19 @@
       }
     }
     /**
-     * params: 渲染的数据,
+     * @description 使用 canvas 将 Dom 转换为图片
+     * @method renderDom2Canvas 
+     * @param params: 渲染的数据,可以是对象, 方法，字符串
+     *  如果为对象,则使用默认模板渲染，对象属性包括 title, price1, price2
+     *  如果为方法，则调用后使用该方法返回值作为数据源
+     *  如果为其他类型，则使用该值作为数据源
+     * @param callback: 转换完成的回调函数，参数为图片 base64 
      */
     window.renderDom2Canvas = function (params, callback) {
       if (params != null && typeof params === 'object') {
         o.render(params);
       } else if (typeof params === "function") {
-        o.html = params() || '';
+        o.html = params() || '此方法没有返回值';
       } else {
         o.html = params;
       }
@@ -86,11 +119,26 @@
         $('.capture_tpl').append(o.html);
       }
       html2canvas($('.capture_tpl')[0], o.canvasParams).then(function (canvas) {
-        var base64 = canvas.toDataURL(o.imgType);
+        var base64 = '';
+        var ext = '';
+        var quality = 0.92;
+        if (o.imgConf.imgType === 'jpeg' || o.imgConf.imgType === 'jpg' || o.imgConf.imgType === 'webp') {
+          ext = '.jpg'
+          if (o.imgConf.imgType === 'webp') {
+            ext = '.webp'
+          }
+          if (o.imgConf.quality >= 0 && o.imgConf.quality <= 1) {
+            quality = o.imgConf.quality;
+          }
+          base64 = canvas.toDataURL('image/' + o.imgType, quality);
+        } else {
+          base64 = canvas.toDataURL('image/png');
+          ext = '.png';
+        }
         var save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
         var event = document.createEvent('MouseEvents');
         save_link.href = base64;
-        save_link.download = Date.now() + (o.imgType.indexOf('jpg') !== -1 ? '.jpg' : '.png');
+        save_link.download = Date.now() + ext;
         event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
         save_link.dispatchEvent(event);
         $('.capture_tpl').remove();
