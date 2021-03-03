@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>html2Canvas</title>
+  <script src="http://asserts.xcarimg.com/resource/other/haibao/js/jquery.min.js"></script>
+  <script src="http://asserts.xcarimg.com/resource/other/haibao/js/html2canvas.min.js"></script>
+  <style>
+    img {
+      margin: 10px;
+    }
+
+    button {
+      display: inline-block;
+      width: 100px;
+      height: 40px;
+      line-height: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <h2>html2Canvas</h2>
+    <button onclick="btnClick()">Click Me</button>
+  </div>
+</body>
+<script>
+  function btnClick() {
+    Math.random
+    renderDom2Canvas({
+      title: '雷克萨斯UX 2019款 260h F 国VI',
+      price1: '1000.06-1001.33万',
+      price2: '1001.65-1002.59万',
+    }, function (base64) {
+      console.log(base64);
+      $('body').append('<img src="' + base64 + '" alt=""/>');
+    });
+  }
+
+  ; (function () {
+    var o = {
+      html: '',
+      canvasParams: {
+        allowTaint: true,
+        backgroundColor: "null",
+        useCORS: true
+      },
+      imgType: 'image/jpg',
+      render: function (params) {
+        var title = params.title,
+          price1 = params.price1,
+          price2 = params.price2,
+          tpl = '<h4 class="title">' + (title ? title : '此处标题为测试文本') + '</h4><h5 class="price1">' +
+            (price1 ? price1 : '9999.99-9999.99万') + '</h5><h6 class="price2">' +
+            (price2 ? price2 : '9999.99-9999.99万') + '</h6><p class="capture_btn">询底价</p>';
+        this.html = tpl;
+        return tpl;;
+      }
+    }
+    /**
+     * params: 渲染的数据,
+     */
+    window.renderDom2Canvas = function (params, callback) {
+      if (params != null && typeof params === 'object') {
+        o.render(params);
+      } else if (typeof params === "function") {
+        o.html = params() || '';
+      } else {
+        o.html = params;
+      }
+      if ($('style[data-id=capture]').length == 0) {
+        $('head').append('<style data-id="capture">.capture_tpl {position:absolute;top:-99999px;width: 305px;padding: 20px 20px 24px 20px;border-radius: 2px;box-sizing: border-box;background: rgba(24, 24, 24, 0.5);overflow: hidden;font-family: Arial, Helvetica, sans-serif;}' +
+          '.capture_tpl .title,.capture_tpl .price1,.capture_tpl .price2,.capture_tpl .capture_btn {margin: 0;padding: 0}' +
+          '.capture_tpl .title {line-height: 22px;margin-bottom: 6px;font-size: 16px;font-weight: 500;color: #fff;}' +
+          '.capture_tpl .price1 {height: 40px;line-height: 40px;margin-bottom: 4px;color: #FF8214;font-size: 28px;font-weight: 500;}' +
+          '.capture_tpl .price2 {height: 25px;line-height: 25px;margin-bottom: 12px;color: #fff;font-size: 18px;font-weight: 400;text-decoration: line-through;}' +
+          '.capture_tpl .capture_btn {background: #1DA1F2;height: 38px;line-height: 38px;border-radius: 1px;text-align: center;font-size: 16px;font-weight: 400;color: #fff;}</style');
+      }
+      if ($('.capture_tpl').length === 0) {
+        $('body').append('<div class="capture_tpl">' + o.html + '</div>');
+      } else {
+        $('.capture_tpl').append(o.html);
+      }
+      html2canvas($('.capture_tpl')[0], o.canvasParams).then(function (canvas) {
+        var base64 = canvas.toDataURL(o.imgType);
+        var save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+        var event = document.createEvent('MouseEvents');
+        save_link.href = base64;
+        save_link.download = Date.now() + (o.imgType.indexOf('jpg') !== -1 ? '.jpg' : '.png');
+        event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+        save_link.dispatchEvent(event);
+        $('.capture_tpl').remove();
+        callback && callback(base64);
+      });
+    }
+    return o;
+  })();
+</script>
+
+</html>
