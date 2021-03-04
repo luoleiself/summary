@@ -138,7 +138,7 @@
         $('.capture_tpl').remove(); // 移除模板
         var filename = Date.now() + ext; // 文件名
         var file = dataURLtoFile(base64, filename); // base64 转为 File 对象
-        callback && callback({ base64: base64, file: file }, download.bind(null, base64, filename));
+        typeof callback === 'function' && callback({ base64: base64, file: file }, download.bind(null, base64, filename));
       });
     }
     // 下载图片
