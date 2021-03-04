@@ -19,7 +19,8 @@
       height: 40px;
       line-height: 20px;
     }
-    .container{
+
+    .container {
       display: flex;
     }
   </style>
@@ -31,13 +32,15 @@
       <h2>html2Canvas</h2>
       <button onclick="btnClick()">Click Me</button>
     </div>
-    <textarea rows="9" cols="100" readonly>
+    <textarea rows="12" cols="100" readonly>
       // 调用方法
       renderDom2Canvas({ 
         title: '雷克萨斯UX 2019款 260h F SPORT全驱版 国VI', // 车型名称
         price1: '价格', // 第一个显示价格
         price2: '价格2', // 第二个显示价格
-      }, function (base64) { // 转换完成回调函数, 参数为 base64 图片
+      }, function ({ base64, file }, download) { 
+        // 转换完成回调函数, 参数为 base64 图片, file 文件对象, download 下载图片方法
+        // download(); // 调用此方法可保存图片到本地
         $('body').append('<img src="' + base64 + '" alt=""/>');
       });
     </textarea>
@@ -45,13 +48,11 @@
 </body>
 <script>
   function btnClick() {
-    var price1 = (Math.random() * 1000).toFixed(2) + '-' + '-' + (Math.random() * 10000).toFixed(2) + '万';
-    var price2 = (Math.random() * 1000).toFixed(2) + '-' + '-' + (Math.random() * 10000).toFixed(2) + '万';
-    renderDom2Canvas({
-      title: '雷克萨斯UX 2019款 260h F SPORT全驱版 国VI',
-      price1,
-      price2
-    }, function (base64) {
+    var price1 = (Math.random() * 1000).toFixed(2) + '—' + (Math.random() * 10000).toFixed(2) + '万';
+    var price2 = (Math.random() * 1000).toFixed(2) + '—' + (Math.random() * 10000).toFixed(2) + '万';
+    renderDom2Canvas({ title: '雷克萨斯UX 2019款 260h F SPORT全驱版 国VI', price1, price2 }, function ({ base64, file }, download) {
+      console.log(base64, file);
+      download();
       $('body').append('<img src="' + base64 + '" alt=""/>');
     });
   }
@@ -64,6 +65,7 @@
      * @property html 数据源
      * @property canvasParams html2Canvas配置参数
      * @property type 转换的图片类型, 默认为 jpeg
+     * @property quality 图片压缩比例 默认 0.92
      * @method render 内置渲染模板，生成数据源
      */
     var o = {
@@ -74,16 +76,22 @@
         useCORS: true
       },
       imgConf: {
-        type: 'jpeg',
+        type: 'png',
         quality: 0.92,
       },
       render: function (params) {
         var title = params.title,
           price1 = params.price1,
           price2 = params.price2,
-          tpl = '<h4 class="title">' + (title ? title : '此处标题为测试文本') + '</h4><h5 class="price1">' +
+          tpl = '<style>.capture_content {width: 305px;padding: 20px 20px 24px 20px;border-radius: 2px;box-sizing: border-box;background: rgba(24, 24, 24, 0.5);overflow: hidden;font-family: Arial, Helvetica, sans-serif;}' +
+            '.capture_content .title,.capture_content .price1,.capture_content .price2,.capture_content .capture_btn {margin: 0;padding: 0}' +
+            '.capture_content .title {line-height: 22px;margin-bottom: 6px;font-size: 16px;font-weight: 500;color: #fff;}' +
+            '.capture_content .price1 {height: 40px;line-height: 40px;margin-bottom: 4px;color: #FF8214;font-size: 28px;font-weight: 500;overflow: hidden;word-break: break-all;}' +
+            '.capture_content .price2 {height: 25px;line-height: 25px;margin-bottom: 12px;color: #fff;font-size: 18px;font-weight: 400;text-decoration: line-through;overflow: hidden;word-break: break-all;}' +
+            '.capture_content .capture_btn {background: #1DA1F2;height: 38px;line-height: 38px;border-radius: 1px;text-align: center;font-size: 16px;font-weight: 400;color: #fff;}</style>' +
+            '<div class="capture_content"><h4 class="title">' + (title ? title : '此处标题为测试文本') + '</h4><h5 class="price1">' +
             (price1 ? price1 : '9999.99-9999.99万') + '</h5><h6 class="price2">' +
-            (price2 ? price2 : '9999.99-9999.99万') + '</h6><p class="capture_btn">询底价</p>';
+            (price2 ? price2 : '9999.99-9999.99万') + '</h6><p class="capture_btn">询底价</p></div>';
         this.html = tpl;
         return tpl;;
       }
@@ -105,45 +113,51 @@
       } else {
         o.html = params;
       }
-      if ($('style[data-id=capture]').length == 0) {
-        $('head').append('<style data-id="capture">.capture_tpl {position:absolute;top:-99999px;width: 305px;padding: 20px 20px 24px 20px;border-radius: 2px;box-sizing: border-box;background: rgba(24, 24, 24, 0.5);overflow: hidden;font-family: Arial, Helvetica, sans-serif;}' +
-          '.capture_tpl .title,.capture_tpl .price1,.capture_tpl .price2,.capture_tpl .capture_btn {margin: 0;padding: 0}' +
-          '.capture_tpl .title {line-height: 22px;margin-bottom: 6px;font-size: 16px;font-weight: 500;color: #fff;}' +
-          '.capture_tpl .price1 {height: 40px;line-height: 40px;margin-bottom: 4px;color: #FF8214;font-size: 28px;font-weight: 500;overflow: hidden;word-break: break-all;}' +
-          '.capture_tpl .price2 {height: 25px;line-height: 25px;margin-bottom: 12px;color: #fff;font-size: 18px;font-weight: 400;text-decoration: line-through;overflow: hidden;word-break: break-all;}' +
-          '.capture_tpl .capture_btn {background: #1DA1F2;height: 38px;line-height: 38px;border-radius: 1px;text-align: center;font-size: 16px;font-weight: 400;color: #fff;}</style');
-      }
+      $('style[data-id=capture]').length === 0 && $('head').append('<style data-id="capture">.capture_tpl {position:absolute;top:-99999px;}</style>');
       if ($('.capture_tpl').length === 0) {
         $('body').append('<div class="capture_tpl">' + o.html + '</div>');
       } else {
         $('.capture_tpl').append(o.html);
       }
+      if (typeof html2canvas !== 'function') {
+        throw new Error('html2canvas未引用...');
+      }
       html2canvas($('.capture_tpl')[0], o.canvasParams).then(function (canvas) {
-        var base64 = '';
         var ext = '';
         var quality = 0.92;
-        if (o.imgConf.imgType === 'jpeg' || o.imgConf.imgType === 'jpg' || o.imgConf.imgType === 'webp') {
-          ext = '.jpg'
-          if (o.imgConf.imgType === 'webp') {
-            ext = '.webp'
-          }
+        if (o.imgConf.type === 'jpeg' || o.imgConf.type === 'jpg' || o.imgConf.type === 'webp') {
+          ext = o.imgConf.type === 'webp' ? '.webp' : '.jpg';
           if (o.imgConf.quality >= 0 && o.imgConf.quality <= 1) {
             quality = o.imgConf.quality;
           }
-          base64 = canvas.toDataURL('image/' + o.imgType, quality);
+          base64 = canvas.toDataURL('image/' + o.imgConf.type, quality);
         } else {
           base64 = canvas.toDataURL('image/png');
           ext = '.png';
         }
-        var save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
-        var event = document.createEvent('MouseEvents');
-        save_link.href = base64;
-        save_link.download = Date.now() + ext;
-        event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-        save_link.dispatchEvent(event);
-        $('.capture_tpl').remove();
-        callback && callback(base64);
+        $('.capture_tpl').remove(); // 移除模板
+        var filename = Date.now() + ext; // 文件名
+        var file = dataURLtoFile(base64, filename); // base64 转为 File 对象
+        callback && callback({ base64: base64, file: file }, download.bind(null, base64, filename));
       });
+    }
+    // 下载图片
+    function download(base64, filename) {
+      var save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+      var event = document.createEvent('MouseEvents');
+      save_link.href = base64;
+      save_link.download = filename;
+      event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+      save_link.dispatchEvent(event);
+    }
+    //将base64转换为文件
+    function dataURLtoFile(dataUrl, filename) {
+      var arr = dataUrl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      return new File([u8arr], filename, { type: mime });
     }
     return o;
   })();
