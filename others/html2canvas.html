@@ -99,32 +99,46 @@
     /**
      * @description 使用 canvas 将 Dom 转换为图片
      * @method renderDom2Canvas 
-     * @param params: 渲染的数据,可以是对象, 方法，字符串
-     *  如果为对象,则使用默认模板渲染，对象属性包括 title, price1, price2
+     * @param params: 渲染的数据,可以是对象, 方法，字符串, DOM
+     *  如果为DOM对象，
+     *  如果为对象，则使用默认模板渲染，对象属性包括 title, price1, price2
      *  如果为方法，则调用后使用该方法返回值作为数据源
      *  如果为其他类型，则使用该值作为数据源
      * @param callback: 转换完成的回调函数，参数为图片 base64 
      */
     window.renderDom2Canvas = function (params, callback) {
-      if (params != null && typeof params === 'object') {
-        o.render(params);
+      if (typeof html2canvas !== 'function') {
+        throw new Error('html2canvas is not a function...');
+      }
+
+      var isDOM = false, $selector = null; // 默认模板选择器
+
+      if (params !== null && typeof params === 'object') {
+        if (params instanceof Element || params[0] instanceof Element) {
+          o.html = params;
+          isDOM = true; // 如果当前对象为 DOM
+        } else {
+          o.render(params); // 普通对象渲染(询底价模板)
+        }
       } else if (typeof params === "function") {
-        o.html = params() || '此方法没有返回值';
+        var result = params();
+        isDOM = result instanceof Element || result[0] instanceof Element ? true : false;
+        o.html = result || '此方法没有返回值';
       } else {
         o.html = params;
       }
-      $('style[data-id=capture]').length === 0 && $('head').append('<style data-id="capture">.capture_tpl {position:absolute;top:-99999px;}</style>');
-      if ($('.capture_tpl').length === 0) {
-        $('body').append('<div class="capture_tpl">' + o.html + '</div>');
+
+      if (isDOM) {
+        $selector = o.html.toString().indexOf('Element') !== -1 ? o.html : o.html[0];
       } else {
-        $('.capture_tpl').append(o.html);
+        $('[data-capture=capture]').length === 0
+          ? $('body').append('<div data-capture=capture style="position:absolute;top:-99999px;">' + o.html + '</div>')
+          : $('[data-capture=capture]').append(o.html);
+        $selector = $('[data-capture=capture]')[0];
       }
-      if (typeof html2canvas !== 'function') {
-        throw new Error('html2canvas未引用...');
-      }
-      html2canvas($('.capture_tpl')[0], o.canvasParams).then(function (canvas) {
-        var ext = '';
-        var quality = 0.92;
+
+      html2canvas($selector, o.canvasParams).then(function (canvas) {
+        var ext = '', base64 = '', filename = '', file = '', quality = 0.92;
         if (o.imgConf.type === 'jpeg' || o.imgConf.type === 'jpg' || o.imgConf.type === 'webp') {
           ext = o.imgConf.type === 'webp' ? '.webp' : '.jpg';
           if (o.imgConf.quality >= 0 && o.imgConf.quality <= 1) {
@@ -135,10 +149,10 @@
           base64 = canvas.toDataURL('image/png');
           ext = '.png';
         }
-        $('.capture_tpl').remove(); // 移除模板
-        var filename = Date.now() + ext; // 文件名
-        var file = dataURLtoFile(base64, filename); // base64 转为 File 对象
+        filename = Date.now() + ext; // 文件名
+        file = dataURLtoFile(base64, filename); // base64 转为 File 对象
         typeof callback === 'function' && callback({ base64: base64, file: file }, download.bind(null, base64, filename));
+        $('.capture_tpl').remove(); // 移除模板
       });
     }
     // 下载图片
