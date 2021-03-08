@@ -64,7 +64,7 @@
      * @object o 内置配置对象,
      * @property html 数据源
      * @property canvasParams html2Canvas配置参数
-     * @property type 转换的图片类型, 默认为 jpeg
+     * @property type 转换的图片类型, 默认为 png
      * @property quality 图片压缩比例 默认 0.92
      * @method render 内置渲染模板，生成数据源
      */
@@ -93,7 +93,7 @@
             (price1 ? price1 : '9999.99-9999.99万') + '</h5><h6 class="price2">' +
             (price2 ? price2 : '9999.99-9999.99万') + '</h6><p class="capture_btn">询底价</p></div>';
         this.html = tpl;
-        return tpl;;
+        return tpl;
       }
     }
     /**
@@ -121,9 +121,7 @@
           o.render(params); // 普通对象渲染(询底价模板)
         }
       } else if (typeof params === "function") {
-        var result = params();
-        isDOM = result instanceof Element || result[0] instanceof Element ? true : false;
-        o.html = result || '此方法没有返回值';
+        o.html = params() || '此方法没有返回值';
       } else {
         o.html = params;
       }
@@ -152,7 +150,7 @@
         filename = Date.now() + ext; // 文件名
         file = dataURLtoFile(base64, filename); // base64 转为 File 对象
         typeof callback === 'function' && callback({ base64: base64, file: file }, download.bind(null, base64, filename));
-        $('.capture_tpl').remove(); // 移除模板
+        $('[data-capture=capture]').remove(); // 移除模板
       });
     }
     // 下载图片
