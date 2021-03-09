@@ -150,7 +150,7 @@
         filename = Date.now() + ext; // 文件名
         file = dataURLtoFile(base64, filename); // base64 转为 File 对象
         typeof callback === 'function' && callback({ base64: base64, file: file }, download.bind(null, base64, filename));
-        $('[data-capture=capture]').remove(); // 移除模板
+        !isDOM && $('[data-capture=capture]').remove(); // 移除模板
       });
     }
     // 下载图片
