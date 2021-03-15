@@ -50,9 +50,9 @@
   function btnClick() {
     var price1 = (Math.random() * 1000).toFixed(2) + '—' + (Math.random() * 10000).toFixed(2) + '万';
     var price2 = (Math.random() * 1000).toFixed(2) + '—' + (Math.random() * 10000).toFixed(2) + '万';
-    renderDom2Canvas({ title: '雷克萨斯UX 2019款 260h F SPORT全驱版 国VI', price1, price2 }, function ({ base64, file }, download) {
-      console.log(base64, file);
-      download();
+    renderDom2Canvas({ title: '阿尔法·罗密欧-Giulia-2020款Giulia-280HP VIRTU限量版', price1, price2 }, function ({ base64, file }, download) {
+      console.log(typeof download, '\r\n', base64, file);
+      // download();
       $('body').append('<img src="' + base64 + '" alt=""/>');
     });
   }
@@ -85,7 +85,7 @@
           price2 = params.price2,
           tpl = '<style>.capture_content {width: 305px;padding: 20px 20px 24px 20px;border-radius: 2px;box-sizing: border-box;background: rgba(24, 24, 24, 0.5);overflow: hidden;font-family: Arial, Helvetica, sans-serif;}' +
             '.capture_content .title,.capture_content .price1,.capture_content .price2,.capture_content .capture_btn {margin: 0;padding: 0}' +
-            '.capture_content .title {line-height: 22px;margin-bottom: 6px;font-size: 16px;font-weight: 500;color: #fff;}' +
+            '.capture_content .title {line-height: 22px;font-size: 20px;font-weight: 500;color: #fff;max-height: 44px;overflow: hidden;}' +
             '.capture_content .price1 {height: 40px;line-height: 40px;margin-bottom: 4px;color: #FF8214;font-size: 28px;font-weight: 500;overflow: hidden;word-break: break-all;}' +
             '.capture_content .price2 {height: 25px;line-height: 25px;margin-bottom: 12px;color: #fff;font-size: 18px;font-weight: 400;text-decoration: line-through;overflow: hidden;word-break: break-all;}' +
             '.capture_content .capture_btn {background: #1DA1F2;height: 38px;line-height: 38px;border-radius: 1px;text-align: center;font-size: 16px;font-weight: 400;color: #fff;}</style>' +
