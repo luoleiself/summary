@@ -226,23 +226,24 @@ matchPath('/users/2', {
 //    url: "/users/2"
 //  }
 /**
+ * high order Component
  * It will pass updated match, location, and history props to the wrapped component whenever it renders.
  */
 withRouter();
 /*********************************************************************************************/
-location;
+history;
 // Route component as this.props.location
 // Route render as ({ location, match, history }) => ()
 // Route children as ({ location, match, history }) => ()
 // withRouter as this.props.location
-history;
-match; // {params, isExact, path, url}
+location;
 // Route component as this.props.match
 // Route render as ({ match, location, history }) => ()
 // Route children as ({ match, location, history }) => ()
 // withRouter as this.props.match
 // matchPath as the return value
 // useRouteMatch as the return value
+match; // {params, isExact, path, url}
 /*********************************************************************************************/
 export function Nesting() {
   return (
