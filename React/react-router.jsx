@@ -228,8 +228,27 @@ matchPath('/users/2', {
 /**
  * high order Component
  * It will pass updated match, location, and history props to the wrapped component whenever it renders.
+ * 在没有被 Route 包裹的组件中添加 history 对象和路由相关的状态,方便在任意组件中获取路由状态
  */
 withRouter();
+// A simple component that shows the pathname of the current location
+class ShowTheLocation extends React.Component {
+  static propTypes = {
+    match: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired
+  };
+
+  render() {
+    const { match, location, history } = this.props;
+
+    return <div>You are now at {location.pathname}</div>;
+  }
+}
+
+// Create a new component that is "connected" (to borrow redux
+// terminology) to the router.
+const ShowTheLocationWithRouter = withRouter(ShowTheLocation);
 /*********************************************************************************************/
 history;
 // Route component as this.props.location
