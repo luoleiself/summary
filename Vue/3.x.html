@@ -1,26 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-      <meta content="IE=edge" http-equiv="X-UA-Compatible">
-        <meta content="width=device-width, initial-scale=1.0" name="viewport">
-          <title>
-            Document
-          </title>
-          <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.0.7/vue.global.js">
-          </script>
-        </meta>
-      </meta>
-    </meta>
-  </head>
-  <body>
-    <div id="app">
-      {{name}}
-    </div>
-  </body>
-  <script type="module">
-    document.onreadystatechange = function () {
-    var app = Vue.createApp({
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Document</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.0.7/vue.global.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    {{name}}
+  </div>
+</body>
+<script type="text/javascript">
+  var vm = null;
+</script>
+<script type="module">
+  document.onreadystatechange = function () {
+    vm = Vue.createApp({
       setup(props, ctx) {
         console.log('setup...');
         const name = Vue.ref('hello world');
@@ -32,7 +31,9 @@
       created() {
         console.log('created...')
       },
-    }).mount('#app');
+    });
+    vm.mount('#app');
   }
-  </script>
+</script>
+
 </html>
