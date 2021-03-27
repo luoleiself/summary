@@ -28,8 +28,10 @@
       created() {
         console.log('created...')
       },
-    }).mount('#app')
+    }).mount('#app');
   }
+  // $attrs 包含所有 attributes(class 和 style)
+  // $children 不再支持, 访问子组件实例使用 $refs
 </script>
 
 </html>
