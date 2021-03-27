@@ -132,3 +132,4 @@
   3. <slot name></slot> // 内容分发
   4. <transition name appear></transition> // 过渡组件
   5. <transition-group name tag> // 列表过渡 tag 指定渲染时的标签,默认为 span,内部需要 key 值
+  6. <keep-alive></keep-alive> // 状态保持
