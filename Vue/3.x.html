@@ -1,21 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.0.7/vue.global.js"></script>
-</head>
-
-<body>
-  <div id="app">
-    {{name}}
-  </div>
-</body>
-<script type="module">
-  document.onreadystatechange = function () {
+  <head>
+    <meta charset="utf-8">
+      <meta content="IE=edge" http-equiv="X-UA-Compatible">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+          <title>
+            Document
+          </title>
+          <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.0.7/vue.global.js">
+          </script>
+        </meta>
+      </meta>
+    </meta>
+  </head>
+  <body>
+    <div id="app">
+      {{name}}
+    </div>
+  </body>
+  <script type="module">
+    document.onreadystatechange = function () {
     var app = Vue.createApp({
       setup(props, ctx) {
         console.log('setup...');
@@ -30,8 +34,5 @@
       },
     }).mount('#app');
   }
-  // $attrs 包含所有 attributes(class 和 style)
-  // $children 不再支持, 访问子组件实例使用 $refs
-</script>
-
+  </script>
 </html>
