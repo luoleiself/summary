@@ -12,6 +12,7 @@
 <body>
   <div id="app">
     {{name}}
+    <count-component />
   </div>
 </body>
 <script type="text/javascript">
@@ -31,10 +32,40 @@
       created() {
         console.log('created...')
       },
+      // render() {
+      //   // 使用返回 null 的函数将渲染一个注释
+      //   return Vue.h('div', {}, [
+      //     Vue.h(null, {}, [' Annotation start ']),
+      //     Vue.h('h2', {}, ['Hello World']),
+      //     Vue.h('p', {}, 'This is a label p, it contain description...'),
+      //     Vue.h(null, {}, [' Annotation end '])
+      //   ])
+      // }
+      components: {
+        CountComponent
+      }
     });
     app.config.isCustomElement = tag => {
-      return tag.startsWith('icon')
+      return tag.startsWith('count')
     }
+    // 定义组件
+    var CountComponent = app.defineComponent({
+      setup() {
+        const count = Vue.ref(0)
+        return {
+          ...Vue.toRefs(count)
+        }
+      },
+      render() {
+        return Vue.h('h1', {
+          onClick() {
+
+          }
+        }, `HELLO WORLD ${count}`)
+      }
+    })
+
+
 
     app.mount('#app');
   }
