@@ -25,6 +25,7 @@
   document.onreadystatechange = function () {
     const { createApp, ref, toRefs, h, onBeforeMount, onMounted } = Vue;
     app1 = createApp({
+      props: ['username'],
       setup(props, ctx) {
         console.log('app1 setup...');
         onBeforeMount(() => {
@@ -34,17 +35,18 @@
           console.log('app1 onMounted...');
         });
 
-        const name = ref('Hello World')
+        const name = ref('Hello World');
         return { name }
       },
       render() {
         return h('div', {}, [
           h('h2', {}, 'Hello world'),
-          h('textarea', { rows: 18, cols: 80 },
+          h('textarea', { rows: 20, cols: 80 },
             `
 <div id="app1">{{name}}</div>
 const { createApp, ref, toRefs, h, onBeforeMount, onMounted } = Vue;
 app1 = createApp({
+  props: ['username'],
   setup(props, ctx) {
     console.log('app1 setup...');
     onBeforeMount(() => {
@@ -54,15 +56,15 @@ app1 = createApp({
       console.log('app1 onMounted...');
     });
 
-    const name = ref('Hello World')
+    const name = ref('Hello World');
     return { name }
   },
-}).mount('#app1');
+}, { username: 'Vue 3.x' }).mount('#app1');
 `
           )
         ])
       }
-    }).mount('#app1');
+    }, { username: 'Vue 3.x' }).mount('#app1');
     /***************************************************************************/
     app2 = createApp({
       setup(props, ctx) {

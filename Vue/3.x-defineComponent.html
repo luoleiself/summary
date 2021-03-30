@@ -10,12 +10,15 @@
 </head>
 
 <body>
-  <div id="app">
-    {{name}}
+  <div id="app1">
+    {{name}} {{count}}
+    <p><button v-on:click="increment">Count++</button> <button v-on:click="decrement">Count--</button></p>
   </div>
+  <hr />
+  <div id="app2">{{name}}</div>
 </body>
 <script type="text/javascript">
-  var app = null;
+  var app1 = app2 = null;
 </script>
 <script type="module">
   document.onreadystatechange = function () {
@@ -28,20 +31,33 @@
           console.log('defineComponent onBeforeMount...');
         })
         onMounted(() => {
-          console.log('defineComponent onMounted...')
+          console.log('defineComponent onMounted...');
         });
         const count = ref(0);
         const name = ref('Hello world');
-        const addCount = () => {
-          count++
+        const increment = () => {
+          count.value++;
         }
-        return {
-          count,
-          name
+        const decrement = () => {
+          count.value--;
         }
+        return { count, name, increment, decrement }
       }
     })
-    app = createApp(CountComponent).mount('#app');
+    app1 = createApp(CountComponent).mount('#app1');
+    /****************************************************************/
+    var HelloWorld = defineComponent(function HelloWorld() {
+      onBeforeMount(() => {
+        console.log('defineComponent HelloWorld onBeforeMount...');
+      });
+      onMounted(() => {
+        console.log('defineComponent HelloWorld onMounted...');
+      });
+      const name = ref('Hello defineComponent');
+      return { name }
+    });
+    const app2 = createApp(HelloWorld).mount('#app2');
+    /****************************************************************/
   }
 </script>
 
