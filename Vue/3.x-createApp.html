@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>3.x-createApp</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.0.7/vue.global.js"></script>
+</head>
+
+<body>
+  <div id="app1">{{name}}</div>
+  <hr />
+  <div id="app2"></div>
+  <hr />
+  <div id="app3">
+    <count-component />
+  </div>
+</body>
+<script type="text/javascript">
+  var app1 = app2 = app3 = null;
+</script>
+<script type="module">
+  document.onreadystatechange = function () {
+    const { createApp, ref, toRefs, h, onBeforeMount, onMounted } = Vue;
+    app1 = createApp({
+      setup(props, ctx) {
+        console.log('app1 setup...');
+        onBeforeMount(() => {
+          console.log('app1 onBeforeMount...');
+        });
+        onMounted(() => {
+          console.log('app1 onMounted...');
+        });
+
+        const name = ref('Hello World')
+        return { name }
+      },
+      render() {
+        return h('div', {}, [
+          h('h2', {}, 'Hello world'),
+          h('textarea', { rows: 18, cols: 80 },
+            `
+<div id="app1">{{name}}</div>
+const { createApp, ref, toRefs, h, onBeforeMount, onMounted } = Vue;
+app1 = createApp({
+  setup(props, ctx) {
+    console.log('app1 setup...');
+    onBeforeMount(() => {
+      console.log('app1 onBeforeMount...');
+    });
+    onMounted(() => {
+      console.log('app1 onMounted...');
+    });
+
+    const name = ref('Hello World')
+    return { name }
+  },
+}).mount('#app1');
+`
+          )
+        ])
+      }
+    }).mount('#app1');
+    /***************************************************************************/
+    app2 = createApp({
+      setup(props, ctx) {
+        console.log('app2 setup...');
+        onBeforeMount(() => {
+          console.log('app2 onBeforeMount...');
+        });
+        onMounted(() => {
+          console.log('app2 onMounted...');
+        });
+        return {}
+      },
+      beforeCreate() {
+        console.log('app2 beforeCreate...');
+      },
+      created() {
+        console.log('app2 created...');
+      },
+      render() {
+        // 使用返回 null 的函数将渲染一个注释
+        return h('div', {}, [
+          h(null, {}, [' Annotation start ']),
+          h('h2', {}, ['How to use global API h']),
+          h('p', {}, 'This is a label p, it contain description...'),
+          h(null, {}, [' Annotation end ']),
+          h('textarea', { rows: 30, cols: 80 },
+            `
+const { createApp, ref, toRefs, h, onBeforeMount, onMounted } = Vue;
+const app2 = createApp({
+  setup(props, ctx) {
+    console.log('setup...');
+    onBeforeMount(() => {
+      console.log('app2 onBeforeMount...');
+    });
+    onMounted(() => {
+      console.log('app2 onMounted...');
+    });
+    return {}
+  },
+  beforeCreate() {
+    console.log('app2 beforeCreate...');
+  },
+  created() {
+    console.log('app2 created...');
+  },
+  render() {
+    // 使用返回 null 的函数将渲染一个注释
+    return h('div', {}, [
+      h(null, {}, [' Annotation start ']),
+      h('h2', {}, ['How to use global API h']),
+      h('p', {}, 'This is a label p, it contain description...'),
+      h(null, {}, [' Annotation end '])
+    ])
+  }
+}).mount('#app2');
+`
+          )
+        ])
+      }
+    }).mount('#app2');
+    /***************************************************************************/
+    app3 = createApp({
+      setup(props, ctx) {
+        console.log('app3 setup...');
+        onBeforeMount(() => {
+          console.log('app3 onBeforeMount...');
+        });
+        onMounted(() => {
+          console.log('app3 onMounted...');
+        });
+        return {}
+      },
+      components: {
+        'count-component': {
+          setup() {
+            console.log('app3 components CountComponent setup...');
+            onBeforeMount(() => {
+              console.log('app3 components CountComponent onBeforeMount...');
+            });
+            onMounted(() => {
+              console.log('app3 components CountComponent onMounted...');
+            });
+            let count = ref(0)
+            const increment = () => {
+              console.log(count);
+              count.value++;
+            }
+            const decrement = () => {
+              console.log(count);
+              count.value--;
+            }
+            return { count, increment, decrement }
+          },
+          template: `<h2>components, setup</h2><span>{{count}}</span> <button v-on:click="increment">Count++</button> <button v-on:click="decrement">Count--</button>`
+        }
+      }
+    }).mount('#app3');
+  }
+</script>
+
+</html>
