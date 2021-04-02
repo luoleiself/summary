@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>3.x-reactive</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.0.7/vue.global.js"></script>
+  <style>
+    ul {
+      list-style-type: decimal;
+      margin: 5px 0;
+    }
+
+    li,
+    p {
+      padding: 0;
+      margin: 5px 0;
+    }
+
+    .title {
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <ul>
+    <li>
+      <div><span class="title">reactive</span> 返回对象的响应式副本, 当将 ref 分配给 reactive property 时，ref
+        将被自动解构</div>
+      <pre>
+        const count = ref(1);
+        const obj = reactive({});
+        obj.count = count;
+        console.log(obj.count); // 1
+        console.log(obj.count === count.value); // true
+
+        count.value++; // 它会更新 `obj.value`
+        console.log(count.value); // 2
+        console.log(obj.count); // 2
+
+        obj.count++; // 它也会更新 `count` ref
+        console.log(obj.count); // 3
+        console.log(count.value); // 3
+      </pre>
+    </li>
+    <li>
+      <div><span class="title">readonly</span> 接受一个对象 (响应式或纯对象) 或 ref 并返回原始对象的只读代理, 任何被访问的嵌套 property 也是只读的</div>
+      <pre>
+        const original = reactive({ count: 0 });
+        const copy = readonly(original);
+        watchEffect(() => {
+          console.log(copy.count); // 用于响应性追踪
+        });
+        original.count++; // 变更 original 会触发依赖于副本的侦听器
+        copy.count++; // 警告! // 变更副本将失败并导致警告
+      </pre>
+    </li>
+    <li>
+      <div><span class="title">isProxy</span> 检查对象是否是由 reactive 或 readonly 创建的 proxy</div>
+    </li>
+    <li>
+      <div><span class="title">isReactive</span> 检查对象是否是由 reactive 创建的响应式代理, 如果代理是由 readonly 创建的并包含了由 reactive 创建的另一个代理,
+        同样返回 true</div>
+    </li>
+    <li>
+      <div><span class="title">isReadonly</span> 检查对象是否是由 readonly 创建的只读代理</div>
+    </li>
+    <li>
+      <div><span class="title">toRaw</span> 返回 reactive 或 readonly 代理的原始对象</div>
+      <p>可用于临时读取数据而无需承担代理访问/跟踪的开销，也可用于写入数据而避免触发更改。不建议保留对原始对象的持久引用</p>
+      <pre>
+        const foo = {};
+        const reactiveFoo = reactive(foo);
+        console.log(toRaw(reactiveFoo) === foo); // true
+      </pre>
+    </li>
+    <li>
+      <div><span class="title">markRaw</span> 标记一个对象, 使其永远不会转换为 proxy. 返回对象本身</div>
+      <ul>
+        <li>有些值不应该是响应式的，例如复杂的第三方类实例或 Vue 组件对象</li>
+        <li>当渲染具有不可变数据源的大列表时，跳过 proxy 转换可以提高性能</li>
+      </ul>
+      <pre>
+        const foo = markRaw({});
+        console.log(isReactive(reactive(foo))); // false
+
+        // 嵌套在其他响应式对象中时也可以使用
+        const bar = reactive({ foo });
+        console.log(isReactive(bar.foo)); // false
+      </pre>
+    </li>
+    <li>
+      <div><span class="title">shallowReactive</span> 创建一个响应式代理,它跟踪其自身 property 的响应性,但不执行嵌套对象的深层响应式转换 (暴露原始值)</div>
+      <pre>
+        const state = shallowReactive({
+          foo: 1,
+          nested: {
+            bar: 2,
+          },
+        });
+        state.foo++; // 改变 state 本身的性质是响应式的
+        // ...但是不转换嵌套对象
+        isReactive(state.nested); // false
+        state.nested.bar++; // 非响应式
+      </pre>
+    </li>
+    <li>
+      <div><span class="title">shallowReadonly</span> 创建一个 proxy, 使其自身的 property 为只读, 但不执行嵌套对象的深度只读转换 (暴露原始值)</div>
+      <pre>
+        const state = shallowReadonly({
+          foo: 1,
+          nested: {
+            bar: 2,
+          },
+        });
+        state.foo++; // 改变 state 本身的 property 将失败
+        // ...但适用于嵌套对象
+        isReadonly(state.nested); // false
+        state.nested.bar++; // 适用
+      </pre>
+    </li>
+  </ul>
+</body>
+<script type="text/javascript">
+  var app1 = app2 = null;
+</script>
+<script type="module">
+  document.onreadystatechange = function () {
+    const { createApp, ref, toRefs, defineComponent, onBeforeMount, onMounted } = Vue;
+    app1 = createApp({
+      setup() {
+        const name = ref('Hello world');
+        return { name }
+      }
+    });
+  }
+</script>
+
+</html>

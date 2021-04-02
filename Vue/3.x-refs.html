@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>3.x-refs</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.0.7/vue.global.js"></script>
+  <style>
+    ul {
+      list-style-type: decimal;
+      margin: 5px 0;
+    }
+
+    li,
+    p {
+      padding: 0;
+      margin: 5px 0;
+    }
+
+    .title {
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <ul>
+    <li>
+      <div><span class="title">ref</span> 接受一个内部值并返回一个响应式且可变的 ref 对象. ref 对象具有指向内部值的单个 property.value</div>
+      <pre>
+        const count = ref(0);
+        console.log(count.value); // 0
+        
+        count.value++;
+        console.log(count.value); // 1
+      </pre>
+    </li>
+    <li>
+      <div><span class="title">unref</span> 如果参数是一个 ref, 则返回内部值, 否则返回参数本身</div>
+      <p>val = isRef(val) ? val.value : val 的语法糖函数</p>
+    </li>
+    <li>
+      <div><span class="title">toRef</span> 为源响应式对象上的某个 property 新创建一个 ref, 然后 ref 可以被传递,它会保持对其源 property 的响应式连接</div>
+      <pre>
+        const state = reactive({
+          foo: 1,
+          bar: 2,
+        });
+        const fooRef = toRef(state, 'foo');
+        fooRef.value++;
+        console.log(state.foo); // 2
+        
+        state.foo++;
+        console.log(fooRef.value); // 3
+      </pre>
+    </li>
+    <li>
+      <div><span class="title">toRefs</span> 将响应式对象转换为普通对象, 其中结果对象的每个 property 都是指向原始对象相应 property 的 ref</div>
+      <pre>
+        const state = reactive({
+          foo: 1,
+          bar: 2,
+        });
+        const stateAsRefs = toRefs(state);
+        /*
+        stateAsRefs 的类型:
+        {
+          foo: Ref&lt;number&gt;,
+          bar: Ref&lt;number&gt;
+        }
+        */
+        
+        // ref 和原始 property 已经“链接”起来了
+        state.foo++;
+        console.log(stateAsRefs.foo.value); // 2
+        
+        stateAsRefs.foo.value++;
+        console.log(state.foo); // 3
+      </pre>
+    </li>
+    <li>
+      <div><span class="title">isRef</span> 检查值是否为一个 ref 对象</div>
+    </li>
+    <li>
+      <div><span class="title">customRef</span> 创建一个自定义的 ref, 并对其依赖项跟踪和更新触发进行显式控制</div>
+      <p>它需要一个工厂函数，该函数接收 track 和 trigger 函数作为参数，并且应该返回一个带有 get 和 set 的对象</p>
+      <pre>
+        &lt;input v-model='text' /&gt;
+        function useDebouncedRef(value, delay = 200) {
+          let timeout;
+          return customRef((track, trigger) => {
+            return {
+              get() {
+                track();
+                return value;
+              },
+              set(newValue) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                  value = newValue;
+                  trigger();
+                }, delay);
+              },
+            };
+          });
+        }
+        export default {
+          setup() {
+            return {
+              text: useDebouncedRef('hello'),
+            };
+          },
+        };
+      </pre>
+    </li>
+    <li>
+      <div><span class="title">shallowRef</span> 创建一个跟踪自身 .value 变化的 ref, 但不会使其值也变成响应式的</div>
+      <pre>
+        const foo = shallowRef({});
+        // 改变 ref 的值是响应式的
+        foo.value = {};
+        // 但是这个值不会被转换。
+        isReactive(foo.value); // false
+      </pre>
+    </li>
+    <li><div><span class="title">triggerRef</span> 手动执行与 shallowRef 关联的任何副作用</div></li>
+  </ul>
+</body>
+<script type="text/javascript">
+  var app1 = app2 = null;
+</script>
+<script type="module">
+  document.onreadystatechange = function () {
+    const { createApp, ref, toRefs, defineComponent, onBeforeMount, onMounted } = Vue;
+    app1 = createApp({
+      setup() {
+        const name = ref('Hello world');
+        return { name }
+      }
+    });
+  }
+</script>
+
+</html>
