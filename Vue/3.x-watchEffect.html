@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>3.x-watchEffect</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.0.7/vue.global.js"></script>
+  <style>
+    ul,
+    li {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app1">
+    <h3>watchEffect 副作用刷新时机</h3>
+    <ul>
+      <li></li>
+    </ul>
+    <my-component />
+  </div>
+  <textarea rows="40" cols="118">
+  const { createApp, ref, watchEffect, onBeforeUpdate, onUpdated } = Vue;
+  app1 = createApp({
+    setup() {
+      console.log('app1 setup...');
+      return {}
+    }
+  });
+  app1.component('my-component', {
+    setup(props, context) {
+      console.log('my-component setup...', props, context);
+
+      const count = ref(0);
+      const countAdd = () => {
+        count.value++;
+      }
+
+      watchEffect((onInvalidate) => {
+        console.log('my-component watchEffect...', count.value);
+        onInvalidate(() => { console.log('my-component onInvalidate...') });
+      }, 
+      { flush: 'post' } // console.log('onBeforeUpdate... => onInvalidate... => watchEffect... => onUpdated...');
+      // console.log('onInvalidate... => watchEffect... => onBeforeUpdate... => onUpdated...');
+      );
+
+      onBeforeUpdate(() => {
+        console.log('my-component onBeforeUpdate...', count.value);
+      });
+
+      onUpdated(() => {
+        console.log('my-component onUpdated...', count.value);
+      });
+
+      return { count, countAdd }
+    },
+    template: `<div>{{count}}</div><button @click="countAdd">Count++</button>`
+  })
+  app1.mount('#app1');
+  </textarea>
+  <hr />
+</body>
+<script type="text/javascript">
+  var app1 = app2 = null;
+</script>
+<script type="module">
+  document.onreadystatechange = function () {
+    const { createApp, ref, watchEffect, onBeforeUpdate, onUpdated } = Vue;
+    app1 = createApp({
+      setup() {
+        console.log('app1 setup...');
+        return {}
+      }
+    });
+    app1.component('my-component', {
+      setup(props, context) {
+        console.log('my-component setup...', props, context);
+        const count = ref(0);
+        const countAdd = () => {
+          count.value++;
+        }
+        watchEffect((onInvalidate) => {
+          console.log('my-component watchEffect...', count.value);
+          onInvalidate(() => { console.log('my-component onInvalidate...') });
+        },
+          { flush: 'post' }
+        );
+        onBeforeUpdate(() => {
+          console.log('my-component onBeforeUpdate...', count.value);
+        });
+        onUpdated(() => {
+          console.log('my-component onUpdated...', count.value);
+        });
+        return { count, countAdd }
+      },
+      template: `<div>{{count}} <button @click="countAdd">Count++</button></div><br/>`
+    })
+    app1.mount('#app1');
+  }
+</script>
+
+</html>
