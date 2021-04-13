@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue Router 4.x</title>
+  <script src="https://unpkg.com/vue@next"></script>
+  <script src="https://unpkg.com/vue-router@next"></script>
+</head>
+
+<body>
+  <div id="app1">
+    <h2>Hello App</h2>
+    <p>
+      <!--使用 router-link 组件进行导航 -->
+      <!--通过传递 `to` 来指定链接 -->
+      <!--`<router-link>` 将呈现一个带有正确 `href` 属性的 `<a>` 标签-->
+      <router-link :to="{path: '/', query:{name:'home', age:18}}">Go to Home</router-link><br />
+      <router-link :to="{path: '/about', query:{name:'about', age:19}}">Go to About</router-link>
+    </p>
+    <!-- 路由出口 -->
+    <!-- 路由匹配到的组件将渲染在这里 -->
+    <router-view></router-view>
+  </div>
+  <hr />
+  <div id='app2'>
+    <h2>命名视图</h2>
+    <router-view class="left-sidebar" name="LeftSidebar"></router-view>
+    <router-view class="main"></router-view>
+    <router-view class="right-sidebar" name="RightSidebar"></router-view>
+  </div>
+  <hr />
+  <div id="app3">
+    <h2>Router hooks, keep-alive</h2>
+    <p>
+      <router-link to="/">Go to Home</router-link><br />
+      <router-link to="/about">Go to About</router-link>
+    </p>
+    <router-view v-slot="{Component}">
+      <keep-alive>
+        <Component :is="Component" />
+      </keep-alive>
+    </router-view>
+  </div>
+</body>
+<script>
+  const { createApp, h, ref, defineComponent } = Vue;
+  const {
+    createRouter,
+    createWebHashHistory,
+    createWebHistory,
+    onBeforeRouteLeave,
+    onBeforeRouteUpdate,
+    useRouter,
+    useRoute,
+    stringifyQuery,
+    parseQuery
+  } = VueRouter;
+
+  console.log(VueRouter);
+  /**********************************************************************************/
+
+  const router1 = createRouter({
+    history: createWebHashHistory(),
+    routes: [
+      {
+        path: '/',
+        component: { template: '<div>Home</div>' },
+        beforeEnter(to, from) {
+          console.log('router1 / beforeEnter...', to);
+        },
+      },
+      {
+        path: '/about',
+        component: { template: '<div>About</div>' },
+        beforeEnter(to, from) {
+          console.log('router1 /about beforeEnter...', to);
+        }
+      }
+    ]
+  });
+  const app1 = createApp({
+    setup(props, ctx) {
+      console.log('app1 setup...');
+      return {}
+    }
+  }).use(router1).mount('#app1');
+  /**********************************************************************************/
+
+  const LeftSidebar = {
+    render() {
+      const msg = window.location.href.indexOf('about') === -1 ? 'Home' : 'About'
+      return h('div', {}, `${msg} LeftSidebar`)
+    },
+  }
+  const RightSidebar = {
+    render() {
+      const msg = window.location.href.indexOf('about') === -1 ? 'Home' : 'About'
+      return h('div', {}, `${msg} RightSidebar`)
+    },
+  }
+  const router2 = createRouter({
+    history: createWebHashHistory(), // 第一个参数代替 base 配置项
+    scrollBehavior(to, from, savedPosition) {
+      // return 期望滚动到哪个的位置
+    },
+    routes: [{
+      path: '/',
+      redirect: '/about', // 可配置重定向 {String|Object}
+      components: {
+        default: { template: '<div>Home</div>' },
+        LeftSidebar, // 与 router-view 的 name 属性匹配
+        RightSidebar // 与 router-view 的 name 属性匹配
+      },
+      // props: { title: 'Home' }, // 混入组件实例的 props
+    }, {
+      path: '/about',
+      components: {
+        default: { template: '<div>About</div>' },
+        LeftSidebar, // 与 router-view 的 name 属性匹配
+        RightSidebar // 与 router-view 的 name 属性匹配
+      },
+      // props: { title: 'About' }, // 混入组件实例的 props
+      beforeEnter(to, from) {
+        console.log('router2 / redirect /about, beforeEnter hook triggered...');
+      }
+    }]
+  });
+  const app2 = createApp({
+    setup(props, ctx) {
+      console.log('app2 setup...');
+    }
+  }).use(router2).mount('#app2');
+  /**********************************************************************************/
+  const About = {
+    setup(props, { attrs, slots, emit }) {
+      console.log('app3 About component setup...');
+      onBeforeRouteLeave((to, from) => {
+        console.log('app3 About Component onBeforeRouteLeave...');
+      });
+      onBeforeRouteUpdate((to, from) => {
+        console.log('app3 About Component onBeforeRouteUpdate...');
+      })
+      const router = useRouter();
+      const route = useRoute();
+
+      const count = ref(0);
+
+      const increment = () => {
+        count.value++;
+        const query = {
+          name: Math.random().toString(16).toUpperCase().substr(2),
+          age: Math.ceil(Math.random() * 100)
+        }
+        const sQuery = stringifyQuery(query);
+        const pQuery = parseQuery(sQuery);
+        console.log('app3 About Component increment method, use Vue-Router 4.x stringifyQuery %s parseQuery %o', sQuery, pQuery);
+        console.log(router, route);
+        router.replace({ query: pQuery })
+      }
+      return { count, increment }
+    },
+    render() {
+      return h('div', null, [
+        h('span', null, this.count),
+        h('button', {
+          style: { 'margin-left': '10px' },
+          onClick: this.increment
+        }, 'Count++')
+      ])
+    },
+  };
+  const router3 = createRouter({
+    history: createWebHashHistory(),
+    routes: [{
+      path: '/',
+      component: { template: '<div>Hello Home</div>' },
+      beforeEnter(to, from) {
+        console.log('router3 /home beforeEnter...');
+      }
+    }, {
+      path: '/about',
+      component: About,
+      beforeEnter(to, from) {
+        console.log('router3 /about beforeEnter...');
+      }
+    }]
+  })
+  const app3 = createApp({
+    setup(props, { emit, attrs, slots }) {
+      console.log('app3 setup...');
+      return {};
+    },
+  }).use(router3).mount('#app3');
+</script>
+
+</html>
