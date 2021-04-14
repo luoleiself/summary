@@ -7,6 +7,17 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <title>3.x-defineComponent</title>
   <script src="https://unpkg.com/vue@next"></script>
+  <style>
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
 </head>
 
 <body>
@@ -15,50 +26,143 @@
     <p><button v-on:click="increment">Count++</button> <button v-on:click="decrement">Count--</button></p>
   </div>
   <hr />
-  <div id="app2">{{name}}</div>
-</body>
-<script type="text/javascript">
-  var app1 = app2 = null;
-</script>
-<script type="module">
-  document.onreadystatechange = function () {
-    const { createApp, ref, toRefs, defineComponent, onBeforeMount, onMounted } = Vue;
+  <div id="app2">
+    <h2>{{name}}</h2>
+    <p><button @click="changeTagLevel">chang tag level</button></p>
+    <hello-demo :did="did" :level="demoLevel" title="Hello Demo" class="container"
+      style="margin:10px 0;padding:10px;border:1px solid #ddd;"></hello-demo>
+    <hello-world :did="did" :level="worldLevel" title="Hello World" class="container"
+      style="margin:10px 0;padding:10px;border:1px solid #ddd;"></hello-world>
+  </div>
+  <textarea rows="40" cols="110">
+    // 使用 defineComponent 全局 API 创建组件
+    // 方式一：使用 setup 方法
+    const HelloDemo = defineComponent((props, { attrs, emit, slots }) => {
+      console.log('defineComponent setup... ', props, attrs); // 无法使用选项, 只能使用 composition API
 
-    // 定义组件
-    var CountComponent = defineComponent({
-      setup(props, ctx) {
+      onBeforeMount(() => {
+        console.log('defineComponent HelloDemo onBeforeMount...');
+      });
+
+      onMounted(() => {
+        console.log('defineComponent HelloDemo onMounted...');
+      });
+
+      return () => h('div', null, [
+        h(`h${attrs.level}`, null, 'defineComponent API eg1: setup method'),
+        'Create HelloDemo Component within setup method parameters by defineComponent API...'
+      ]);
+    });
+    // 方式二: 使用选项方式
+    const HelloWorld = defineComponent({
+      props: ['did', 'level'],
+      inheritAttrs: false, // 不继承父作用域下被认作 props 的 attributes 绑定
+      setup(props, { attrs, emit, slots }) {
+        console.log('defineComponent options... ', props, attrs); // 写法灵活
+
         onBeforeMount(() => {
-          console.log('defineComponent onBeforeMount...');
-        })
-        onMounted(() => {
-          console.log('defineComponent onMounted...');
+          console.log('defineComponent HelloWorld onBeforeMount...');
         });
-        const count = ref(0);
-        const name = ref('Hello world');
-        const increment = () => {
-          count.value++;
-        }
-        const decrement = () => {
-          count.value--;
-        }
-        return { count, name, increment, decrement }
+
+        onMounted(() => {
+          console.log('defineComponent HelloWorld onMounted...');
+        });
+
+        return () => h('div', null, [
+          h(`h${props.level}`, null, 'defineComponent API eg2: options'),
+          'Create HelloWorld Component within options parameters by defineComponent API...'
+        ]);
       }
-    })
-    app1 = createApp(CountComponent).mount('#app1');
-    /****************************************************************/
-    var HelloWorld = defineComponent(function HelloWorld() {
+    });
+  </textarea>
+  <hr />
+</body>
+<script type="module">
+  const { createApp, ref, toRefs, h, defineComponent, onBeforeMount, onMounted } = Vue;
+
+  // 定义组件
+  const CountComponent = defineComponent({
+    setup(props, ctx) {
+      onBeforeMount(() => {
+        console.log('defineComponent onBeforeMount...');
+      });
+
+      onMounted(() => {
+        console.log('defineComponent onMounted...');
+      });
+
+      const count = ref(0);
+      const name = ref('Hello world');
+      const increment = () => {
+        count.value++;
+      }
+      const decrement = () => {
+        count.value--;
+      }
+      return { count, name, increment, decrement }
+    }
+  })
+  const app1 = createApp(CountComponent).mount('#app1');
+  /**************************************************************************************************/
+
+  // 使用 defineComponent 全局 API 创建组件
+  // 方式一：使用 setup 方法
+  const HelloDemo = defineComponent((props, { attrs, emit, slots }) => {
+    console.log('defineComponent setup... ', props, attrs); // 无法使用选项, 只能使用 composition API
+
+    onBeforeMount(() => {
+      console.log('defineComponent HelloDemo onBeforeMount...');
+    });
+
+    onMounted(() => {
+      console.log('defineComponent HelloDemo onMounted...');
+    });
+
+    return () => h('div', null, [
+      h(`h${attrs.level}`, null, 'defineComponent API eg1: setup method'),
+      'Create HelloDemo Component within setup method parameters by defineComponent API...'
+    ]);
+  });
+  // 方式二: 使用选项方式
+  const HelloWorld = defineComponent({
+    props: ['did', 'level'],
+    inheritAttrs: false, // 不继承父作用域下被认作 props 的 attributes 绑定
+    setup(props, { attrs, emit, slots }) {
+      console.log('defineComponent options... ', props, attrs); // 写法灵活
+
       onBeforeMount(() => {
         console.log('defineComponent HelloWorld onBeforeMount...');
       });
+
       onMounted(() => {
         console.log('defineComponent HelloWorld onMounted...');
       });
+
+      return () => h('div', null, [
+        h(`h${props.level}`, null, 'defineComponent API eg2: options'),
+        'Create HelloWorld Component within options parameters by defineComponent API...'
+      ]);
+    }
+  });
+
+  const app2 = createApp({
+    setup(props, { attrs, emit, slots }) {
       const name = ref('Hello defineComponent');
-      return { name }
-    });
-    const app2 = createApp(HelloWorld).mount('#app2');
-    /****************************************************************/
-  }
+      const did = Math.random().toString(16).toUpperCase().substr(2);
+
+      const worldLevel = ref(2);
+      const demoLevel = ref(2);
+
+      const changeTagLevel = () => {
+        worldLevel.value = Math.floor(Math.random() * 6 + 1);
+        demoLevel.value = Math.floor(Math.random() * 6 + 1);
+      }
+
+      return { name, did, worldLevel, demoLevel, changeTagLevel }
+    },
+    components: { HelloWorld, HelloDemo }
+  }).mount('#app2');
+  /**************************************************************************************************/
 </script>
 
 </html>
