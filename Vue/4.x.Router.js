@@ -45,7 +45,7 @@ router.isReady().then(onSuccess).catch(onError);
 // 忽略 mixins 中的导航守卫, 目前暂时不支持 mixins 中的导航守卫
 
 // router.match 改为 router.resolve
-// router.addRoutes 已废弃, 使用 router.addRoute 代替, Vue Router 3.x 支持
+// router.addRoutes 已废弃, 使用 router.addRoute 代替, Vue Router 3.x 已支持
 
 // 删除 router.getMatchedComponents 方法, 可从 router.currentRoute.value.mixed 获取, 此方法只在 SSR 中使用
 
@@ -112,5 +112,8 @@ export default {
     });
 
     return {};
+  },
+  beforeMount() {
+    console.log('beforeMount... ', this.$router, this.$route);
   },
 };

@@ -43,7 +43,10 @@ export default {
     const increment = () => {
       count.value += 1;
     };
-    
+
     return { count, increment };
+  },
+  beforeMount() {
+    console.log('beforeMount... ', this.$store);
   },
 };

@@ -162,6 +162,9 @@
       }
       return { count, increment }
     },
+    beforeMount() {
+      console.log('app3 About Component beforeMount... ', this.$router, this.$route);
+    },
     render() {
       return h('div', null, [
         h('span', null, this.count),

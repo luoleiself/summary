@@ -83,6 +83,9 @@
 
       return { name, count, increment };
     },
+    beforeMount() {
+      console.log('beforeMount... ', this.$store);
+    },
   }).use(store).mount('#app');
 </script>
 
