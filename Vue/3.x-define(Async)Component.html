@@ -5,8 +5,10 @@
   <meta charset="utf-8" />
   <meta content="IE=edge" http-equiv="X-UA-Compatible" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-  <title>3.x-defineComponent</title>
+  <title>3.x-define(Async)Component</title>
   <script src="https://unpkg.com/vue@next"></script>
+  <script src="https://unpkg.com/vuex@next"></script>
+  <script src="https://unpkg.com/vue-router@next"></script>
   <style>
     h1,
     h2,
@@ -34,7 +36,7 @@
     <hello-world :did="did" :level="worldLevel" title="Hello World" class="container"
       style="margin:10px 0;padding:10px;border:1px solid #ddd;"></hello-world>
   </div>
-  <textarea rows="40" cols="110">
+  <textarea rows="25" cols="110">
     // 使用 defineComponent 全局 API 创建组件
     // 方式一：使用 setup 方法
     const HelloDemo = defineComponent((props, { attrs, emit, slots }) => {
@@ -74,11 +76,16 @@
         ]);
       }
     });
+    createApp({components:{ HelloWorld, HelloDemo }}).mount('#app');
   </textarea>
+  <hr />
+  <div id="app3">
+    <h2>Hello defineAsyncComponent</h2>
+  </div>
   <hr />
 </body>
 <script type="module">
-  const { createApp, ref, toRefs, h, defineComponent, onBeforeMount, onMounted } = Vue;
+  const { createApp, ref, toRefs, h, defineComponent, defineAsyncComponent, onBeforeMount, onMounted } = Vue;
 
   // 定义组件
   const CountComponent = defineComponent({
@@ -162,6 +169,39 @@
     },
     components: { HelloWorld, HelloDemo }
   }).mount('#app2');
+  /**************************************************************************************************/
+
+  // 使用 defineAsyncComponent API
+  const HelloAsyncComponent = defineAsyncComponent({
+    loader: () => import('./Foo.vue'),
+    loadingComponent: { template: '<div>Loading component</div>' },
+    errorComponent: { template: '<div>Error component</div>' },
+    delay: 200, // 加载 loadingComponent 之前延迟, 默认: 200ms
+    timeout: 2000, // 加载超时时间后显示 errorComponent, 默认: Infinity
+    suspensible: false, // 组件是否可挂起, 默认: true
+    /**
+     *  error: 错误信息对象
+     *  retry: 一个方法, 指示当 promise 加载器 reject 时, 加载器是否应该重试
+     *  fail: 一个方法, 指示加载器程序结束退出
+     *  attempts: 允许最大重试次数 
+     */
+    onError(error, retry, fail, attempts) {
+      if (error.message.match(/fetch/) && attempts <= 3) {
+        retry(); // 请求发生错误时重试，最多可尝试 3 次
+      } else {
+        // 注意，retry/fail 就像 promise 的 resolve/reject 一样：
+        // 必须调用其中一个才能继续错误处理。
+        fail();
+      }
+    }
+  });
+  const app3 = createApp({
+    setup(props, { attrs, emit, slots }) {
+      console.log('app3 setup...');
+      return {}
+    },
+    components: {}
+  }).mount('#app3');
   /**************************************************************************************************/
 </script>
 
