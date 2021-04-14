@@ -12,15 +12,78 @@
 </head>
 
 <body>
-  <div id="app"></div>
+  <div id="app">
+    <h2>Vuex</h2>
+    <p>
+      {{count}} -- {{name}}
+    </p>
+    <button @click="increment">Click Me</button>
+  </div>
 </body>
 <script>
-  const { createApp } = Vue;
-  const { createStore } = Vuex;
+  const { createApp, h, ref, computed, watchEffect, onBeforeMount, onMounted, onBeforeUpdate, onUpdated } = Vue;
+  const { createRouter, createWebHashHistory } = VueRouter;
+  const { createStore, useStore, mapState } = Vuex;
 
   console.log(Vuex);
   /********************************************************************/
+  const store = createStore({
+    state() {
+      return { count: 0, name: 'Hello World' }
+    },
+    getters: {},
+    mutations: {
+      ['COUNT_ADD'](state, payload) {
+        state.count = payload;
+      }
+    },
+    actions: {}
+  });
+  const app = createApp({
+    setup(props, { attrs, emit, slots }) {
+      console.log('app setup...');
+      const store = useStore();
 
+      const count = computed({
+        set: val => {
+          console.log('computed hooks set count by store... ', val);
+          store.commit('COUNT_ADD', val)
+        },
+        get: () => {
+          let count = store.state.count;
+          console.log('computed hooks get count... ', count);
+          return count
+        }
+      });
+      const name = computed(() => store.state.name);
+
+      onBeforeMount(function () {
+        console.log('onBeforeMount... ', this);
+      });
+
+      onMounted(() => {
+        console.log('onMounted... ', this);
+      });
+
+      onBeforeUpdate(() => {
+        console.log('onBeforeUpdate... ', this);
+      });
+
+      onUpdated(function () {
+        console.log('onUpdated... ', this);
+      });
+
+      watchEffect(() => {
+        console.log('watchEffect... ', count.value, name.value);
+      }, { flush: 'post' });
+
+      const increment = () => {
+        count.value += 1;
+      }
+
+      return { name, count, increment };
+    },
+  }).use(store).mount('#app');
 </script>
 
 </html>
