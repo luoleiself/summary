@@ -31,7 +31,7 @@
     <div v-my-directive:title.foo="title">v-my-directive:title.foo="title"</div>
     <button @click="changeTheme">Change Theme by directive</button>
     <div v-my-directive:theme.sync="theme">v-my-directive:theme.sync="theme"</div>
-    <button @click="unloadComponent">unload component and directive</button>
+    <button @click="unloadComponent">unload component and directive</button> {{isShowChild}}
     <hello-world v-if="isShowChild" v-my-directive />
   </div>
 </body>
