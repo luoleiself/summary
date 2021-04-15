@@ -37,55 +37,104 @@
       style="margin:10px 0;padding:10px;border:1px solid #ddd;"></hello-world>
   </div>
   <textarea rows="25" cols="110">
-    // 使用 defineComponent 全局 API 创建组件
-    // 方式一：使用 setup 方法
-    const HelloDemo = defineComponent((props, { attrs, emit, slots }) => {
-      console.log('defineComponent setup... ', props, attrs); // 无法使用选项, 只能使用 composition API
+  // 使用 defineComponent 全局 API 创建组件
+  // 方式一：使用 setup 方法
+  const HelloDemo = defineComponent((props, { attrs, emit, slots }) => {
+    console.log('defineComponent setup... ', props, attrs); // 无法使用选项, 只能使用 composition API
+
+    onBeforeMount(() => {
+      console.log('defineComponent HelloDemo onBeforeMount...');
+    });
+
+    onMounted(() => {
+      console.log('defineComponent HelloDemo onMounted...');
+    });
+
+    onBeforeUpdate(() => {
+      console.log('defineComponent HelloDemo onBeforeUpdate...');
+    });
+
+    onUpdated(() => {
+      console.log('defineComponent HelloDemo onUpdated...');
+    });
+
+    return () => h('div', null, [
+      h(`h${attrs.level}`, null, 'defineComponent API eg1: setup method'),
+      'Create HelloDemo Component within setup method parameters by defineComponent API...'
+    ]);
+  });
+  // 方式二: 使用选项方式
+  const HelloWorld = defineComponent({
+    props: ['did', 'level'],
+    inheritAttrs: false, // 不继承父作用域下被认作 props 的 attributes 绑定
+    setup(props, { attrs, emit, slots }) {
+      console.log('defineComponent options... ', props, attrs); // 写法灵活
 
       onBeforeMount(() => {
-        console.log('defineComponent HelloDemo onBeforeMount...');
+        console.log('defineComponent HelloWorld onBeforeMount...');
       });
 
       onMounted(() => {
-        console.log('defineComponent HelloDemo onMounted...');
+        console.log('defineComponent HelloWorld onMounted...');
+      });
+
+      onBeforeUpdate(() => {
+        console.log('defineComponent HelloWorld onBeforeUpdate...');
+      });
+
+      onUpdated(() => {
+        console.log('defineComponent HelloWorld onUpdated...');
       });
 
       return () => h('div', null, [
-        h(`h${attrs.level}`, null, 'defineComponent API eg1: setup method'),
-        'Create HelloDemo Component within setup method parameters by defineComponent API...'
+        h(`h${props.level}`, null, 'defineComponent API eg2: options'),
+        'Create HelloWorld Component within options parameters by defineComponent API...'
       ]);
-    });
-    // 方式二: 使用选项方式
-    const HelloWorld = defineComponent({
-      props: ['did', 'level'],
-      inheritAttrs: false, // 不继承父作用域下被认作 props 的 attributes 绑定
-      setup(props, { attrs, emit, slots }) {
-        console.log('defineComponent options... ', props, attrs); // 写法灵活
-
-        onBeforeMount(() => {
-          console.log('defineComponent HelloWorld onBeforeMount...');
-        });
-
-        onMounted(() => {
-          console.log('defineComponent HelloWorld onMounted...');
-        });
-
-        return () => h('div', null, [
-          h(`h${props.level}`, null, 'defineComponent API eg2: options'),
-          'Create HelloWorld Component within options parameters by defineComponent API...'
-        ]);
-      }
-    });
-    createApp({components:{ HelloWorld, HelloDemo }}).mount('#app');
+    }
+  });
+  createApp({components:{ HelloWorld, HelloDemo }}).mount('#app');
   </textarea>
   <hr />
   <div id="app3">
     <h2>Hello defineAsyncComponent</h2>
+    <hello-async-component />
   </div>
+  <textarea rows="20" cols="110">
+  const HelloAsyncComponent = defineAsyncComponent({
+    loader: () => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve({ template: '<div>Hello async component</div>' });
+        }, 4000);
+      })
+    },
+    loadingComponent: { template: '<div>Loading component</div>' },
+    errorComponent: { template: '<div>Error component</div>' },
+    delay: 200, // 加载 loadingComponent 之前延迟, 默认: 200ms
+    timeout: 5000, // 加载超时时间后显示 errorComponent, 默认: Infinity, 默认单位: ms
+    suspensible: false, // 组件是否可挂起, 默认: true
+    /**
+      *  error: 错误信息对象
+      *  retry: 一个方法, 指示当 promise 加载器 reject 时, 加载器是否应该重试
+      *  fail: 一个方法, 指示加载器程序结束退出
+      *  attempts: 允许最大重试次数 
+      */
+    onError(error, retry, fail, attempts) {
+      console.log(error, retry, fail, attempts);
+      if (error.message.match(/fetch/) && attempts <= 3) {
+        retry(); // 请求发生错误时重试，最多可尝试 3 次
+      } else {
+        // 注意，retry/fail 就像 promise 的 resolve/reject 一样：
+        // 必须调用其中一个才能继续错误处理。
+        fail();
+      }
+    }
+  });
+  </textarea>
   <hr />
 </body>
 <script type="module">
-  const { createApp, ref, toRefs, h, defineComponent, defineAsyncComponent, onBeforeMount, onMounted } = Vue;
+  const { createApp, ref, toRefs, h, resolveComponent, defineComponent, defineAsyncComponent, onBeforeMount, onMounted, onBeforeUpdate, onUpdated } = Vue;
 
   // 定义组件
   const CountComponent = defineComponent({
@@ -125,6 +174,14 @@
       console.log('defineComponent HelloDemo onMounted...');
     });
 
+    onBeforeUpdate(() => {
+      console.log('defineComponent HelloDemo onBeforeUpdate...');
+    });
+
+    onUpdated(() => {
+      console.log('defineComponent HelloDemo onUpdated...');
+    });
+
     return () => h('div', null, [
       h(`h${attrs.level}`, null, 'defineComponent API eg1: setup method'),
       'Create HelloDemo Component within setup method parameters by defineComponent API...'
@@ -143,6 +200,14 @@
 
       onMounted(() => {
         console.log('defineComponent HelloWorld onMounted...');
+      });
+
+      onBeforeUpdate(() => {
+        console.log('defineComponent HelloWorld onBeforeUpdate...');
+      });
+
+      onUpdated(() => {
+        console.log('defineComponent HelloWorld onUpdated...');
       });
 
       return () => h('div', null, [
@@ -173,11 +238,17 @@
 
   // 使用 defineAsyncComponent API
   const HelloAsyncComponent = defineAsyncComponent({
-    loader: () => import('./Foo.vue'),
+    loader: () => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve({ template: '<div>Hello async component</div>' });
+        }, 4000);
+      })
+    },
     loadingComponent: { template: '<div>Loading component</div>' },
     errorComponent: { template: '<div>Error component</div>' },
     delay: 200, // 加载 loadingComponent 之前延迟, 默认: 200ms
-    timeout: 2000, // 加载超时时间后显示 errorComponent, 默认: Infinity
+    timeout: 5000, // 加载超时时间后显示 errorComponent, 默认: Infinity, 默认单位: ms
     suspensible: false, // 组件是否可挂起, 默认: true
     /**
      *  error: 错误信息对象
@@ -186,6 +257,7 @@
      *  attempts: 允许最大重试次数 
      */
     onError(error, retry, fail, attempts) {
+      console.log(error, retry, fail, attempts);
       if (error.message.match(/fetch/) && attempts <= 3) {
         retry(); // 请求发生错误时重试，最多可尝试 3 次
       } else {
@@ -198,11 +270,11 @@
   const app3 = createApp({
     setup(props, { attrs, emit, slots }) {
       console.log('app3 setup...');
+      console.log(resolveComponent('hello-async-component'));
       return {}
     },
-    components: {}
+    components: { HelloAsyncComponent }
   }).mount('#app3');
   /**************************************************************************************************/
 </script>
-
 </html>
