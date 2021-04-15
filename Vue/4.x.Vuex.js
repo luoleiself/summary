@@ -1,3 +1,4 @@
+// vuex@4.0.0
 import { createApp, computed, watchEffect } from 'vue';
 import { createStore, useStore, mapState, mapGetters, mapMutations, mapActions, createNamespacedHelpers } from 'vuex';
 // initialization

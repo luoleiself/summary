@@ -51,20 +51,18 @@
     <legend>endofbody</legend>
   </fieldset>
 </body>
-<script type="text/javascript">
-  var app1 = app2 = null;
-</script>
 <script type="module">
-  document.onreadystatechange = function () {
-    const { createApp, ref, toRefs, defineComponent, onBeforeMount, onMounted } = Vue;
-    app1 = createApp({
-      setup() {
-        const name = ref('Hello world');
-        return { name }
-      }
-    });
-    app1.component('modal-button', {
-      template: `
+  console.log('Vue@3.0.11', 'vue-router@4.0.6', 'vuex@4.0.0');
+  /******************************************************************************/
+  const { createApp, ref, toRefs, defineComponent, onBeforeMount, onMounted } = Vue;
+  const app1 = createApp({
+    setup() {
+      const name = ref('Hello world');
+      return { name }
+    }
+  });
+  app1.component('modal-button', {
+    template: `
       <button @click="modalOpen = true">
           Open full screen modal!
       </button>
@@ -76,57 +74,56 @@
           </div>
         </div>
       </teleport>`,
-      setup() {
-        const modalOpen = ref(false)
-        return { modalOpen }
-      }
-    });
-    app1.mount('#app1');
-    /**************************************************************************/
-    app2 = createApp({
-      setup() {
-        return {}
-      },
-      template: `
+    setup() {
+      const modalOpen = ref(false)
+      return { modalOpen }
+    }
+  });
+  app1.mount('#app1');
+  /**************************************************************************/
+  const app2 = createApp({
+    setup() {
+      return {}
+    },
+    template: `
         <h1>Root instance</h1>
         <parent-component />
       `
-    });
-    app2.component('parent-component', {
-      setup() {
-        console.log('parent-component setup...');
-        onBeforeMount(() => {
-          console.log('parent-component onBeforeMount...');
-        });
-        onMounted(() => {
-          console.log('parent-component onMounted...');
-        });
-      },
-      template: `
+  });
+  app2.component('parent-component', {
+    setup() {
+      console.log('parent-component setup...');
+      onBeforeMount(() => {
+        console.log('parent-component onBeforeMount...');
+      });
+      onMounted(() => {
+        console.log('parent-component onMounted...');
+      });
+    },
+    template: `
         <h2>This is a parent component</h2>
         <teleport to="#endofbody">
           <child-component name="John" />
         </teleport>
       `
-    });
-    app2.component('child-component', {
-      props: ['name'],
-      setup() {
-        console.log('child-component setup...');
-        onBeforeMount(() => {
-          console.log('child-component onBeforeMount...');
-        });
-        onMounted(() => {
-          console.log('child-component onMounted...');
-        });
-        return {}
-      },
-      template: `
+  });
+  app2.component('child-component', {
+    props: ['name'],
+    setup() {
+      console.log('child-component setup...');
+      onBeforeMount(() => {
+        console.log('child-component onBeforeMount...');
+      });
+      onMounted(() => {
+        console.log('child-component onMounted...');
+      });
+      return {}
+    },
+    template: `
         <div>this is a child component, teleport to #endofBody <br/> Hello, {{ name }} --- this props name from parent component</div>
       `
-    });
-    app2.mount('#app2');
-  }
+  });
+  app2.mount('#app2');
 </script>
 
 </html>

@@ -124,19 +124,17 @@
     </li>
   </ul>
 </body>
-<script type="text/javascript">
-  var app1 = app2 = null;
-</script>
 <script type="module">
-  document.onreadystatechange = function () {
-    const { createApp, ref, toRefs, defineComponent, onBeforeMount, onMounted } = Vue;
-    app1 = createApp({
-      setup() {
-        const name = ref('Hello world');
-        return { name }
-      }
-    });
-  }
+  console.log('Vue@3.0.11', 'vue-router@4.0.6', 'vuex@4.0.0');
+  /******************************************************************************/
+
+  const { createApp, ref, toRefs, defineComponent, onBeforeMount, onMounted } = Vue;
+  const app1 = createApp({
+    setup() {
+      const name = ref('Hello world');
+      return { name }
+    }
+  });
 </script>
 
 </html>

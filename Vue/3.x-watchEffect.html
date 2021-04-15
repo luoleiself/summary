@@ -66,43 +66,40 @@
   </textarea>
   <hr />
 </body>
-<script type="text/javascript">
-  var app1 = app2 = null;
-</script>
 <script type="module">
-  document.onreadystatechange = function () {
-    const { createApp, ref, watchEffect, onBeforeUpdate, onUpdated } = Vue;
-    app1 = createApp({
-      setup() {
-        console.log('app1 setup...');
-        return {}
+  console.log('Vue@3.0.11', 'vue-router@4.0.6', 'vuex@4.0.0');
+  /******************************************************************************/
+  const { createApp, ref, watchEffect, onBeforeUpdate, onUpdated } = Vue;
+  const app1 = createApp({
+    setup() {
+      console.log('app1 setup...');
+      return {}
+    }
+  });
+  app1.component('my-component', {
+    setup(props, context) {
+      console.log('my-component setup...', props, context);
+      const count = ref(0);
+      const countAdd = () => {
+        count.value++;
       }
-    });
-    app1.component('my-component', {
-      setup(props, context) {
-        console.log('my-component setup...', props, context);
-        const count = ref(0);
-        const countAdd = () => {
-          count.value++;
-        }
-        watchEffect((onInvalidate) => {
-          console.log('my-component watchEffect...', count.value);
-          onInvalidate(() => { console.log('my-component onInvalidate...') });
-        },
-          { flush: 'post' }
-        );
-        onBeforeUpdate(() => {
-          console.log('my-component onBeforeUpdate...', count.value);
-        });
-        onUpdated(() => {
-          console.log('my-component onUpdated...', count.value);
-        });
-        return { count, countAdd }
+      watchEffect((onInvalidate) => {
+        console.log('my-component watchEffect...', count.value);
+        onInvalidate(() => { console.log('my-component onInvalidate...') });
       },
-      template: `<div>{{count}} <button @click="countAdd">Count++</button></div><br/>`
-    })
-    app1.mount('#app1');
-  }
+        { flush: 'post' }
+      );
+      onBeforeUpdate(() => {
+        console.log('my-component onBeforeUpdate...', count.value);
+      });
+      onUpdated(() => {
+        console.log('my-component onUpdated...', count.value);
+      });
+      return { count, countAdd }
+    },
+    template: `<div>{{count}} <button @click="countAdd">Count++</button></div><br/>`
+  })
+  app1.mount('#app1');
 </script>
 
 </html>

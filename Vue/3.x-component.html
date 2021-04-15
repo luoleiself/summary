@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>3.x-component</title>
+  <script src="https://unpkg.com/vue@next"></script>
+  <script src="https://unpkg.com/vue-router@next"></script>
+  <script src="https://unpkg.com/vuex@next"></script>
+  <style>
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <hello-world>
+      <template #header="slotProps">
+        <h2>#header="slotProps"</h2>
+        {{slotProps.item.id}} --- {{slotProps.item.name}}
+      </template>
+      <template #default="{item: {id, name}}">
+        <h2>#default="{item: {id, name}}"</h2>
+        {{id}} --- {{name}}
+      </template>
+      <template #footer>
+        <h2>#footer</h2>
+        from parent component --- Hello slot footer
+      </template>
+      <template #other></template>
+    </hello-world>
+  </div>
+</body>
+<script>
+  console.log('Vue@3.0.11', 'vue-router@4.0.6', 'vuex@4.0.0');
+  /******************************************************************************/
+  const { createApp, reactive, ref, toRefs } = Vue;
+
+  const app = createApp({});
+  const HelloWorld = app.component('hello-world', {
+    setup(props, { slots, attrs, emit }) {
+      console.log('HelloWorld component setup...');
+      const data = reactive([
+        { id: 1, name: 'Hello slot header' },
+        { id: 2, name: 'Hello slot default' },
+        { id: 3, name: 'Hello slot footer' }
+      ]);
+      const refData = toRefs(data);
+      console.log(refData);
+      return { refData }
+    },
+    template: `<div><slot name="header" :item="refData[0].value">from HelloWorld component --- hello slot header</slot></div>
+      <div><slot :item="refData[1].value">from HelloWorld component --- hello slot default</slot></div>
+      <div><slot name="footer">from HelloWorld component --- hello slot footer</slot></div>
+      <div><slot name="other"><h2>#other</h2>from HelloWorld component --- hello slot other</slot></div>
+    `
+  });
+  app.mount('#app');
+</script>
+
+</html>
