@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <meta content="IE=edge" http-equiv="X-UA-Compatible" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-  <title>3.x-component</title>
+  <title>3.x-slot</title>
   <script src="https://unpkg.com/vue@next"></script>
   <script src="https://unpkg.com/vue-router@next"></script>
   <script src="https://unpkg.com/vuex@next"></script>
@@ -51,9 +51,9 @@
     setup(props, { slots, attrs, emit }) {
       console.log('HelloWorld component setup...');
       const data = reactive([
-        { id: 1, name: 'Hello slot header' },
-        { id: 2, name: 'Hello slot default' },
-        { id: 3, name: 'Hello slot footer' }
+        { id: 1, name: 'from HelloWorld component slotProps: Hello slot header' },
+        { id: 2, name: 'from HelloWorld component slotProps: Hello slot default' },
+        { id: 3, name: 'from HelloWorld component slotProps: Hello slot footer' }
       ]);
       const refData = toRefs(data);
       console.log(refData);

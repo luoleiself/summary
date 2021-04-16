@@ -68,6 +68,19 @@ router.app = app;
 
 // 取消 path-to-regexp, 删除未命名的参数
 
+// 带有空 path 的命名子路由不再添加斜线
+const routes = [
+  {
+    path: '/parent',
+    component: Parent,
+    children: [
+      { path: '', redirect: 'home' }, // 将重定向到 '/home' 非 '/parent/home'
+      { path: 'home', component: Home },
+    ],
+  },
+];
+// $route 属性编码, params, query, hash 中的编码保持一致, 便于使用
+
 // 参数格式化
 console.log(stringifyQuery({ name: 'hello', age: 18 }));
 console.log(parseQuery('name=Hello&age=18'));
