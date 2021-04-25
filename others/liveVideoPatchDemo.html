@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>liveVideoPatchDemo</title>
+</head>
+
+<body>
+  <video width="320" height="240" controls="controls" data-video_type="live" onended="console.log('hello live end...')"
+    onerror="console.log('hello live error...')">
+    <source
+      src="http://vali-g1.cp31.ott.cibntv.net/youku/6573191cf224171b7461e5d62/0300080100602C93484270EDD06A77F5980DF8-2EDF-43AA-BFFB-E62CE6067A12.mp4?sid=161933930300010002601_00_Bb6a46b8fcf39787ed95e07607eb39808&amp;sign=71b290f966b9c142d0d17d7b4f03a0a7&amp;ctype=50&amp;si=183&amp;psid=ea8f11b2ba25c4ddd345db07be827e3e43346"
+      type="video/mp4" />
+  </video>
+  <video width="320" height="240" controls="controls"
+    src="http://vali-g1.cp31.ott.cibntv.net/youku/67743542d274c7202c62c3389/0300080100608230CEBBABF81840FCDF62EA1E-A16D-4855-B355-B7AFC9E8457C.mp4?sid=161933937300010003251_00_B5036afd7206e221fb696d7c13b854631&sign=89eb4681958b4d063f8f1685008312fc&ctype=50&si=183&psid=228750126088308f076f86317d8fea2e43346"></video>
+</body>
+<script>
+  window.onload = function () {
+    var default_m3u8_url = '//vn.xcar.com.cn/video/zt/7c85e3d0ed_auto.m3u8';
+    // var default_m3u8_url = '/image/34ad3bc4a5cc40c94565d43abc22d8a7.mp4';
+    var videoList = document.getElementsByTagName('video');
+    console.log(videoList);
+    for (var i = 0; i < videoList.length; i++) {
+      var videoObj = videoList[i]
+      var endedCB = videoObj.onended;
+      var errorCB = videoObj.onerror;
+      // onended
+      videoObj.onended = (function (video, endedCB) {
+        console.log('onended init...');
+        return function () {
+          var video_type = video.dataset.video_type;
+          if (video_type === 'live') {
+            console.log('-------------------------------------');
+            typeof endedCB === 'function' && endedCB();
+            if (video.src.indexOf(default_m3u8_url) === -1) {
+              video.src = default_m3u8_url;
+              console.log('onended inner ', Math.random(), video);
+            }
+            console.log('onended middle ', Math.random(), video);
+          }
+          console.log('onended outer ', Math.random(), video);
+        }
+      }(videoObj, endedCB));
+      // onerror
+      videoObj.onerror = (function (video, errorCB) {
+        console.log('onerror init...');
+        return function () {
+          var video_type = video.dataset.video_type;
+          if (video_type === 'live') {
+            console.log('-------------------------------------');
+            typeof errorCB === 'function' && errorCB();
+            if (video.src.indexOf(default_m3u8_url) === -1) {
+              video.src = default_m3u8_url;
+              console.log('onerror inner ', Math.random(), video);
+            }
+            console.log('onerror middle ', Math.random(), video);
+          }
+          console.log('onerror outer ', Math.random(), video);
+        }
+      }(videoObj, errorCB));
+    }
+  }
+</script>
+
+</html>
