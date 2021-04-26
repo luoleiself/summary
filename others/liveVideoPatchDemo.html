@@ -9,7 +9,7 @@
 </head>
 
 <body>
-  <video width="320" height="240" controls="controls" data-video_type="live" onended="console.log('hello live end...')"
+  <video width="320" height="240" controls="controls" data-video_type="live" onended="console.log('hello live end...');console.log(event);"
     onerror="console.log('hello live error...')">
     <source
       src="http://vali-g1.cp31.ott.cibntv.net/youku/6573191cf224171b7461e5d62/0300080100602C93484270EDD06A77F5980DF8-2EDF-43AA-BFFB-E62CE6067A12.mp4?sid=161933930300010002601_00_Bb6a46b8fcf39787ed95e07607eb39808&amp;sign=71b290f966b9c142d0d17d7b4f03a0a7&amp;ctype=50&amp;si=183&amp;psid=ea8f11b2ba25c4ddd345db07be827e3e43346"
@@ -31,11 +31,11 @@
       // onended
       videoObj.onended = (function (video, endedCB) {
         console.log('onended init...');
-        return function () {
+        return function (evt) {
           var video_type = video.dataset.video_type;
           if (video_type === 'live') {
             console.log('-------------------------------------');
-            typeof endedCB === 'function' && endedCB();
+            typeof endedCB === 'function' && endedCB(evt);
             if (video.src.indexOf(default_m3u8_url) === -1) {
               video.src = default_m3u8_url;
               console.log('onended inner ', Math.random(), video);
@@ -48,11 +48,11 @@
       // onerror
       videoObj.onerror = (function (video, errorCB) {
         console.log('onerror init...');
-        return function () {
+        return function (evt) {
           var video_type = video.dataset.video_type;
           if (video_type === 'live') {
             console.log('-------------------------------------');
-            typeof errorCB === 'function' && errorCB();
+            typeof errorCB === 'function' && errorCB(evt);
             if (video.src.indexOf(default_m3u8_url) === -1) {
               video.src = default_m3u8_url;
               console.log('onerror inner ', Math.random(), video);
