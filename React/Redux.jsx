@@ -40,7 +40,7 @@ const reducer = function (state = {}, action) {
  */
 const reducer = combineReducers({});
 /**
- * 两个方法完全等价
+ * 下面两个方法完全等价
  */
 const reducer = combineReducers({
   a: doSomethingWithA,
