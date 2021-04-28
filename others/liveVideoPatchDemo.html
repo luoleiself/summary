@@ -9,26 +9,60 @@
 </head>
 
 <body>
-  <video width="320" height="240" controls="controls" data-video_type="live" onended="console.log('hello live end...');console.log(event);"
-    onerror="console.log('hello live error...')">
+  <video width="320" height="240" controls="controls" data-video_type="live"
+    onended="console.log('hello live end...');console.log(event);" onerror="console.log('hello live error...')">
     <source
       src="http://vali-g1.cp31.ott.cibntv.net/youku/6573191cf224171b7461e5d62/0300080100602C93484270EDD06A77F5980DF8-2EDF-43AA-BFFB-E62CE6067A12.mp4?sid=161933930300010002601_00_Bb6a46b8fcf39787ed95e07607eb39808&amp;sign=71b290f966b9c142d0d17d7b4f03a0a7&amp;ctype=50&amp;si=183&amp;psid=ea8f11b2ba25c4ddd345db07be827e3e43346"
       type="video/mp4" />
   </video>
-  <video width="320" height="240" controls="controls"
-    src="http://vali-g1.cp31.ott.cibntv.net/youku/67743542d274c7202c62c3389/0300080100608230CEBBABF81840FCDF62EA1E-A16D-4855-B355-B7AFC9E8457C.mp4?sid=161933937300010003251_00_B5036afd7206e221fb696d7c13b854631&sign=89eb4681958b4d063f8f1685008312fc&ctype=50&si=183&psid=228750126088308f076f86317d8fea2e43346"></video>
+
+  <!-- <video width="320" height="240" controls="controls"
+    src="http://vali-g1.cp31.ott.cibntv.net/youku/67743542d274c7202c62c3389/0300080100608230CEBBABF81840FCDF62EA1E-A16D-4855-B355-B7AFC9E8457C.mp4?sid=161933937300010003251_00_B5036afd7206e221fb696d7c13b854631&sign=89eb4681958b4d063f8f1685008312fc&ctype=50&si=183&psid=228750126088308f076f86317d8fea2e43346"></video> -->
 </body>
 <script>
   window.onload = function () {
+    videoPatch();
+
+    //  测试视频的 onended onerror回调的触发频率
+    var v = document.createElement('video');
+    var width = document.createAttribute('width');
+    var height = document.createAttribute('height');
+    var controls = document.createAttribute('controls');
+    var src = document.createAttribute('src');
+    var videoType = document.createAttribute('data-video_type');
+    width.value = '320';
+    height.value = '240';
+    controls.value = 'controls';
+    src.value = 'http://vali-g1.cp31.ott.cibntv.net/youku/67743542d274c7202c62c3389/0300080100608230CEBBABF81840FCDF62EA1E-A16D-4855-B355-B7AFC9E8457C.mp4?sid=161933937300010003251_00_B5036afd7206e221fb696d7c13b854631&sign=89eb4681958b4d063f8f1685008312fc&ctype=50&si=183&psid=228750126088308f076f86317d8fea2e43346';
+    videoType.value = 'live';
+
+    v.setAttributeNode(width);
+    v.setAttributeNode(height);
+    v.setAttributeNode(controls);
+    v.setAttributeNode(src);
+    v.setAttributeNode(videoType);
+
+    setTimeout(() => {
+      document.body.appendChild(v);
+      videoPatch();
+    }, 3000);
+
+  }
+  var videoPatch = function () {
     var default_m3u8_url = '//vn.xcar.com.cn/video/zt/7c85e3d0ed_auto.m3u8';
     // var default_m3u8_url = '/image/34ad3bc4a5cc40c94565d43abc22d8a7.mp4';
     var videoList = document.getElementsByTagName('video');
     console.log(videoList);
     for (var i = 0; i < videoList.length; i++) {
-      var videoObj = videoList[i]
+      var videoObj = videoList[i];
+
+      if (videoObj._isResolve_) {
+        continue;
+      }
+      videoObj._isResolve_ = true;
+
       var endedCB = videoObj.onended;
       var errorCB = videoObj.onerror;
-      // onended
       videoObj.onended = (function (video, endedCB) {
         console.log('onended init...');
         return function (evt) {
