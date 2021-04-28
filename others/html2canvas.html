@@ -113,13 +113,16 @@
 
       var isDOM = false, $selector = null; // 默认模板选择器
 
+      // params 为非 null 对象
       if (params !== null && typeof params === 'object') {
+        // params 可能是 dom 对象或者 jquery 对象
         if (params instanceof Element || params[0] instanceof Element) {
           o.html = params;
           isDOM = true; // 如果当前对象为 DOM
         } else {
           o.render(params); // 普通对象渲染(询底价模板)
         }
+        // params 为一个有返回值的方法
       } else if (typeof params === "function") {
         o.html = params() || '此方法没有返回值';
       } else {
@@ -129,12 +132,14 @@
       if (isDOM) {
         $selector = o.html.toString().indexOf('Element') !== -1 ? o.html : o.html[0];
       } else {
+        // 非 dom 时则使用默认容器
         $('[data-capture=capture]').length === 0
           ? $('body').append('<div data-capture=capture style="position:absolute;top:-99999px;">' + o.html + '</div>')
-          : $('[data-capture=capture]').append(o.html);
+          : $('[data-capture=capture]').html(o.html);
         $selector = $('[data-capture=capture]')[0];
       }
 
+      // DOM 转图片方法
       html2canvas($selector, o.canvasParams).then(function (canvas) {
         var ext = '', base64 = '', filename = '', file = '', quality = 0.92;
         if (o.imgConf.type === 'jpeg' || o.imgConf.type === 'jpg' || o.imgConf.type === 'webp') {
