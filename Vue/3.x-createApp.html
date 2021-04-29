@@ -21,7 +21,7 @@
 <script type="module">
   console.log('Vue@3.0.11', 'vue-router@4.0.6', 'vuex@4.0.0');
   /******************************************************************************/
-  const { createApp, ref, toRefs, h, onBeforeMount, onMounted } = Vue;
+  const { createApp, ref, toRefs, h, onBeforeMount, onMounted, getCurrentInstance } = Vue;
   const app1 = createApp({
     props: ['username'],
     setup(props, ctx) {
@@ -139,12 +139,17 @@ const app2 = createApp({
       'count-component': {
         setup() {
           console.log('app3 components CountComponent setup...');
+
           onBeforeMount(() => {
             console.log('app3 components CountComponent onBeforeMount...');
           });
+
           onMounted(() => {
             console.log('app3 components CountComponent onMounted...');
           });
+          const instance = getCurrentInstance(); // 获取当前组件实例
+          console.log('app3 components CountComponent getCurrentInstance... ', instance);
+
           let count = ref(0)
           const increment = () => {
             console.log(count);
@@ -156,7 +161,7 @@ const app2 = createApp({
           }
           return { count, increment, decrement }
         },
-        template: `<h2>components, setup</h2><span>{{count}}</span> <button v-on:click="increment">Count++</button> <button v-on:click="decrement">Count--</button>`
+        template: `<h2>components, setup, getCurrentInstance</h2><span>{{count}}</span> <button v-on:click="increment">Count++</button> <button v-on:click="decrement">Count--</button>`
       }
     }
   }).mount('#app3');
