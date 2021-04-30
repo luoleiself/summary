@@ -32,14 +32,19 @@
 <script type="module">
   console.log('Vue@3.0.11', 'vue-router@4.0.6', 'vuex@4.0.0');
   /******************************************************************************/
-  const { createApp, reactive, ref, h, toRefs, defineComponent, onBeforeMount, onMounted, onBeforeUpdate, onUpdated } = Vue;
+  const { createApp, reactive, ref, h, toRefs, watch, defineComponent, onBeforeMount, onMounted, onBeforeUpdate, onUpdated } = Vue;
 
   const ChildComp = defineComponent({
     setup(props, { emits, attrs, slots }) {
       onMounted(() => {
         console.log('Child component onMounted...');
       });
-      return {};
+
+      const sayHello = () => {
+        alert('Hi, ' + Math.random().toString(16).toLowerCase().substr(2));
+      }
+
+      return { sayHello };
     },
     render() {
       return h('h1', { ref: 'childRef' }, 'This is a child ref attribute...')
@@ -59,10 +64,20 @@
         console.log('onMounted... ', child);
       });
 
+      const stop = watch(() => list, (newValue, oldValue) => {
+        console.log(newValue, oldValue);
+      });
+
+      console.log(stop);
+
       setTimeout(() => {
         root.value.innerText = 'This is a ref attribute changed...';
         child.value.$el.title = 'Hello child, from parent component';
       }, 2000);
+
+      setTimeout(() => {
+        child.value.sayHello(); // 调用子组件的方法
+      }, 3000);
 
       // 确保在每次更新之前重置ref
       onBeforeUpdate(() => {
