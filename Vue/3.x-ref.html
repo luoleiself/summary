@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>3.x-ref</title>
+  <script src="https://unpkg.com/vue@next"></script>
+  <style>
+    ul,
+    li {
+      list-style-type: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <h2>Single ref attribute</h2>
+    <h2 ref="root">This is a ref attribute</h2>
+    <hr />
+    <h2>v-for ref attributes</h2>
+    <div v-for="(item, i) in list" :ref="el => { if (el) divs[i] = el }">
+      {{ item }}
+    </div>
+    <hr />
+    <h2>Child component ref attribute</h2>
+    <child-comp ref="child" />
+  </div>
+</body>
+<script type="module">
+  console.log('Vue@3.0.11', 'vue-router@4.0.6', 'vuex@4.0.0');
+  /******************************************************************************/
+  const { createApp, reactive, ref, h, toRefs, defineComponent, onBeforeMount, onMounted, onBeforeUpdate, onUpdated } = Vue;
+
+  const ChildComp = defineComponent({
+    setup(props, { emits, attrs, slots }) {
+      onMounted(() => {
+        console.log('Child component onMounted...');
+      });
+      return {};
+    },
+    render() {
+      return h('h1', { ref: 'childRef' }, 'This is a child ref attribute...')
+    }
+  })
+  const app = createApp({
+    setup() {
+      const list = reactive([1, 2, 3, 4]);
+      const root = ref('Hello ref'); // 创建单个 ref 属性引用
+      const divs = ref([]); // 创建多个 ref 属性引用
+      const child = ref(null); // 创建子组件的 ref 属性引用
+
+      onMounted(() => {
+        console.log('onMounted... ', root);
+        console.log('onMounted... ', root.value);
+        console.log('onMounted... ', divs);
+        console.log('onMounted... ', child);
+      });
+
+      setTimeout(() => {
+        root.value.innerText = 'This is a ref attribute changed...';
+        child.value.$el.title = 'Hello child, from parent component';
+      }, 2000);
+
+      // 确保在每次更新之前重置ref
+      onBeforeUpdate(() => {
+        divs.value = [];
+      });
+
+      return { root, list, divs, child }
+    },
+    components: { ChildComp }
+  }).mount('#app');
+
+</script>
+
+</html>
