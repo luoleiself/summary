@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>3.x-provide-inject</title>
+  <script src="https://unpkg.com/vue@next"></script>
+  <script src="https://unpkg.com/vuex@next"></script>
+  <script src="https://unpkg.com/vue-router@next"></script>
+  <style>
+    ul,
+    li {
+      list-style-type: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <h2>global provide-inject</h2>
+    <child-comp></child-comp>
+    <textarea rows="20" cols="80">
+  import { createApp, provide, inject, defineComponent } from 'vue';
+  // 定义全局子组件
+  const ChildComp = defineComponent({
+    setup(props, {attrs, slots, emit}){
+      // inject
+      const value = inject(key);
+      return {};
+    }
+  });
+  // 创建应用
+  createApp({
+    setup(props, {attrs, slots, emit}){
+      // provide
+      provide(key, value);
+      return {};
+    },
+    components: { ChildComp }
+  }).mount('#app);
+    </textarea>
+    <hr />
+    <h2>app provide-inject</h2>
+    <p>
+      <span ref="name">{{injectName}}</span> -- <span ref="age">{{injectAge}}</span> : app.provide 方法应在 mount 挂载之前调用
+    </p>
+    <button @click="changeNameAge">change</button><br />
+    <textarea rows="10" cols="80">
+  const app = createApp({
+    inject: [key],
+    setup(props, {attrs, slots, emit}){
+      return {};
+    }
+  });
+  app.provide(key, value); // provide 在 mount 方法前调用
+  app.mount('#app');
+    </textarea>
+    <hr />
+  </div>
+</body>
+<script type="module">
+  console.log('Vue@3.0.11', 'vue-router@4.0.6', 'vuex@4.0.0');
+  /******************************************************************************/
+  const { createApp, reactive, ref, h, toRefs, watch, defineComponent, provide, inject, onBeforeMount, onMounted, onBeforeUpdate, onUpdated, onErrorCaptured } = Vue;
+
+  const ChildComp = defineComponent({
+    setup(props, { emit, attrs, slots }) {
+      const childInjectName = inject('childInjectName');
+      return () => h('div', {}, childInjectName);
+    }
+  });
+  const app = createApp({
+    inject: ['injectName', 'injectAge'],
+    setup(props, { emit, slots, attrs }) {
+      const name = ref(null);
+      const age = ref(null);
+
+      onMounted(() => {
+        console.log('onBeforeMount... ', name, age);
+      });
+
+      onUpdated(() => {
+        console.log('onUpdated... ', name, age);
+      });
+
+      provide('childInjectName', Math.random().toString(16).toLowerCase().substr(2));
+
+      const changeNameAge = () => {
+        name.value.innerText = Math.random().toString(16).toLowerCase().substr(2);
+        age.value.innerText = Math.floor(Math.random() * 100 + 1);
+      }
+
+      return { name, age, changeNameAge }
+    },
+    components: { ChildComp }
+  });
+  app.provide('injectName', 'hello provide');
+  app.provide('injectAge', 18);
+  app.mount('#app');
+</script>
+
+</html>
