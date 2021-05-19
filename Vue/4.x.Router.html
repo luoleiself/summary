@@ -141,6 +141,7 @@
       console.log('app3 About component setup...');
       onBeforeRouteLeave((to, from) => {
         console.log('app3 About Component onBeforeRouteLeave...');
+        return false; // 取消导航
       });
       onBeforeRouteUpdate((to, from) => {
         console.log('app3 About Component onBeforeRouteUpdate...');
