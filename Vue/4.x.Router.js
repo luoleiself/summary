@@ -29,7 +29,7 @@ createWebHistory('/app/');
 // 删除 * 通配符路由
 
 // 将 onReady 方法改为 isReady方法: 将一个回调排队, 在路由完成初始导航时调用, 它可以解析所有的异步进入钩子和路由初始化相关联的异步组件
-router.onReady(onSuccess, onError);
+router.onReady(onSuccess, onError); // 方法已废弃
 router.isReady().then(onSuccess).catch(onError);
 
 // scrollBehavior 返回的对象: x 改为 left, y 改为 top
@@ -47,6 +47,7 @@ router.isReady().then(onSuccess).catch(onError);
 
 // router.match 改为 router.resolve
 // router.addRoutes 已废弃, 使用 router.addRoute 代替, Vue Router 3.x 已支持
+router.addRoute(parentName, route); // 添加子路由
 
 // 删除 router.getMatchedComponents 方法, 可从 router.currentRoute.value.mixed 获取, 此方法只在 SSR 中使用
 
