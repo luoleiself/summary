@@ -36,7 +36,7 @@ router.isReady().then(onSuccess).catch(onError);
 
 // <router-view>、<keep-alive> 和 <transition> 必须通过 v-slot API 在 RouterView 内部使用
 <router-view v-slot='{ Component }'>
-  <transition>
+  <transition name="fade">
     <keep-alive>{/* <component :is="Component" /> */}</keep-alive>
   </transition>
 </router-view>;
