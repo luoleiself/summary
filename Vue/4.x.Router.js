@@ -42,10 +42,14 @@ router.isReady().then(onSuccess).catch(onError);
 </router-view>;
 
 // 删除 router-link 中的 append、event、tag、exact 属性, 可以使用 v-slot API 定制
+<router-link to="/about" custom v-slot='{ navigate }'>
+  <span v-on:click="navigate" role="link">About</span>
+</router-link>
 
 // 忽略 mixins 中的导航守卫, 目前暂时不支持 mixins 中的导航守卫
 
 // router.match 改为 router.resolve
+
 // router.addRoutes 已废弃, 使用 router.addRoute 代替, Vue Router 3.x 已支持
 router.addRoute(parentName, route); // 添加子路由
 
@@ -80,6 +84,7 @@ const routes = [
     ],
   },
 ];
+
 // $route 属性编码, params, query, hash 中的编码保持一致, 便于使用
 
 // 参数格式化
