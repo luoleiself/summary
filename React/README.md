@@ -221,7 +221,7 @@
 - setState(updater, [callback])
   - updater 可以为函数
     - (state, props) => ({ })
-  - 回调函数可在更新完 state 之后获取 state 的状态
+  - 回调函数可在更新完 state 之后获取 state 的状态, React 可能会把多个 setState 调用合并成一个调用
 - forceUpdate(callback)
   - 此方法会跳过组件的 shouldComponentUpdate() 方法，其子组件可正常触发此方法
 
