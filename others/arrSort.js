@@ -137,37 +137,22 @@ console.log(arr);
 插入算法把要排序的数组分成两部分: 第一部分包含了这个数组的所有元素， 但将最后一个元素除外（ 让数组多一个空间才有插入的位置），
 而第二部分就只包含这一个元素（ 即待插入元素）。 在第一部分排序完成后， 再将这个最后元素插入到已排好序的第一部分中。
 var arr = [2, 88, 6, 8, 3, 0, 34, 72];
-var sort = {};
-sort.insertionSort = function(arr) {
-  for (var i = 0; i < arr.length - 1; i++) {
-    var insert = arr[i + 1]; //要被插入的元素
-    var index = i + 1; //要被插入的元素的下标
-    for (var j = i; j >= 0; j--) {
-      //被插入的元素比前面j项元素谁小就插入到谁的前面
-      if (insert < arr[j]) {
-        arr[j + 1] = arr[j];
-        index = j;
-      }
+function insertionSort(arr) {
+  var len = arr.length,preIndex,cur;
+  for (var i = 1; i < len; ++i) {
+    preIndex = i - 1; // 上一个指针
+    cur = arr[i]; // 取出当前元素
+    while (preIndex >= 0 && arr[preIndex] > cur) {
+      arr[preIndex + 1] = arr[preIndex]; // 将当前元素向后移动
+      preIndex--; // 上一个指针减一
     }
-    arr[index] = insert;
-    console.log(arr + "\n");
+    arr[preIndex + 1] = cur; // 将当前元素赋值给指针
   }
+  return arr;
 }
-sort.insertionSort(arr);
 
-2, 88, 6, 8, 3, 0, 34, 72
+insertionSort(arr);
 
-2, 6, 88, 8, 3, 0, 34, 72
-
-2, 6, 8, 88, 3, 0, 34, 72
-
-2, 3, 6, 8, 88, 0, 34, 72
-
-0, 2, 3, 6, 8, 88, 34, 72
-
-0, 2, 3, 6, 8, 34, 88, 72
-
-0, 2, 3, 6, 8, 34, 72, 88
 5、 希尔排序
 原理: 先将整个待排元素序列分割成若干个子序列（ 由相隔某个“ 增量” 的元素组成的） 分别进行直接插入排序，
 然后依次缩减增量再进行排序， 待整个序列中的元素基本有序（ 增量足够小） 时， 再对全体元素进行一次直接插入排序。
