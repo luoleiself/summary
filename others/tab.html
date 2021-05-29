@@ -2620,8 +2620,6 @@
       this.tabLeftList = Array.prototype.map.call($tabList, (el) => $(el).position().left); // 获取标签的左侧距离
       this.contTopList = Array.prototype.map.call(this.$content, (el) => $(el).position().top - this.tabHeight); // 获取据内容距离顶部距离
 
-      typeof opts.cb === 'function' && opts.cb(); // 回调执行其他逻辑
-
       let _scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
       this.calcScrollTop(_scrollTop); // 计算dom滚动高度设置 tab 栏
       this.bindEvent();
@@ -2687,7 +2685,6 @@
   new RoadBooksDetail({
     // tabBox: '', // 标签容器选择符非必传
     // content: '', // 内容选择符非必传
-    cb() { /* 初始化时回调其他逻辑 */ },
   });
 </script>
 

@@ -1,3 +1,4 @@
+import { memo, Component } from 'react';
 /**
  * React.memo 作性能优化用
  *  如果组件在相同 props 的情况下渲染相同的结果，那么可以通过将其包裹在 React.memo 中调用，
@@ -25,4 +26,44 @@ function areEqual(prevProps, nextProps) {
   否则返回 false
   */
 }
-export default React.memo(MyComponent, areEqual);
+export default memo(MyComponent, areEqual);
+
+// eg: React.memo 仅能检查 props 变更, 第二个参数返回 true 不渲染，返回 false 重新渲染
+function TextMemo(props) {
+  console.log('子组件渲染');
+  if (props) return <div>hello,world</div>;
+}
+const controlIsIsRender = (prevProps, nextProps) => {
+  if (prevProps.number === nextProps.number) {
+    return true; // 不渲染组件
+  } else if (prevProps.number !== nextProps.number && prevProps.number > 5) {
+    return true; // 不渲染组件
+  } else {
+    return false; // 渲染组件
+  }
+};
+const NewTextMemo = memo(TextMemo, controlIsIsRender);
+class Index extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { number: 1, num: 1 };
+  }
+  render() {
+    const { num, number } = this.state;
+    return (
+      <div>
+        <div>
+          改变 num: 当前值 {num}
+          <button onClick={() => this.setState({ num: num + 1 })}>num ++</button>
+          <button onClick={() => this.setState({ num: num - 1 })}>num --</button>
+        </div>
+        <div>
+          改变 number: 当前值 {number}
+          <button onClick={() => this.setState({ number: number + 1 })}>number ++</button>
+          <button onClick={() => this.setState({ number: number - 1 })}>number --</button>
+        </div>
+        <NewTextMemo num={num} number={number} />
+      </div>
+    );
+  }
+}
