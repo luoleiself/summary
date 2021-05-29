@@ -2348,15 +2348,15 @@
     </div>
     <!-- tab -->
     <ul class="tab-box">
-      <li class="item active" data-type="all">全部</li>
-      <li class="item" data-type="desc">概述</li>
-      <li class="item" data-type="Day1">Day1</li>
-      <li class="item" data-type="Day2">Day2</li>
-      <li class="item" data-type="Day3">Day3</li>
-      <li class="item" data-type="Day4">Day4</li>
+      <li class="item active" data-scroll="all">全部</li>
+      <li class="item" data-scroll="desc">概述</li>
+      <li class="item" data-scroll="Day1">Day1</li>
+      <li class="item" data-scroll="Day2">Day2</li>
+      <li class="item" data-scroll="Day3">Day3</li>
+      <li class="item" data-scroll="Day4">Day4</li>
     </ul>
     <!-- all -->
-    <ul class="all content" data-type="all">
+    <ul class="all content" data-scroll="all">
       <li class="item">
         <p class="road-sum">
           <i class="circle"></i><span class="day">Day1</span><span class="road-start">杭州</span><i
@@ -2387,9 +2387,9 @@
       </li>
     </ul>
     <!-- desc -->
-    <h6 class="summary-title content" data-type="desc">概述</h6>
+    <h6 class="summary-title content" data-scroll="desc">概述</h6>
     <p class="summary-desc">该路书从最美杭州出发，经过浙江出名的莫干山风景区，穿过江苏的最美天目湖，最终抵达上海的朱家角古镇，经过几个最美的城市，领略几处最美的风景。</p>
-    <div class="road-detail content" data-type="Day1">
+    <div class="road-detail content" data-scroll="Day1">
       <h6 class="title">Day1</h6>
       <p class="road-sum">
         <span class="road-start">杭州</span><i class="delimiter-line"></i><span class="road-end">湖州</span>
@@ -2414,7 +2414,7 @@
         </li>
       </ul>
     </div>
-    <div class="road-detail content" data-type="Day2">
+    <div class="road-detail content" data-scroll="Day2">
       <h6 class="title">Day2</h6>
       <p class="road-sum">
         <span class="road-start">湖州</span><i class="delimiter-line"></i><span class="road-end">常州</span>
@@ -2435,7 +2435,7 @@
         </li>
       </ul>
     </div>
-    <div class="road-detail content" data-type="Day3">
+    <div class="road-detail content" data-scroll="Day3">
       <h6 class="title">Day3</h6>
       <p class="road-sum">
         <span class="road-start">常州</span><i class="delimiter-line"></i><span class="road-end">上海</span>
@@ -2468,7 +2468,7 @@
         </li>
       </ul>
     </div>
-    <div class="road-detail content" data-type="Day4">
+    <div class="road-detail content" data-scroll="Day4">
       <h6 class="title">Day4</h6>
       <p class="road-sum">
         <span class="road-start">上海</span><i class="delimiter-line"></i><span class="road-end">杭州</span>
@@ -2497,18 +2497,30 @@
 </body>
 
 <script>
+  /**
+   * .tab-box 标签容器类名 
+   * .item 标签类名
+   * .active 活动标签类名
+   * data-scroll 标签属性,滚动计算需要
+   * .tab-box.mounting 吸顶样式类名
+   * .content 内容类名
+   * data-scroll 内容属性,滚动计算需要,值和标签属性保持一致
+   */
   class RoadBooksDetail {
     constructor(opts = {}) {
-      this.$tabBox = opts.tabBox ? $(opts.tabBox) : $('.tab-box');
-      this.$content = opts.content ? $(opts.content) : $('.content[data-type]');
+      let config = Object.assign({}, opts);
+      this.$tabBox = config.tabBox ? $(config.tabBox) : $('.tab-box');
+      this.$content = config.content ? $(config.content) : $('.content[data-scroll]');
       this.tabTop = this.$tabBox.offset().top; // tab 偏移量
-      this.tabHeight = this.$tabBox[0].offsetHeight + 5; // 标签容器高度
+      this.tabHeight = this.$tabBox[0].offsetHeight; // 标签容器高度
       this.currTab = 0; // 当前标签
       this.clientW = document.body.clientWidth;
       /*  */
       let $tabList = this.$tabBox.children();
       this.tabLeftList = Array.prototype.map.call($tabList, (el) => $(el).position().left); // 获取标签的左侧距离
       this.contTopList = Array.prototype.map.call(this.$content, (el) => $(el).position().top - this.tabHeight); // 获取据内容距离顶部距离
+
+      typeof config.cb === 'function' && config.cb(); // 回调执行其他逻辑
 
       this.bindEvent();
       let _scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
@@ -2517,8 +2529,8 @@
     bindEvent() {
       let _this = this;
       _this.$tabBox.on('click', '.item', function (evt) {
-        let type = $(this).attr('data-type');
-        $('html,body').scrollTop($(".content[data-type='" + type + "']").position().top - _this.tabHeight);
+        let type = $(this).attr('data-scroll');
+        $('html,body').scrollTop($(".content[data-scroll='" + type + "']").position().top - _this.tabHeight);
       });
       $(document).on('scroll', function (evt) {
         let _scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
@@ -2556,7 +2568,7 @@
     }
     changeTab(index) {
       let _this = this;
-      if (typeof _scrollTop !== 'number' || isNaN(Number(_scrollTop))) {
+      if (typeof index !== 'number' || isNaN(Number(index))) {
         return false;
       }
       if (_this.currTab !== index) {
@@ -2568,7 +2580,11 @@
       _this.currTab = index;
     }
   }
-  new RoadBooksDetail();
+  new RoadBooksDetail({
+    tabBox: '',
+    content: '',
+    cb() { /* 初始化时回调其他逻辑 */ },
+  });
 </script>
 
 </html>
