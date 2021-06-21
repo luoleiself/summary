@@ -220,3 +220,11 @@ vim常用命令
     # 合并
       {n}J => 合并多行回车换行, n 为数字
 
+map 映射 map、nmap、imap、vmap、vnoremap、nunmap、nmapclear
+  nore: 表示非递归
+  n: 表示在普通模式下生效
+  v: 表示在可视模式下生效
+  i: 表示在插入模式下生效
+  c: 表示在命令行模式下生效.(command的意思)
+  un: 后面跟按键组合，表示删除这个映射
+  clear: 表示清除相关模式下的所有映射
