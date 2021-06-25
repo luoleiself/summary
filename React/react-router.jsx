@@ -7,11 +7,14 @@ import {
   HashRouter,
   MemoryRouter,
   Router,
+  Prompt,
   Route,
   Link,
   NavLink,
   Redirect,
   Switch,
+  useHistory,
+  useLocation,
   useParams,
   useRouteMatch,
 } from 'react-router-dom';
@@ -152,8 +155,18 @@ import {
 ></Redirect>;
 /**
  * Re-exported from core Prompt
+ * message:
+ *  string, The message to prompt the user with when they try to navigate away.
+ *  function, Will be called with the next location and action the user is attempting to navigate to. Return a string to show a prompt to the user or true to allow the transition
+ * when: bool, Instead of conditionally rendering a <Prompt> behind a guard, you can always render it but pass when={true} or when={false} to prevent or allow navigation accordingly
  */
-<Prompt />;
+<Prompt
+  message='Are you ok!'
+  message={(location, action) => {
+    return location.pathname.startsWith('/app') ? true : 'Are you ok!';
+  }}
+  when={true}
+/>;
 /**
  * Render some UI when its path matches the current URL
  * Route Render Methods:
@@ -235,7 +248,7 @@ class ShowTheLocation extends React.Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired
+    history: PropTypes.object.isRequired,
   };
 
   render() {
@@ -262,6 +275,26 @@ match; // {params, isExact, path, url}
 // withRouter as this.props.match
 // matchPath as the return value
 // useRouteMatch as the return value
+/*********************************************************************************************/
+function HomeButton() {
+  let history = useHistory();
+
+  function handleClick() {
+    history.push('/home');
+  }
+
+  return (
+    <button type='button' onClick={handleClick}>
+      Go home
+    </button>
+  );
+}
+
+function usePageView() {
+  let location = useLocation();
+
+  console.log(location);
+}
 /*********************************************************************************************/
 export function Nesting() {
   return (
