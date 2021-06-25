@@ -165,7 +165,6 @@ import {
  * strict: bool,
  * location: object, { pathname, search, hash, state }
  * sensitive: bool,
- * sensitive: bool,
  */
 <Route
   path={['/users/:id', '/profile/:id']}
@@ -251,18 +250,18 @@ class ShowTheLocation extends React.Component {
 const ShowTheLocationWithRouter = withRouter(ShowTheLocation);
 /*********************************************************************************************/
 history;
+location;
 // Route component as this.props.location
 // Route render as ({ location, match, history }) => ()
 // Route children as ({ location, match, history }) => ()
 // withRouter as this.props.location
-location;
+match; // {params, isExact, path, url}
 // Route component as this.props.match
 // Route render as ({ match, location, history }) => ()
 // Route children as ({ match, location, history }) => ()
 // withRouter as this.props.match
 // matchPath as the return value
 // useRouteMatch as the return value
-match; // {params, isExact, path, url}
 /*********************************************************************************************/
 export function Nesting() {
   return (
