@@ -726,7 +726,11 @@ function Counter() {
 
 #### useCallback
 
+> 返回一个 memoized 回调函数
+
 > 把内联回调函数及依赖项数组作为参数传入 useCallback，它将返回该回调函数的 memoized 版本，该回调函数仅在某个依赖项改变时才会更新
+
+- 优化针对于子组件渲染
 
 ```jsx
 const memoizedCallback = useCallback(() => {
@@ -736,8 +740,11 @@ const memoizedCallback = useCallback(() => {
 
 #### useMemo
 
+> 返回一个 memoized 值
+
 > 把“创建”函数和依赖项数组作为参数传入 useMemo，它仅会在某个依赖项改变时才重新计算 memoized 值
 
+- 优化针对于当前组件高开销的计算
 - 传入 useMemo 的函数会在渲染期间执行
 - 如果没有提供依赖项数组, 默认在每次渲染时都会计算新的值
 
