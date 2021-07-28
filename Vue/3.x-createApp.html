@@ -21,7 +21,7 @@
 <script type="module">
   console.log('Vue@3.0.11', 'vue-router@4.0.6', 'vuex@4.0.0');
   /******************************************************************************/
-  const { createApp, ref, toRefs, h, onBeforeMount, onMounted, getCurrentInstance } = Vue;
+  const { createApp, ref, toRefs, h, onBeforeMount, onMounted, onBeforeUnmount, onUnmounted, getCurrentInstance } = Vue;
   const app1 = createApp({
     props: ['username'],
     setup(props, ctx) {
@@ -133,7 +133,31 @@ const app2 = createApp({
       onMounted(() => {
         console.log('app3 onMounted...');
       });
+      onBeforeUnmount(() => {
+        console.log('app3 onBeforeUnmount...');
+      });
+      onUnmounted(() => {
+        console.log('app3 onUnmounted...');
+      })
       return {}
+    },
+    beforeCreate() {
+      console.log('app3 beforeCreate...');
+    },
+    created() {
+      console.log('app3 created...');
+    },
+    beforeMount() {
+      console.log('app3 beforeMount...')
+    },
+    mounted() {
+      console.log('app3 mounted...');
+    },
+    beforeDestroy() {
+      console.log('app3 beforeDestroy...');
+    },
+    destroyed() {
+      console.log('app3 destroyed...');
     },
     components: {
       'count-component': {
@@ -147,6 +171,15 @@ const app2 = createApp({
           onMounted(() => {
             console.log('app3 components CountComponent onMounted...');
           });
+
+          onBeforeUnmount(() => {
+            console.log('app3 components CountComponent onBeforeUnmount...');
+          });
+
+          onUnmounted(() => {
+            console.log('app3 components CountComponent onUnmounted...');
+          });
+
           const instance = getCurrentInstance(); // 获取当前组件实例
           console.log('app3 components CountComponent getCurrentInstance... ', instance);
 
@@ -161,10 +194,33 @@ const app2 = createApp({
           }
           return { count, increment, decrement }
         },
+        beforeCreate() {
+          console.log('app3 components CountComponent beforeCreate...');
+        },
+        created() {
+          console.log('app3 components CountComponent created...');
+        },
+        beforeMount() {
+          console.log('app3 components CountComponent beforeMount...');
+        },
+        mounted() {
+          console.log('app3 components CountComponent mounted...');
+        },
+        beforeDestroy() {
+          console.log('app3 components CountComponent beforeDestroy...');
+        },
+        destroyed() {
+          console.log('app3 components CountComponent destroyed...');
+        },
         template: `<h2>components, setup, getCurrentInstance</h2><span>{{count}}</span> <button v-on:click="increment">Count++</button> <button v-on:click="decrement">Count--</button>`
       }
     }
-  }).mount('#app3');
+  })
+  app3.mount('#app3');
+  setTimeout(() => {
+    app3.unmount();
+  }, 5000)
+
 </script>
 
 </html>
