@@ -7,13 +7,32 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <title>3.x-createApp</title>
   <script src="https://unpkg.com/vue@next"></script>
+  <style>
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin: 0;
+      padding: 0;
+    }
+
+    p {
+      margin: 6px 0;
+    }
+  </style>
 </head>
 
 <body>
+  <h1>app1</h1>
+  <p>createApp 第二个参数为 props 初始值, 如果未定义 props 选项接收,则自动合并为 attrs</p>
   <div id="app1">{{name}}</div>
   <hr />
+  <h1>app2</h1>
   <div id="app2"></div>
   <hr />
+  <h1>app3</h1>
   <div id="app3">
     <count-component />
   </div>

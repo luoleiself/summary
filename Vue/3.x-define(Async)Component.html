@@ -31,13 +31,17 @@
   <div id="app2">
     <h2>{{name}}</h2>
     <p><button @click="changeTagLevel">chang tag level</button></p>
+    <p>组件除了 字符串模板,单文件组件,&lt;script type="text/x-template"&gt;之外, 需要使用闭合标签, 使用自闭合标签会导致后面的模板无法正常解析</p>
     <hello-demo :did="did" :level="demoLevel" title="Hello Demo" class="container"
-      style="margin:10px 0;padding:10px;border:1px solid #ddd;"></hello-demo>
+      style="margin:10px 0;padding:10px;border:1px solid #ddd;">
+    </hello-demo>
     <hello-world :did="did" :level="worldLevel" title="Hello World" class="container"
-      style="margin:10px 0;padding:10px;border:1px solid #ddd;"></hello-world>
+      style="margin:10px 0;padding:10px;border:1px solid #ddd;">
+    </hello-world>
   </div>
   <textarea rows="25" cols="110">
   // 使用 defineComponent 全局 API 创建组件
+  // 组件除了 字符串模板,单文件组件,&lt;script type="text/x-template"&gt;之外, 需要使用闭合标签, 使用自闭合标签会导致后面的模板无法正常解析
   // 方式一：使用 setup 方法
   const HelloDemo = defineComponent((props, { attrs, emit, slots }) => {
     console.log('defineComponent setup... ', props, attrs); // 无法使用选项, 只能使用 composition API
@@ -90,7 +94,10 @@
         h(`h${props.level}`, null, 'defineComponent API eg2: options'),
         'Create HelloWorld Component within options parameters by defineComponent API...'
       ]);
-    }
+    },
+    // render(){
+    //  return h();
+    // }
   });
   createApp({components:{ HelloWorld, HelloDemo }}).mount('#app');
   </textarea>
