@@ -145,10 +145,18 @@
     },
     render() {
       console.log('app3 ChildComponent2 render... this.$slots', this.$slots);
-      return h('div', {}, [
-        h('p', '使用渲染函数将插槽传递给子组件'),
-        this.$slots.default({ text: 'Hello App3, the message from ChildComponent2...' })
-      ]);
+      return [
+        h('div', {}, [
+          h('p', '使用渲染函数将插槽传递给子组件'),
+          this.$slots.default({
+            text: 'Hello App3, the message from ChildComponent2...parent node use render transmit slot'
+          })
+        ]),
+        h('div', {
+          text: this.$attrs.text,
+          style: { fontSize: '20px', color: 'red' }
+        }, '多个节点的 Attribute 继承需要手动指定, 否则会有警告')
+      ];
     }
   });
   const app3 = createApp({
@@ -238,10 +246,18 @@
     },
     render() {
       console.log('app3 ChildComponent2 render... this.$slots', this.$slots);
-      return h('div', {}, [
-        h('p', '使用渲染函数将插槽传递给子组件'),
-        this.$slots.default({ text: 'Hello App3, the message from ChildComponent2...' })
-      ]);
+      return [
+        h('div', {}, [
+          h('p', '使用渲染函数将插槽传递给子组件'),
+          this.$slots.default({
+            text: 'Hello App3, the message from ChildComponent2...parent node use render transmit slot'
+          })
+        ]),
+        h('div', {
+          text: this.$attrs.text,
+          style: { fontSize: '20px', color: 'red' }
+        }, '多个节点的 Attribute 继承需要手动指定, 否则会有警告')
+      ];
     }
   });
   const app3 = createApp({

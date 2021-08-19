@@ -35,7 +35,17 @@ function Con() {
 var con = new Con();
 
 /**
- * 3. 组合继承(原型+借用构造)
+ * 3. 原型继承
+ */
+let person = {
+  name: 'zhangsan',
+  friends: ['lisi', 'wangwu'],
+};
+
+let p = Object.create(person);
+
+/**
+ * 4. 组合继承(原型+借用构造)
  * 重点：结合了两种模式的优点，传参和复用
  * 特点：1、可以继承父类原型上的属性，可以传参，可复用。
  *　　　　2、每个新实例引入的构造函数属性是私有的。
@@ -46,8 +56,9 @@ function SubType(name) {
 }
 SubType.prototype = new Person();
 var sub = new SubType('sub');
+
 /**
- * 4. 寄生式继承
+ * 5. 寄生式继承
  *  借助原型可以基于已有的对象创建新对象，同时还不必须因此创建自定义的类型
  */
 function content(obj) {
@@ -61,8 +72,9 @@ function subObject(obj) {
   return sub;
 }
 var sup2 = subObject(sup);
+
 /**
- * 5. 寄生组合式继承
+ * 6. 寄生组合式继承
  * 1、函数的原型等于另一个实例。2、在函数中用apply或者call引入另一个构造函数，可传参
  */
 function inheritProperty(subType, superType) {
@@ -89,7 +101,7 @@ inheritProperty(TestDome, Test);
 var t = new TestDome('hello test demo', 18);
 
 /**
- * 6. extends 继承
+ * 7. extends 继承
  */
 class A extends B {
   constructor() {
