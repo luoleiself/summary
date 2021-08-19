@@ -124,7 +124,7 @@
 
       return () => h('p',
         { onClick: selfComponentClick },
-        'This is child component 1... Click me to show the effects of the emits option');
+        'This is child component 1... Click me to show the effects of the emits option in console');
     },
   });
   app.component('child-component-2', {
@@ -139,7 +139,7 @@
 
       return () => h('p',
         { onClick: selfComponentClick },
-        'This is child component 2... Click me to show the effects of the emits option');
+        'This is child component 2... Click me to show the effects of the emits option in console');
     },
   });
   app.mount('#app');
