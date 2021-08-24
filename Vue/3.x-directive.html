@@ -31,7 +31,7 @@
     <div v-my-directive:title.foo="title">v-my-directive:title.foo="title"</div>
     <button @click="changeTheme">Change Theme by directive</button>
     <div v-my-directive:theme.sync="theme">v-my-directive:theme.sync="theme"</div>
-    <button @click="unloadComponent">unload component and directive</button> {{isShowChild}}
+    <button @click="unloadComponent">{{msg}}</button> {{isShowChild}}
     <hello-world v-if="isShowChild" v-my-directive />
   </div>
 </body>
@@ -47,16 +47,17 @@
       const title = ref(Math.random().toString(16).toUpperCase().substr(2));
       const theme = ref('black');
       const isShowChild = ref(true);
+      const msg = ref('unmount component and directive');
 
       const changeTheme = () => {
         theme.value = theme.value === 'black' ? 'normal' : 'black';
       }
       const unloadComponent = () => {
         isShowChild.value = !isShowChild.value;
-
+        msg.value = isShowChild.value ? 'unmount component and directive' : 'mount component and directive'
       }
 
-      return { title, theme, isShowChild, changeTheme, unloadComponent }
+      return { title, theme, isShowChild, msg, changeTheme, unloadComponent }
     },
     components: {
       'hello-world': defineComponent({
