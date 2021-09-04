@@ -34,9 +34,12 @@
     <button @click="unloadComponent">{{msg}}</button> {{isShowChild}}
     <hello-world v-if="isShowChild" v-my-directive />
   </div>
+  <hr>
+  <div id="app2">
+    <my-element :test.prop="'hello my-element'"></my-element>
+  </div>
 </body>
 <script>
-  console.log('Vue@3.0.11', 'vue-router@4.0.6', 'vuex@4.0.0');
   /******************************************************************************/
   const { createApp, ref, defineComponent } = Vue;
 
@@ -163,7 +166,23 @@
     }
   });
   app.mount('#app');
-
+  /******************************************************************************/
+  console.log('------------------');
+  const app2 = createApp({
+    components: {
+      'my-element': {
+        props: ['test'],
+        setup(props, { attrs, slots, emit }) {
+          console.log('使用 .prop 修饰符，会从组件选项 props 中移除, 以 .[attr] 形式出现在组件 attrs 参数中并且不会显示在 DOM 上');
+          console.log('使用 .attr 修饰符，会从组件选项 props 中移除, 以 ^[attr] 形式出现在组件 attrs 参数中并且会显示在 DOM 上')
+          console.log('my-element setup... props ', props, 'attrs ', attrs);
+          return {}
+        },
+        template: '<p>子组件的内容</p>'
+      }
+    }
+  });
+  app2.mount('#app2');
 </script>
 
 </html>
