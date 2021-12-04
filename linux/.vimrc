@@ -86,6 +86,9 @@ inoremap <silent><expr> <Tab>
       \ <SID>check_back_space() ? "\<Tab>" :
       \ coc#refresh()
 
+" auto-pairs
+" 
+ 
 " LeaderF 
 " :help leaderF # 帮助文档
 " :Leaderf file                search files
