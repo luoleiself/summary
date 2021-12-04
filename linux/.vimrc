@@ -53,24 +53,40 @@ call plug#begin()
   Plug 'airblade/vim-gitgutter'
 call plug#end()
 
+" NERDTree
 " Key Bindings
+" C: change tree root to the selected dir
+" U: move tree root up a dir but leave old root open
+" u: move tree root up a dir
+" r: refresh cursor dir
+" R: refresh current root
+" K: go to first child
+" J: go to last child
+" A: zoom (maximize-minimize) the NERDTree window
+" o: open in prev window
+" go: preview
+" t: open in new tab
+" T: open in new tab silently
+" i: open split
+" gi: preview split
+" s: open vsplit
+" gs: preview vsplit
 " toggle sideBar tree
 map <C-b> :NERDTreeToggle<CR> 
 
-" coc.nvim configuration
+" coc.nvim 
 " use <tab> for trigger completion and navigate to the next complete item
 " if use nvm to manage Node versions, must be to set nvm alias default, otherwise will be reported error Node cannot be found
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
-
 inoremap <silent><expr> <Tab>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<Tab>" :
       \ coc#refresh()
 
-" LeaderF configuration
+" LeaderF 
 " :help leaderF # 帮助文档
 " :Leaderf file                search files
 " :Leaderf buffer              search buffers
@@ -91,9 +107,23 @@ inoremap <silent><expr> <Tab>
 " :Leaderf window              search windows.
 " :Leaderf quickfix            navigate the quickfix.
 " :Leaderf loclist             navigate the location list.
+"
+" <Tab> switch between INPUT mode and NORMAL mode
+" " <CR>/<double-click>/o : open file under cursor
+" " x : open file under cursor in a horizontally split window
+" " v : open file under cursor in a vertically split window
+" " t : open file under cursor in a new tabpage
+" " i/<Tab> : switch to input mode
+" " s : select multiple files
+" " a : select all files
+" " c : clear all selections
+" " p : preview the file
+" " q : quit
+" " <F5> : refresh the cache
+" " <F1> : toggle this help   
+"
 " <c-r> switch between fuzzy search mode and REGEX mode
 " <c-f> switch between FULL PATH search mode and NAME ONLY search mode
-" <Tab> switch between INPUT mode and NORMAL mode
 " <c-p> preview the result in the INPUT mode
 " <c-x> open in horizontal split window
 " <c-]> open in vertical split window
@@ -107,7 +137,7 @@ let g:Lf_PreviewInPopup = 1
 let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font': "DejaVu Sans Mono for Powerline" }
 let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
 
-" nerdcommenter
+" nerdcommenter 
 " :help nerdcommenter # 帮助文档
 " <leader>cc # Comment out the current line or text selected in visual mode. 行注释
 " <leader>cn # Same as cc but forces nesting. 嵌套添加注释
