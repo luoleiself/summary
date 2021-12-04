@@ -10,3 +10,4 @@ ECMAScript 6 入门 http://es6.ruanyifeng.com/?search=import&x=0&y=0#README
 
 github -> Developer settings -> Personal access tokens
 
+test
