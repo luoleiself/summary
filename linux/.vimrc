@@ -172,15 +172,15 @@ let g:NERDCustomDelimiters = {
 " :Gvdiff
 " :Gread # git checkout -- filename
 " :Gwrite # git add 
-" :Gcommit
-" :Gmerge
-" :Grebase
-" :Grevert
-" :Gpush
-" :Gfetch
-" :Gpull
-" :Gblame
-" :Glog
-" :Gstatus
+" :Git commit
+" :Git merge
+" :Git rebase
+" :Git revert
+" :Git push
+" :Git fetch
+" :Git pull
+" :Git blame
+" :Git log
+" :Git status
 " :Ggrep 
 
