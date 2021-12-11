@@ -13,8 +13,8 @@ set autoindent
 set smartindent
 set showmatch
 
-set hlsearch
-set incsearch
+set hlsearch  " 高亮搜索
+set incsearch " 增量式搜索
 ":noh "取消搜索结果的高亮
 ":set ic "不区分大小写 ignorecase
 
@@ -50,7 +50,6 @@ call plug#begin()
   Plug 'preservim/nerdcommenter' 
   
   Plug 'tpope/vim-fugitive'
-  Plug 'airblade/vim-gitgutter'
 call plug#end()
 
 " NERDTree
@@ -162,13 +161,26 @@ let g:NERDCustomDelimiters = {
     \ 'sh': { 'left': '#' }
  \ }
 
-" vim-gitgutter
-set updatetime=100
-" If you don't want vim-gitgutter to set up any mappings at all, use this:
-" let g:gitgutter_map_keys = 0
-" vim-gitgutter used to do this by default:
-highlight! link SignColumn LineNr
-highlight GitGutterAdd    guifg=#009900 ctermfg=2
-highlight GitGutterChange guifg=#bbbb00 ctermfg=3
-highlight GitGutterDelete guifg=#ff2222 ctermfg=1
+" vim-fugitive
+" :Gremove # Like :Gdelete, but keep the (now empty) buffer around.
+" :Gdelete # Wrapper around git -rm that deletes the buffer afterward.
+" :Gmove # Wrapper around git -mv that renames the buffer afterward.
+" :Grename # Like :Gmove but operates relative to the parent directory of the current file.
+" :Gbrowse # Open the current file, blob, tree, commit or tag in your browser.
+" :Gdiff 
+" :Gsdiff
+" :Gvdiff
+" :Gread # git checkout -- filename
+" :Gwrite # git add 
+" :Gcommit
+" :Gmerge
+" :Grebase
+" :Grevert
+" :Gpush
+" :Gfetch
+" :Gpull
+" :Gblame
+" :Glog
+" :Gstatus
+" :Ggrep 
 
