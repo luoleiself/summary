@@ -50,6 +50,8 @@ call plug#begin()
   Plug 'preservim/nerdcommenter' 
   
   Plug 'tpope/vim-fugitive'
+  " set laststatus=2
+  " set statusline=%<%f\ %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%)\ %P
 call plug#end()
 
 " NERDTree
