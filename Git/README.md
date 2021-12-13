@@ -11,7 +11,7 @@
   * git config [--global] user.name '[name]'  # 设置提交代码时的用户信息-用户名
   * git config [--global] user.email '[email address]'  # 设置提交代码时的用户信息-邮箱
   * git config --global alias.co checkout  # 配置 `checkout` 快捷键
-  * git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"  # 配置 `log` 快捷键和显示历史颜色 
+  * git config --global alias.lg "log --all --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"  # 配置 `log` 快捷键和显示历史颜色 
   * git config --global --unset name  # 删除已配置的命令
   * git config --global http.proxy  # 查询到当前是否设置了代理
   * git config --global --unset http.proxy  # 取消代理
