@@ -1,5 +1,16 @@
 # Hello World!
 
+### 修改原数组的方法
+
+- push
+- pop
+- shift
+- unshift
+- splice
+- sort
+- reverse
+- fill
+
 [let和const命令](https://github.com/luoleiself/summary/blob/master/ECMAScript6/letAndconst.js)
  
 [变量的解构赋值](https://github.com/luoleiself/summary/blob/master/ECMAScript6/variableDeconstruct.js)
