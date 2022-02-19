@@ -72,3 +72,23 @@ ReactDOM.unmountComponentAtNode(container);
 ReactDOM.findDOMNode(component);
 /* 创建 portal, 将子节点渲染到 DOM 组件的层次结构之外 */
 ReactDOM.createPortal(child, container);
+
+/************************************************/
+// ReactDOM.createPortal(child, container); // 适用场景: 模态框,提示框,警告框等
+const ModalRoot = document.getElementsByTagName('body')[0];
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.el = document.createElement('div');
+  }
+  componentDidMount() {
+    modalRoot.appendChild(this.el);
+  }
+  componentWillUnmount() {
+    modalRoot.removeChild(this.el);
+  }
+  render() {
+    return ReactDOM.createPortal(<div>this is ReactDOM.createPortal(child,container)</div>, this.el);
+  }
+}
+/************************************************/
