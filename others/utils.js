@@ -1,4 +1,10 @@
 // 函数防抖
+/**
+ * @method debounce 函数防抖
+ * @param {Function} fn 执行方法
+ * @param {Number} delay 延迟时间 默认 300 毫秒
+ * @returns {Function}
+ */
 export const debounce = function (fn, delay) {
   if (typeof fn !== 'function') throw new Error('fn is not Function');
   delay = delay >= 0 ? delay : 300;
@@ -16,6 +22,12 @@ export const debounce = function (fn, delay) {
   };
 };
 // 函数节流
+/**
+ * @method throttle 函数节流
+ * @param {Function} fn 执行方法
+ * @param {Number} delay 延迟时间 默认 300 毫秒
+ * @returns {Function}
+ */
 export const throttle = function (fn, delay) {
   if (typeof fn !== 'function') throw new Error('fn is not Function');
   delay = delay >= 0 ? delay : 300;
@@ -71,8 +83,13 @@ export const getExplore = function () {
   if (sys.safari) return 'Safari: ' + sys.safari;
   return 'Unkonwn';
 };
-// 复制粘贴板
-export const copyText = (text) => {
+// 复制剪贴板
+/**
+ * @method copyText 剪贴板方法
+ * @param {String} text 需要剪贴的内容
+ * @returns {Boolean}
+ */
+export const copyText = function (text) {
   // 数字没有 .length 不能执行selectText 需要转化成字符串
   const textString = text.toString();
   let input = document.querySelector('#copy-input');
@@ -110,6 +127,7 @@ export const copyText = (text) => {
       textbox.setSelectionRange(startIndex, stopIndex);
       textbox.focus();
     }
+    return true;
   }
 };
 
