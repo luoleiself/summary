@@ -168,3 +168,7 @@ for (var fraction = Math.floor(len / 2); fraction > 0; fraction = Math.floor(fra
   }
 }
 console.log(arr);
+
+
+// 改变原数组的方法
+// pop, push, shift, unshift, reverse, sort, splice, fill, copyWithin
