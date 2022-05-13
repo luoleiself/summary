@@ -38,6 +38,12 @@ vim常用命令
       :resize -N 减少窗口多行高度
       :resize N 调整窗口指定高度
 
+      " 键盘快捷键切换光标窗口
+      noremap <C-h> <C-w><C-h>
+      noremap <C-j> <C-w><C-j>
+      noremap <C-k> <C-w><C-k>
+      noremap <C-l> <C-w><C-l>
+      
     # 文件操作
       :wq|x => 保存并退出
       :q! => 强制退出并忽略所有更改
@@ -271,12 +277,6 @@ vim常用命令
     
   # 替换模式
     R => 持续替换字符并立即切换为插入模式
-
-" 键盘快捷键切换光标窗口
-noremap <C-h> <C-w><C-h>
-noremap <C-j> <C-w><C-j>
-noremap <C-k> <C-w><C-k>
-noremap <C-l> <C-w><C-l>
 
 map 映射 map、nmap、imap、vmap、vnoremap、nunmap、nmapclear
   nore: 表示非递归
