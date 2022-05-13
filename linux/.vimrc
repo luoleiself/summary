@@ -5,10 +5,10 @@
 " inoremap { {<CR>}<ESC>ko
 
 " 键盘快捷键切换光标窗口
-noremap <c-h> <c-w><c-h>
-noremap <c-j> <c-w><c-j>
-noremap <c-k> <c-w><c-k>
-noremap <c-l> <c-w><c-l>
+noremap <C-h> <C-w><C-h>
+noremap <C-j> <C-w><C-j>
+noremap <C-k> <C-w><C-k>
+noremap <C-l> <C-w><C-l>
 
 
 syntax on
