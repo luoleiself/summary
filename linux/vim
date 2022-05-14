@@ -286,3 +286,12 @@ map 映射 map、nmap、imap、vmap、vnoremap、nunmap、nmapclear
   c: 表示在命令行模式下生效.(command的意思)
   un: 后面跟按键组合，表示删除这个映射
   clear: 表示清除相关模式下的所有映射
+
+
+g 全局环境变量
+l 局部环境变量
+b 当前缓冲区
+w 当前窗口
+t 当前标签页
+s vim脚本文件中的局部文件作用域
+a 函数的参数
