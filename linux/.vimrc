@@ -1,14 +1,30 @@
-" 括号自动匹配添加
-" inoremap ( ()<LEFT>
-" inoremap { {}<LEFT>
-" inoremap [ []<LEFT>
-" inoremap { {<CR>}<ESC>ko
+"括号自动匹配添加
+"inoremap ( ()<LEFT> 
+"inoremap { {}<LEFT> 
+"inoremap [ []<LEFT> 
+"inoremap { {<CR>}<ESC>ko 
+ 
+"v[nore]map 可视模式快捷键 
+"i[nore]map 插入模式快捷键
+"x[nore]map 可视模式快捷键
+"s[nore]map 选择模式快捷键
+"c[nore]map 命令行模式快捷键
+":unmap 
+":mapclear 
 
-" 键盘快捷键切换光标窗口
+"切换窗口快捷键
 noremap <C-h> <C-w><C-h>
 noremap <C-j> <C-w><C-j>
 noremap <C-k> <C-w><C-k>
 noremap <C-l> <C-w><C-l>
+
+"g 全局环境变量
+"l 局部环境变量
+"b 当前缓冲区
+"w 当前窗口
+"t 当前标签页
+"s vim脚本文件中的局部文件作用域
+"a 函数的参数
 
 
 syntax on
@@ -25,6 +41,7 @@ set incsearch " 增量式搜索
 ":noh "取消搜索结果的高亮
 ":set ic "不区分大小写 ignorecase
 
+set foldmethod=indent " 开启智能缩进
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
@@ -80,7 +97,9 @@ call plug#end()
 " s: open vsplit
 " gs: preview vsplit
 " toggle sideBar tree
-map <C-b> :NERDTreeToggle<CR> 
+" 普通模式非递归快捷键
+" map 递归快捷键
+noremap <C-b> :NERDTreeToggle<CR>  
 
 " coc.nvim 
 " use <tab> for trigger completion and navigate to the next complete item
@@ -143,12 +162,23 @@ inoremap <silent><expr> <Tab>
 " <c-k> move the cursor upward in the result window. Or use <tab> change the NORMAL mode then use home move the cursor
 " let g:Lf_WindowHeight = 0.5
 " popup mode
-let g:Lf_WindowPosition = 'popup'
+let g:Lf_WindowPosition = 'popup' " 设置全局变量
 let g:Lf_PreviewInPopup = 1
 let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font': "DejaVu Sans Mono for Powerline" }
 let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
 
 " nerdcommenter 
+" mapleader key default '\'
+let mapleader = "," " 设置先导键
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1 " 设置全局变量
+let g:NERDDefaultAlign = 'left'
+let g:NERDCustomDelimiters = {
+    \ 'javascript': { 'left': '//', 'leftAlt': '/**', 'rightAlt': '*/' },
+    \ 'less': { 'left': '/*', 'right': '*/' },
+    \ 'html': { 'left': '<!--','right': '-->' },
+    \ 'sh': { 'left': '#' }
+ \ }
 " :help nerdcommenter # 帮助文档
 " <leader>cc # Comment out the current line or text selected in visual mode. 行注释
 " <leader>cn # Same as cc but forces nesting. 嵌套添加注释
@@ -158,17 +188,7 @@ let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
 " <leader>ci # Toggles the comment state of the selected line(s) individually. 状态切换
 " <leader>cs # Comments out the selected lines with a pretty block formatted layout. 使用性感模式注释
 " <leader>cy # Same as cc except that the commented line(s) are yanked first. 先复制后注释
-" mapleader key default '\'
-let mapleader = "," 
-" Add spaces after comment delimiters by default
-let g:NERDSpaceDelims = 1
-let g:NERDDefaultAlign = 'left'
-let g:NERDCustomDelimiters = {
-    \ 'javascript': { 'left': '//', 'leftAlt': '/**', 'rightAlt': '*/' },
-    \ 'less': { 'left': '/*', 'right': '*/' },
-    \ 'html': { 'left': '<!--','right': '-->' },
-    \ 'sh': { 'left': '#' }
- \ }
+
 
 " vim-fugitive
 " :Gremove # Like :Gdelete, but keep the (now empty) buffer around.
