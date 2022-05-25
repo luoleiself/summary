@@ -46,7 +46,7 @@ set tabstop=2
 set softtabstop=2
 set shiftwidth=2
 
-set history=500
+set history=500 " 搜索历史记录
 set fenc=utf-8
 
 set confirm
