@@ -1,9 +1,10 @@
-"括号自动匹配添加
+"插入模式下,括号自动匹配添加
 "inoremap ( ()<LEFT> 
 "inoremap { {}<LEFT> 
 "inoremap [ []<LEFT> 
 "inoremap { {<CR>}<ESC>ko 
  
+"nnoremap 普通模式快捷键
 "v[nore]map 可视模式快捷键 
 "i[nore]map 插入模式快捷键
 "x[nore]map 可视模式快捷键
@@ -12,7 +13,7 @@
 ":unmap 
 ":mapclear 
 
-"切换窗口快捷键
+"普通模式,切换窗口快捷键
 noremap <C-h> <C-w><C-h>
 noremap <C-j> <C-w><C-j>
 noremap <C-k> <C-w><C-k>
@@ -175,7 +176,9 @@ let g:NERDSpaceDelims = 1 " 设置全局变量
 let g:NERDDefaultAlign = 'left'
 let g:NERDCustomDelimiters = {
     \ 'javascript': { 'left': '//', 'leftAlt': '/**', 'rightAlt': '*/' },
+    \ 'typescript': { 'left': '//', 'leftAlt': '/**', 'rightAlt': '*/' },
     \ 'less': { 'left': '/*', 'right': '*/' },
+    \ 'scss': { 'left': '/*', 'right': '*/' },
     \ 'html': { 'left': '<!--','right': '-->' },
     \ 'sh': { 'left': '#' }
  \ }
