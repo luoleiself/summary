@@ -29,6 +29,8 @@ vim常用命令
       :saveas 另存为
       :update 更新保存文件, 和 write 的区别是只有文件有变动时才会有保存提示, write 每次保存都会有提示
 
+      :[range]norm[!] {command} 执行普通模式的命令
+
     # 窗口操作
       :Ex => 打开内置的 Netrw 文件树结构
     
