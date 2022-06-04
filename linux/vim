@@ -34,10 +34,10 @@ vim常用命令
     # 窗口操作
       :Ex => 打开内置的 Netrw 文件树结构
     
-      :sp [filename] 水平分割窗口, 并打开文件
-      :vsp [filename] 垂直分割窗口, 并打开文件
-      :new [filename] 水平创建新窗口, 并打开指定文件
-      :vnew [filename] 垂直创建新窗口, 并打开指定文件
+      :sp [filename] 水平分割窗口, 如果有文件名则打开文件否则新建窗口
+      :vsp [filename] 垂直分割窗口, 如果有文件名则打开文件否则新建窗口
+      :new [filename] 水平创建新窗口, 如果有文件名则打开文件否则新建窗口
+      :vnew [filename] 垂直创建新窗口, 如果有文件名则打开文件否则新建窗口
       :close|quit 关闭当前活动窗口
       :qa[ll] 关闭所有窗口
       :on[ly] 关闭其他窗口,仅保留当前窗口
