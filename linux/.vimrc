@@ -1,4 +1,4 @@
-"插入模式下,括号自动匹配添加
+"插入模式,括号自动匹配添加
 "inoremap ( ()<LEFT> 
 "inoremap { {}<LEFT> 
 "inoremap [ []<LEFT> 
@@ -47,7 +47,7 @@ set tabstop=2
 set softtabstop=2
 set shiftwidth=2
 
-set history=500 " 搜索历史记录
+set history=500
 set fenc=utf-8
 
 set confirm
@@ -167,6 +167,11 @@ let g:Lf_WindowPosition = 'popup' " 设置全局变量
 let g:Lf_PreviewInPopup = 1
 let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font': "DejaVu Sans Mono for Powerline" }
 let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
+" Change the default mapping of searching files command
+let g:Lf_ShortcutF = '<C-F>' 
+" Show icons, icons are shown by default
+let g:Lf_ShowDevIcons = 0
+
 
 " nerdcommenter 
 " mapleader key default '\'
