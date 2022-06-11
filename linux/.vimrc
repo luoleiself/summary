@@ -172,8 +172,7 @@ let g:Lf_ShortcutF = '<C-F>'
 " Show icons, icons are shown by default
 let g:Lf_ShowDevIcons = 0
 
-
-" nerdcommenter 
+" nerdcommenter
 " mapleader key default '\'
 let mapleader = "," " 设置先导键
 " Add spaces after comment delimiters by default
