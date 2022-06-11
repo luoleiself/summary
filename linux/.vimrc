@@ -79,6 +79,7 @@ call plug#begin()
   " set statusline=%<%f\ %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%)\ %P
 call plug#end()
 
+
 " NERDTree
 " Key Bindings
 " C: change tree root to the selected dir
@@ -102,6 +103,7 @@ call plug#end()
 " map 递归快捷键
 noremap <C-b> :NERDTreeToggle<CR>  
 
+
 " coc.nvim 
 " use <tab> for trigger completion and navigate to the next complete item
 " if use nvm to manage Node versions, must be to set nvm alias default, otherwise will be reported error Node cannot be found
@@ -114,9 +116,11 @@ inoremap <silent><expr> <Tab>
       \ <SID>check_back_space() ? "\<Tab>" :
       \ coc#refresh()
 
+
 " auto-pairs
 " 
  
+
 " LeaderF 
 " :help leaderF # 帮助文档
 " :Leaderf file                search files
@@ -171,6 +175,7 @@ let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
 let g:Lf_ShortcutF = '<C-F>' 
 " Show icons, icons are shown by default
 let g:Lf_ShowDevIcons = 0
+
 
 " nerdcommenter
 " mapleader key default '\'
