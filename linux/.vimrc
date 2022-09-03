@@ -30,6 +30,7 @@ noremap <C-l> <C-w><C-l>
 
 syntax on
 filetype on
+colorscheme onedark
 "colorscheme monokai
 set number
 "set relativenumber "显示相对行号
@@ -43,6 +44,15 @@ set incsearch " 增量式搜索
 ":set ic "不区分大小写 ignorecase
 
 set foldmethod=indent " 开启智能缩进
+"zc 收起缩进
+"zC 递归收起多级缩进
+"zo 展开缩进
+"zO 递归展开多级缩进
+"za 切换缩进
+"zA 递归切换多级缩进
+"zR 展开所有缩进
+"zM 收起所有缩进
+
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
@@ -105,16 +115,43 @@ noremap <C-b> :NERDTreeToggle<CR>
 
 
 " coc.nvim 
-" use <tab> for trigger completion and navigate to the next complete item
-" if use nvm to manage Node versions, must be to set nvm alias default, otherwise will be reported error Node cannot be found
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
-inoremap <silent><expr> <Tab>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<Tab>" :
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+set signcolumn=yes
+ 
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: There's always complete item selected by default, you may want to enable
+" no select by `"suggest.noselect": true` in your configuration file.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
       \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice.
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+let mapleader = "," " 设置先导键
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+" Formatting selected code.
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
 
 
 " auto-pairs
@@ -224,4 +261,5 @@ let g:NERDCustomDelimiters = {
 " :Git log
 " :Git status
 " :Ggrep 
+
 
