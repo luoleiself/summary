@@ -8,8 +8,8 @@
 
 ### 配置
 
-- git config --system --unset credential.helper # 重置远端的用户名和密码
-- git config --global credential.helper store # 存储凭据
+- git config --system --unset credential.helper # 重置 Git 本地用户凭据
+- git config --global credential.helper store # 存储 Git 本地用户凭据
 - git config -l/--list # 显示当前的 `Git` 配置
 - git config -e [--global] # 编辑 `Git` 配置文件
 - git config [--global] user.name '[name]' # 设置提交代码时的用户信息-用户名

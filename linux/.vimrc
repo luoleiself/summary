@@ -32,6 +32,10 @@ syntax on
 filetype on
 colorscheme onedark
 "colorscheme monokai
+
+" 设置 vim 背景透明
+hi Normal ctermfg=256 ctermbg=none 
+
 set number
 "set relativenumber "显示相对行号
 set autoindent
