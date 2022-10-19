@@ -5,6 +5,40 @@
   # 终端模式
   # 可视模式
 vim常用命令
+  # 终端模式
+    :start_pos[,end_pos] => 地址定界符
+    :. => 当前行
+    :% => 全文, 当前buffer
+    :$ => 最后一行
+    :c => 修改定界符匹配到的行
+    :'<,'> => 高亮选区      
+
+  # 窗口操作
+    :Ex => 打开内置的 Netrw 文件树结构
+  
+    :sp [filename] 水平分割窗口, 如果有文件名则打开文件否则新建窗口
+    :vsp [filename] 垂直分割窗口, 如果有文件名则打开文件否则新建窗口
+    :new [filename] 水平创建新窗口, 如果有文件名则打开文件否则新建窗口
+    :vnew [filename] 垂直创建新窗口, 如果有文件名则打开文件否则新建窗口
+    :close|quit 关闭当前活动窗口
+    :qa[ll] 关闭所有窗口
+    :on[ly] 关闭其他窗口,仅保留当前窗口
+    :exit 退出shell
+    :!command 执行shell命令
+    
+    :resize +N 增加窗口多行高度
+    :resize -N 减少窗口多行高度
+    :resize N 调整窗口指定高度
+
+    " 键盘快捷键切换光标窗口
+    noremap <C-h> <C-w><C-h>
+    noremap <C-j> <C-w><C-j>
+    noremap <C-k> <C-w><C-k>
+    noremap <C-l> <C-w><C-l>
+    
+    H => 光标定位到当前窗口的顶部第一个非空字符处
+    L => 光标定位到当前窗口的底部第一个非空字符处
+
   # 文件操作
     vi fileName => 打开文件
     vi +n filename => 打开文件, 并将光标置于第n行首 
@@ -14,76 +48,22 @@ vim常用命令
     vi -O => 垂直分割窗口打开多个文件 
     vi -p => 以标签方式打开多个文件
     vi -M => 以只读模式打开文件
-  # 终端模式
-    :start_pos[,end_pos] => 地址定界符
-    :. => 当前行
-    :% => 全文, 当前buffer
-    :$ => 最后一行
-    :c => 修改定界符匹配到的行
-    :'<,'> => 高亮选区
 
-    # 缓冲区操作
-      :[range]bufdo[!] {cmd} => 在每个缓冲区中执行命令, 如果指定区间范围, 则命令作用于区间范围内
-      作用同 tabdo, windo
-      :enew 当前窗口中新创建一个缓冲区
-      :saveas 另存为
-      :update 更新保存文件, 和 write 的区别是只有文件有变动时才会有保存提示, write 每次保存都会有提示
+    :w => 保存修改, 如果有文件名则另存为指定文件
+    :q! => 强制退出并忽略所有更改
+    :e! => 放弃所有修改,并打开原来文件
+    :r[ead] fileName => 读取指定文件并添加到当前光标所在处
+    :e  filename => 打开新文件
+    :!shell 切换到shell命令执行,此时vim在后台运行, exit => 退出 shell 切换回 vim
+    :args => 显示使用vi命令打开的文件列表
 
-      :[range]norm[!] {command} 执行普通模式的命令
-
-    # 窗口操作
-      :Ex => 打开内置的 Netrw 文件树结构
-    
-      :sp [filename] 水平分割窗口, 如果有文件名则打开文件否则新建窗口
-      :vsp [filename] 垂直分割窗口, 如果有文件名则打开文件否则新建窗口
-      :new [filename] 水平创建新窗口, 如果有文件名则打开文件否则新建窗口
-      :vnew [filename] 垂直创建新窗口, 如果有文件名则打开文件否则新建窗口
-      :close|quit 关闭当前活动窗口
-      :qa[ll] 关闭所有窗口
-      :on[ly] 关闭其他窗口,仅保留当前窗口
-      :exit 退出shell
-      :!command 执行shell命令
-      
-      :resize +N 增加窗口多行高度
-      :resize -N 减少窗口多行高度
-      :resize N 调整窗口指定高度
-
-      " 键盘快捷键切换光标窗口
-      noremap <C-h> <C-w><C-h>
-      noremap <C-j> <C-w><C-j>
-      noremap <C-k> <C-w><C-k>
-      noremap <C-l> <C-w><C-l>
-      
-      H => 光标定位到当前窗口的顶部第一个非空字符处
-      L => 光标定位到当前窗口的底部第一个非空字符处
-
-    # 文件操作
-      :w => 保存修改, 如果有文件名则另存为指定文件
-      :q! => 强制退出并忽略所有更改
-      :e! => 放弃所有修改,并打开原来文件
-      :r[ead] fileName => 读取指定文件并添加到当前光标所在处
-      :e  filename => 打开新文件
-      :!shell 切换到shell命令执行,此时vim在后台运行, exit => 退出 shell 切换回 vim
-      :args => 显示使用vi命令打开的文件列表
-      # 多文件(使用 vi 命令或者加 -p 参数打开多个文件)
-        :prev => 切换上一个文件
-        :next => 切换下一个文件
-        :first => 切换第一个文件
-        :last => 切换最后一个文件
-        :n => 切换到下一个文件
-        :N => 切换到上一个文件
-      # 缓冲区
-        :buffers => 显示缓冲区的文件列表
-        :ls => 列出缓冲区的文件列表
-        :bn[ext] => 切换下一个文件
-        :bp[revious]|bN => 切换上一个文件
-        :bfirst => 切换到第一个文件
-        :blast => 切换到最后一个文件
-        :b{n} => 切换到指定文件
-        :badd [file] => 添加文件到缓冲区中
-        :bd[elete] [file|number] => 删除缓冲区中的指定文,可使用文件编号
-        :{number},{number}bd => 删除缓冲区指定编号区间的文件
-        :bd! => 强制删除文件并退出
+    # 多文件(使用 vi 命令或者加 -p 参数打开多个文件)
+      :prev => 切换上一个文件
+      :next => 切换下一个文件
+      :first => 切换第一个文件
+      :last => 切换最后一个文件
+      :n => 切换到下一个文件
+      :N => 切换到上一个文件
     # 标签操作(-p 参数打开)
       :tabe => 在新标签页中打开文件
       :tabs => 列出所有的标签页
@@ -94,27 +74,47 @@ vim常用命令
       :tabo[nly] => 关闭其他的标签页
       :tabm[ove] n => 移动当前标签页到 n 的位置
       :tab split => 将缓冲区的内容在新标签页中打开
-    # 临时配置
-      :syntax on => 开启语法高亮
-      :set nu/nonu => 临时显示/隐藏行号
-      :set tabstop=4 => 设置 Tab 键宽度
-      :set hlsearch => 临时显示搜索时高亮
-      :set incsearch/noincsearch => 临时显示/隐藏高亮匹配
-    # 正则表达式
-      /string => 正则[向后]匹配内容
-      ?string => 正则[向前]匹配内容
-      :[range] s/old/new/[flags] => 把old指定的字符串替换成new指定的字符串,old可以是正则表达式
-            => [range]
-              . => 当前行
-              1,$ => 从第一行到最后一行
-              %   => 全局匹配
-            => [flags] 
-              g => 对指定范围内的所有匹配项进行替换
-              c => 再替换前请求用户确认
-              e => 忽略执行过程的错误
-              d => 删除操作
-      :noh => 取消 /{pattern} 搜索结果的高亮
-      /\<pattern\> => 精确匹配 pattern 内容
+
+    # 缓冲区
+      :buffers|ls => 列出缓冲区的文件列表
+      :bnext|bn => 切换下一个文件
+      :bprev|bp|bN => 切换上一个文件
+      :bfirst => 切换到第一个文件
+      :blast => 切换到最后一个文件
+      :b{n} => 切换到指定文件
+      :badd [file] => 添加文件到缓冲区中
+      :{num},{num} bd | bd[elete]/bd N1 N2 N3 => 删除缓冲区指定编号区间的文件
+      :bd! => 强制删除文件并退出
+
+      :enew =>  当前窗口中新创建一个缓冲区
+      :[range] bufdo[!] {cmd} =>  在每个缓冲区中执行命令, 如果指定区间范围, 则命令作用于区间范围内, 作用同 tabdo, windo
+      :saveas =>  另存为
+      :update =>  更新保存文件, 和 write 的区别是只有文件有变动时才会有保存提示, write 每次保存都会有提示
+
+      :[range] norm[!] {command}  =>  执行普通模式的命令
+
+  # 临时配置
+    :syntax on => 开启语法高亮
+    :set nu/nonu => 临时显示/隐藏行号
+    :set tabstop=4 => 设置 Tab 键宽度
+    :set hlsearch => 临时显示搜索时高亮
+    :set incsearch/noincsearch => 临时显示/隐藏高亮匹配
+  # 正则表达式
+    /string => 正则[向后]匹配内容
+    ?string => 正则[向前]匹配内容
+    :[range] s/old/new/[flags] => 把old指定的字符串替换成new指定的字符串,old可以是正则表达式
+          => [range]
+            . => 当前行
+            1,$ => 从第一行到最后一行
+            %   => 全局匹配
+          => [flags] 
+            g => 对指定范围内的所有匹配项进行替换
+            c => 再替换前请求用户确认
+            e => 忽略执行过程的错误
+            d => 删除操作
+    :noh => 取消 /{pattern} 搜索结果的高亮
+    /\<pattern\> => 精确匹配 pattern 内容
+    
   # 插入模式
     i => 在当前位置前插入
     a => 在当前位置后插入
