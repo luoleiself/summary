@@ -91,7 +91,6 @@ vim常用命令
       :saveas =>  另存为
       :update =>  更新保存文件, 和 write 的区别是只有文件有变动时才会有保存提示, write 每次保存都会有提示
 
-      :[range] norm[!] {command}  =>  执行普通模式的命令
 
   # 临时配置
     :syntax on => 开启语法高亮
@@ -102,6 +101,10 @@ vim常用命令
   # 正则表达式
     /string => 正则[向后]匹配内容
     ?string => 正则[向前]匹配内容
+
+    :[range] norm[!] {command}  =>  执行普通模式的命令
+      => :3,13 norm 2x 删除 3 到 13 行之间行首位置的 2 个字符
+
     :[range] s/old/new/[flags] => 把old指定的字符串替换成new指定的字符串,old可以是正则表达式
           => [range]
             . => 当前行
