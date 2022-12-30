@@ -18,10 +18,7 @@
       width: 100px;
       height: 40px;
       line-height: 20px;
-    }
-
-    .container {
-      display: flex;
+      margin: 0 20px 20px;
     }
   </style>
 </head>
@@ -31,6 +28,8 @@
     <div>
       <h2>html2Canvas</h2>
       <button onclick="btnClick()">Click Me</button>
+      <button onclick="btnClick2()">图片转base64</button>
+      <input type="file" onchange="inputChange()" placeholder="图片转base64" style="display: none;" />
     </div>
     <textarea rows="12" cols="100" readonly>
       // 调用方法
@@ -57,6 +56,76 @@
       // download();
       $('body').append('<img src="' + base64 + '" alt=""/>');
     });
+  }
+  // 图片对象转base64
+  function btnClick2() {
+    $('input[type="file"]').click();
+  }
+  function inputChange() {
+    var file = $('input[type="file"]')[0].files[0];
+    if (Math.random() * 10 < 6) {
+      file = "://search.sogoucdn.com/pic/pc/static/img/sprite_bigImg.3de1f96.png";
+    }
+    console.log(file, typeof file);
+    file2DataURL(file).then(function (res) {
+      $('body').append('<img title="图片对象或者图片链接转Base64" src="' + res + '" alt="图片对象或者图片链接转Base64" style="width: 150px;height: auto;"/>');
+    });
+  }
+  // 图片对象或者图片链接转 Base64
+  /**
+   * @method  file2DataURL 图片对象或图片链接转 Base64
+   * @param {String|File} arg 图片对象或者图片链接
+   * @return {Promise}  返回 Promise 的 then 方法接收图片 Base64 编码字符串
+   */
+  function file2DataURL(arg) {
+    var isImgUrl = /((https?)?:)?\/\/.*?\.(jpg|jpeg|bmp|png|webp|gif)/i.test(arg);
+    var isFile =
+      arg != null && typeof arg == 'object' && /image\/\w+/.test(arg.type);
+
+    if (!isFile && !isImgUrl) {
+      return new Error('arg 参数不是一个图片对象或者图片链接...');
+    }
+
+    if (isImgUrl) {
+      var mime = 'image/' + arg.match(/\.(jpg|jpeg|bmp|png|webp|gif)/i)[1];
+      var canvas = document.createElement('canvas');
+      var img = document.createElement('img');
+      img.src = arg.includes('http')
+        ? arg
+        : arg.includes('://')
+          ? 'https' + arg
+          : 'https:' + arg;
+      img.crossOrigin = 'anonymous';
+
+      return new Promise(function (resolve, reject) {
+        img.onload = function () {
+          canvas.width = img.width;
+          canvas.height = img.height;
+          var ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, img.width, img.height);
+          var dataURL = canvas.toDataURL(mime);
+          resolve(dataURL);
+        };
+        img.onerror = function (err) {
+          reject(err);
+        };
+      });
+    }
+
+    if (typeof FileReader == 'undefined') {
+      return new Error('浏览器不支持 FileReader API, 请先升级浏览器...');
+    }
+    var reader = new FileReader();
+    var p = new Promise(function (resolve, reject) {
+      reader.onload = function (e) {
+        resolve(e.currentTarget.result);
+      };
+      reader.onerror = function (e) {
+        reject(e);
+      };
+    });
+    reader.readAsDataURL(arg);
+    return p;
   }
 </script>
 <script>
@@ -144,7 +213,7 @@
       // DOM 转图片方法
       html2canvas($selector, o.canvasParams).then(function (canvas) {
         var ext = '', base64 = '', filename = '', file = '', quality = 0.92;
-        
+
         o.imgConf.type = o.imgConf.type === 'jpg' ? 'jpeg' : o.imgConf.type;
 
         if (o.imgConf.type === 'jpeg' || o.imgConf.type === 'webp') {
