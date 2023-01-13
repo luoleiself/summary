@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.3/jquery.js"></script>
+  <style>
+    img {
+      width: 150px;
+    }
+  </style>
+</head>
+
+<body>
+  <a href="//www.baidu.com">
+    <img src="https://t7.baidu.com/it/u=4162611394,4275913936&fm=193&f=GIF" alt="" />
+  </a>
+  <img src="https://t7.baidu.com/it/u=4162611394,4275913936&fm=193&f=GIF" alt="" />
+  <img src="https://t7.baidu.com/it/u=4162611394,4275913936&fm=193&f=GIF" alt="" />
+  <img src="https://t7.baidu.com/it/u=4162611394,4275913936&fm=193&f=GIF" alt="" />
+  <div style="margin: 20px 0;width: 500; height: 200px; border: 1px solid #ddd;"></div>
+
+  <div id="rangeBox" contenteditable="true" style="width: 800px;height: 200px; border:1px solid #ddd;">
+    0123456789<em>abcdefg</em><em>hijklmnopqrstuvwxyz</em><span>ABCDEFG</span><b>HIJKLMNOPQRSTUVWXYZ</b>
+  </div>
+
+  <script>
+    $(function () {
+      $('#rangeBox').on('keyup', function (evt) {
+        console.log(evt);
+      });
+
+
+
+    });
+  </script>
+
+</body>
+<script>
+  window.onload = function () {
+    var $img = document.querySelectorAll('img');
+
+    // window.addEventListener('')
+
+  };
+
+  document.addEventListener('DOMContentLoaded', function (evt) {
+    console.log('DOMContentLoaded');
+  });
+
+</script>
+
+</html>

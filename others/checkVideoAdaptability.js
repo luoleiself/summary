@@ -59,8 +59,8 @@
         (userAgent.indexOf('MSIE') !== -1
           ? userAgent.match(/MSIE\s*[\d.]+/gi)[0].match(/[\d.]+/)[0]
           : userAgent.indexOf('Trident') !== -1
-          ? parseInt(userAgent.match(/Trident\/[\d.]+/gi)[0].match(/[\d.]+/)) + 4
-          : '');
+            ? parseInt(userAgent.match(/Trident\/[\d.]+/gi)[0].match(/[\d.]+/)) + 4
+            : '');
     }
 
     if (isIE) {
@@ -90,3 +90,99 @@ if (!result.isCanPlay) {
   document.getElementById('msgBox').innerHTML = result.tips;
 }
 console.log(result);
+
+; (function () {
+  // 浏览器小于等于 IE11 提示
+  window.lteIE11 = function () {
+    var ua = window.navigator.userAgent;
+    if (ua.indexOf('MSIE') === -1 && ua.indexOf('Trident') === -1) {
+      return false;
+    }
+    var version = ua.indexOf('MSIE') !== -1
+      ? ua.match(/MSIE\s*[\d.]+/gi)[0].match(/[\d.]+/)[0]
+      : ua.indexOf('Trident') !== -1
+        ? parseInt(ua.match(/Trident\/[\d.]+/gi)[0].match(/[\d.]+/)) + 4
+        : '';
+
+    if (version > 11) {
+      return false;
+    }
+
+    var $warningBox = document.querySelector('.ie-warning-box');
+    if ($warningBox != null && typeof $warningBox == 'object') {
+      $warningBox.style.display = 'block';
+      return true;
+    }
+
+    var _tips = '<style>' +
+      '.ie-warning-box {' +
+      'position: fixed;' +
+      'top: 0;' +
+      'left: 0;' +
+      'width: 100%;' +
+      'height: 100%;' +
+      'z-index: 9;' +
+      'background-color: rgba(00, 00, 00, 0.4);' +
+      '}' +
+      '.ie-warning-box .ie-warning-content {' +
+      'position: absolute;' +
+      'top: 50%;' +
+      'left: 50%;' +
+      'width: 500px;' +
+      'height: 200px;' +
+      'transform: translate(-50%, -50%);' +
+      'background-color: #fff;' +
+      'border-radius: 10px;' +
+      '}' +
+      '.ie-warning-box .ie-warning-content .ie-icon-close {' +
+      'display: inline-block;' +
+      'width: 32px;' +
+      'height: 32px;' +
+      'background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAjtJREFUeF7tmt8qBVEYxX/nfdx5AS+BiIiIiIiI/I+IiIiIiIhbD8ADuPUUXsClvjqnxrQ3M3vPnqn59rk88+351lqz1syevaeB8l9DOX+iANEByhWIEVBugHgTjBGIEVCuQIyAcgPEp4BPBNaATuAbeAU2SnZTq/8X8O7a30eAN6AjQXoV2CpJhBVgM9HrE2hz6e0jwAfQnmq6DOy4AMkxZgnYTtVXIoBYcN0AfBHYy0EoT+kCsGsYIDicIujjAMGRtmIL2zxwkIdZhto5YN9Q5xU9XwEEj8mS8v8scJSBWJaSGeDQUOgduSIEEFw2a04DJ1kY/lEzBRyHilpRAgg+m0UngTNHESaAU8PYwiJWpACC02bVceAipwhjwLlhTJHRCjITtFl2FLjKKMIIcGmoLSJSv05btANaJ7dZdxi4+UeEIeDaUOMTJWvLUAJIQ5uFB4E7C6IB4NZwzCVCmcwWUgABYLNyP/CQQtgH3BtQ54lOJtLJotACSC+bpXuBpyaYHuDRgD5LZHKTLlsA6WezdncTzLOBxV9R8SJdhQDS02ZxExlTRAojXZUA0tdm9SSmZDSCkK5SAOndBZgsL8ckEi/BWScalHETTPNRLYDqCKi+Cap+DKqeCKmeCqt+GVL9Oqx6QUT1kpjqRVHVy+KqN0ZUb42p3xxVvz2u/gMJ9Z/IlLlyFaxXFUtiwci4nDgK4KJancZEB9TparpwiQ5wUa1OY6ID6nQ1XbhEB7ioVqcx0QF1upouXH4AJriGQet4IxkAAAAASUVORK5CYII=) center center no-repeat;' +
+      'background-size: 100% 100%;' +
+      'position: absolute;' +
+      'top: 10px;' +
+      'right: 10px;' +
+      'cursor: pointer;' +
+      '}' +
+      '.ie-warning-box .ie-warning-content .ie-warning-body {' +
+      'height: 100%;' +
+      'padding: 20px;' +
+      'box-sizing: border-box;' +
+      'display: -webkit-box;' +
+      '-webkit-box-orient: vertical;' +
+      'display: flex;' +
+      'flex-flow: column nowrap;' +
+      'justify-content: center;' +
+      'align-items: center;' +
+      '}' +
+      '.ie-warning-box .ie-warning-content .ie-warning-body .ie-warning-text {' +
+      'margin: 0;' +
+      'padding: 0;' +
+      'font-size: 18px;' +
+      'line-height: 1.8;' +
+      '}' +
+      '</style>' +
+      '<div class="ie-warning-box">' +
+      '<div class="ie-warning-content">' +
+      '<div class="ie-warning-header">' +
+      '<i class="ie-icon-close"></i>' +
+      '</div>' +
+      '<div class="ie-warning-body">' +
+      '<p class="ie-warning-text">您当前浏览器的版本过低, 为了您的使用体验<br />请升级使用新版 <a href="https://www.google.cn/chrome/"target="_blank">Chrome</a>、' +
+      '<a href="http://www.firefox.com.cn/download/#product-desktop-release">Firefox</a>、' +
+      '<a href="https://www.microsoft.com/zh-cn/edge" target="_blank">Edge</a>' +
+      '<!-- <a href="https://support.apple.com/zh_CN/downloads/safari" target="_blank">Safari</a> -->等浏览器' +
+      '</p>' +
+      '</div>' +
+      '</div>' +
+      '</div>';
+    document.body.innerHTML += _tips;
+    document.querySelector('.ie-warning-box .ie-icon-close').addEventListener('click', function (evt) {
+      evt.stopPropagation();
+      document.querySelector('.ie-warning-box').style.display = 'none';
+    });
+    return true;
+  }
+  lteIE11();
+})();
